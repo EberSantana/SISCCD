@@ -1,0 +1,15 @@
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# PROTEÇÃO LGPD & ECA DIGITAL:
+# Bloqueia o envio acidental de planilhas, backups ou fotos de alunos para o GitHub público!
+*.csv
+*.xlsx
+*.xls
+*backup*.json
+fotos_alunos/
+fotos/
+*.jpg
+*.jpeg
+*.webp

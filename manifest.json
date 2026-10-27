@@ -1,0 +1,10 @@
+{
+  "name": "Conselho de Classe Seguro • IFS Tobias Barreto",
+  "short_name": "Conselho IFS",
+  "description": "Sistema de Conselho de Classe com proteção LGPD e ECA Digital (14 a 17 anos) para o IFS Campus Tobias Barreto.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#14532d",
+  "orientation": "portrait-primary"
+}

@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
+  <title>Conselho de Classe Seguro (LGPD & ECA) • IFS Tobias Barreto</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#14532d" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body oncontextmenu="if(event.target.tagName==='IMG') return false;">
+
+  <!-- MARCA D'ÁGUA DINÂMICA ANTI-PRINT / RASTREABILIDADE (LGPD Art. 46 & ECA Art. 17) -->
+  <div id="watermarkOverlay" class="watermark-overlay" aria-hidden="true"></div>
+
+  <!-- ========================================================================
+       GATEKEEPER: AUTENTICAÇÃO DOCENTE + TERMO DE SIGILO LGPD & ECA DIGITAL
+       ======================================================================== -->
+  <div id="authGatekeeper" class="auth-gatekeeper">
+    <div class="auth-card">
+      <div class="auth-badge-top">
+        🛡️ Acesso Restrito • Proteção LGPD & ECA Digital (14 a 17 anos)
+      </div>
+      <h2 class="auth-title">Sistema de Conselho de Classe</h2>
+      <p class="auth-subtitle">IFS Campus Tobias Barreto • Ensino Médio Integrado (DS e ADM) & Subsequente</p>
+
+      <div class="legal-box-gate">
+        <strong>⚖️ Respaldo Legal e Dever de Sigilo Funcional:</strong><br/>
+        • <strong>ECA (Lei nº 8.069/1990, Art. 17 e 18) e ECA Digital (Res. CONANDA nº 245/2024):</strong> É dever de todos zelar pela inviolabilidade da imagem, identidade, autonomia e dignidade dos adolescentes (14 a 17 anos).<br/>
+        • <strong>LGPD (Lei nº 13.709/2018, Art. 14 e Art. 23):</strong> O tratamento de dados pessoais e pedagógicos de adolescentes realiza-se no seu <em>melhor interesse</em> e para cumprimento exclusivo da finalidade pública educacional.<br/>
+        • <strong>Vedação de Exposição:</strong> É estritamente proibido capturar telas (prints), fotografar ou compartilhar fotos e avaliações individuais de estudantes em grupos externos ou redes sociais.
+      </div>
+
+      <form id="formLoginConselho" onsubmit="realizarLoginConselho(event)">
+        <div class="form-group" style="margin-bottom: 0.85rem;">
+          <label for="loginDocenteSelect">👤 Selecione seu Perfil / Docente:</label>
+          <select id="loginDocenteSelect" class="form-control" required></select>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0.95rem;">
+          <label for="loginPinInput">🔐 PIN de Acesso Individual (Padrão inicial: 1234):</label>
+          <input type="password" id="loginPinInput" class="form-control" placeholder="Digite seu PIN de 4 dígitos" maxlength="8" required />
+        </div>
+
+        <label class="checkbox-termo-label">
+          <input type="checkbox" id="checkAceiteTermoLGPD" required />
+          <span>
+            Declaro ciência e aceito o <strong>Termo de Confidencialidade e Sigilo Funcional (LGPD/ECA)</strong>, comprometendo-me a utilizar as fotos e informações exclusivamente para fins pedagógicos do Conselho de Classe.
+          </span>
+        </label>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.78rem; font-size: 0.95rem;">
+          🔓 Assinar Termo e Acessar Conselho de Classe
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       BARRA SUPERIOR DE SEGURANÇA E CONFORMIDADE
+       ======================================================================== -->
+  <div class="top-security-banner">
+    <div class="sec-left">
+      <span class="badge-pill badge-eca">🛡️ ECA Art. 17 & LGPD Art. 14 Ativos</span>
+      <span id="connectionStatusBadge" class="badge-pill badge-demo">⚡ Modo Demonstração (Zero Dados Reais no GitHub)</span>
+      <span id="loggedTeacherBanner">👤 Docente: --</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+      <button type="button" class="btn btn-glass" style="padding:0.25rem 0.65rem; font-size:0.74rem;" onclick="alternarModoPrivacidade()" id="btnPrivacyBlur">
+        👁️ Modo Projetor (Desfocar Fotos): OFF
+      </button>
+      <button type="button" class="btn btn-glass" style="padding:0.25rem 0.65rem; font-size:0.74rem;" onclick="abrirModalConfigNuvem()">
+        ⚙️ Planilha / Nuvem Privada
+      </button>
+      <button type="button" class="btn btn-danger" style="padding:0.25rem 0.65rem; font-size:0.74rem;" onclick="encerrarSessaoSegura()">
+        🔒 Bloquear / Sair
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       CABEÇALHO PRINCIPAL
+       ======================================================================== -->
+  <header class="main-header">
+    <div class="header-inner">
+      <div class="brand-group">
+        <div class="brand-logo">🎓</div>
+        <div class="brand-titles">
+          <h1>Conselho de Classe Digital • IFS Tobias Barreto</h1>
+          <p id="headerBimestreLabel">Ensino Médio Integrado (14 a 17 anos) & Subsequente • Gestão Pedagógica Protegida</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button type="button" class="btn btn-white" onclick="abrirModalNovoAluno()">
+          ➕ Cadastrar Aluno + Foto
+        </button>
+        <button type="button" class="btn btn-glass" onclick="abrirModalImportarLote()">
+          📥 Importar Turma (SUAP/CSV)
+        </button>
+        <button type="button" class="btn btn-glass" onclick="iniciarModoReuniaoPlenaria()">
+          🖥️ Modo Plenária (Avaliar Prioridades)
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       CONTEÚDO PRINCIPAL
+       ======================================================================== -->
+  <main class="container">
+
+    <!-- KPIs Rápidos (Clicáveis para filtrar) -->
+    <section class="kpi-grid">
+      <div class="kpi-card" onclick="aplicarFiltroSituacao('todos')">
+        <div class="kpi-info">
+          <span>Total de Alunos na Visão</span>
+          <strong id="kpiTotalAlunos">0</strong>
+          <small>Turmas filtradas atualmente</small>
+        </div>
+        <div class="kpi-icon" style="background:#f1f5f9; color:#0f172a;">👥</div>
+      </div>
+
+      <div class="kpi-card" onclick="aplicarFiltroSituacao('avaliar')" style="border-left: 4px solid var(--ifs-red);">
+        <div class="kpi-info">
+          <span style="color:#991b1b;">🚨 A Serem Avaliados (Prioridade)</span>
+          <strong id="kpiPrioridadeAvaliar" style="color:#dc2626;">0</strong>
+          <small>Sinalizados por docentes p/ plenária</small>
+        </div>
+        <div class="kpi-icon" style="background:#fee2e2; color:#dc2626;">🎯</div>
+      </div>
+
+      <div class="kpi-card" onclick="aplicarFiltroSituacao('pendentes_meu')">
+        <div class="kpi-info">
+          <span style="color:#92400e;">⏳ Pendentes do Meu Parecer</span>
+          <strong id="kpiPendentesMeu" style="color:#d97706;">0</strong>
+          <small>Aguardando registro do seu parecer</small>
+        </div>
+        <div class="kpi-icon" style="background:#fef3c7; color:#d97706;">✍️</div>
+      </div>
+
+      <div class="kpi-card" onclick="mudarAbaPrincipal('respaldo')">
+        <div class="kpi-info">
+          <span style="color:#166534;">🛡️ Conformidade ECA & LGPD</span>
+          <strong id="kpiLogsAuditoria" style="color:#15803d;">100%</strong>
+          <small>Zero fotos no GitHub • Auditoria ativa</small>
+        </div>
+        <div class="kpi-icon" style="background:#dcfce7; color:#15803d;">⚖️</div>
+      </div>
+    </section>
+
+    <!-- Abas de Navegação -->
+    <nav class="nav-tabs">
+      <button class="nav-tab active" data-tab="turmas" onclick="mudarAbaPrincipal('turmas')">
+        📸 Alunos por Turma & Fotos
+      </button>
+      <button class="nav-tab" data-tab="prioridades" onclick="mudarAbaPrincipal('prioridades')">
+        🚨 Quem Deve Ser Avaliado (Fila do Conselho)
+      </button>
+      <button class="nav-tab" data-tab="ata" onclick="mudarAbaPrincipal('ata')">
+        📋 Ata Oficial & Encaminhamentos
+      </button>
+      <button class="nav-tab" data-tab="respaldo" onclick="mudarAbaPrincipal('respaldo')">
+        ⚖️ Respaldo Legal (ECA Digital & LGPD) + Auditoria
+      </button>
+    </nav>
+
+    <!-- ======================================================================
+         ABA 1: ALUNOS POR TURMA & FOTOS (CADASTRO DE PARECERES AO CLICAR)
+         ====================================================================== -->
+    <section id="viewTurmas" class="tab-view">
+      <div class="filter-bar">
+        <div>
+          <div style="font-size:0.76rem; font-weight:800; color:#475569; text-transform:uppercase; margin-bottom:0.45rem;">
+            🏫 Filtrar por Turma (Ensino Médio Integrado 14-17 anos & Subsequente):
+          </div>
+          <div id="turmaPillsContainer" class="turma-pills"></div>
+        </div>
+
+        <div class="filter-controls-row">
+          <div class="search-input-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="inputBuscaAluno" placeholder="Buscar aluno por nome, matrícula ou observação..." oninput="renderizarTudo()" />
+          </div>
+
+          <div style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
+            <select id="selectFiltroSituacao" class="form-control" onchange="renderizarTudo()">
+              <option value="todos">📌 Todos os Alunos da Turma</option>
+              <option value="avaliar">🚨 Prioridade: A Serem Avaliados na Plenária</option>
+              <option value="atencao">⚠️ Em Atenção Pedagógica</option>
+              <option value="pendentes_meu">⏳ Pendentes do Meu Parecer Docente</option>
+              <option value="avaliados_meu">✅ Já Avaliados por Mim</option>
+              <option value="destaque">🏆 Destaques Positivos</option>
+              <option value="napne">♿ Acompanhamento NAPNE</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid de Cards de Alunos -->
+      <div id="studentsGridContainer" class="students-grid"></div>
+    </section>
+
+    <!-- ======================================================================
+         ABA 2: QUEM DEVE SER AVALIADO (PAINEL DE PRIORIDADES DO CONSELHO)
+         ====================================================================== -->
+    <section id="viewPrioridades" class="tab-view" style="display:none;">
+      <div class="card-panel">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1rem;">
+          <div>
+            <h2 style="font-size:1.2rem; font-weight:800;">🚨 Matriz de Prioridade: Quem São os Alunos a Serem Avaliados</h2>
+            <p style="font-size:0.85rem; color:#475569;">
+              Lista inteligente ordenada pelo número de alertas docentes (rendimento crítico, faltas ou solicitação expressa de discussão em plenária).
+            </p>
+          </div>
+          <button type="button" class="btn btn-primary" onclick="iniciarModoReuniaoPlenaria()">
+            ▶️ Iniciar Passador de Alunos Prioritários
+          </button>
+        </div>
+        <div id="prioridadesListContainer"></div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         ABA 3: ATA OFICIAL & ENCAMINHAMENTOS DO CONSELHO
+         ====================================================================== -->
+    <section id="viewAta" class="tab-view" style="display:none;">
+      <div class="card-panel">
+        <div class="no-print" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.15rem;">
+          <div>
+            <h2 style="font-size:1.2rem; font-weight:800;">📋 Síntese de Deliberações e Encaminhamentos (Ata do Conselho)</h2>
+            <p style="font-size:0.84rem; color:#475569;">
+              Relatório estruturado com preservação de dados sensíveis, pronto para impressão ou exportação em PDF institucional.
+            </p>
+          </div>
+          <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+            <button type="button" class="btn btn-white" onclick="exportarBackupJSON()">
+              💾 Exportar Backup Seguro (.JSON)
+            </button>
+            <button type="button" class="btn btn-primary" onclick="window.print()">
+              🖨️ Imprimir / Salvar Ata em PDF
+            </button>
+          </div>
+        </div>
+
+        <div id="ataRelatorioContainer"></div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         ABA 4: RESPALDO LEGAL (LGPD & ECA DIGITAL) + LOGS DE AUDITORIA
+         ====================================================================== -->
+    <section id="viewRespaldo" class="tab-view" style="display:none;">
+      <div class="card-panel">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem;">
+          <div>
+            <span class="auth-badge-top">⚖️ Blindagem Jurídica Institucional • Menores de 18 Anos (14 a 17 anos)</span>
+            <h2 style="font-size:1.28rem; font-weight:800;">Guia de Respaldo Legal: LGPD, ECA e ECA Digital no GitHub Pages</h2>
+            <p style="font-size:0.86rem; color:#475569; margin-top:0.25rem;">
+              Como este sistema protege juridicamente os professores, a coordenação e os adolescentes de 14 a 17 anos.
+            </p>
+          </div>
+          <button type="button" class="btn btn-primary no-print" onclick="window.print()">
+            🖨️ Imprimir Documento de Conformidade LGPD/ECA
+          </button>
+        </div>
+
+        <div class="legal-grid">
+          <div class="legal-card">
+            <h4>1. Base Legal para Uso Escolar sem Violação da LGPD</h4>
+            <p>
+              Para adolescentes de <strong>14 a 17 anos</strong> no Ensino Médio Integrado de instituição pública federal (IFS), o tratamento de dados pedagógicos e imagem de identificação escolar ampara-se em:
+            </p>
+            <ul>
+              <li><strong>Art. 14 da LGPD (Lei 13.709/2018):</strong> Tratamento realizado no <em>melhor interesse do adolescente</em> (acompanhamento do aprendizado, combate à evasão e apoio psicopedagógico).</li>
+              <li><strong>Art. 7º, III e Art. 23 da LGPD:</strong> Execução de políticas públicas e cumprimento de atribuição legal do serviço público educacional (LDB - Lei 9.394/1996, Art. 12 e 13).</li>
+              <li><strong>Finalidade Estrita (Art. 6º, I a III):</strong> Uso restrito ao colegiado docente, vedado o compartilhamento comercial ou exposição pública.</li>
+            </ul>
+          </div>
+
+          <div class="legal-card">
+            <h4>2. ECA (Art. 17 e 18) e ECA Digital (Res. CONANDA 245/2024)</h4>
+            <p>
+              O Estatuto da Criança e do Adolescente assegura a <strong>inviolabilidade da imagem, identidade e dignidade</strong> do adolescente:
+            </p>
+            <ul>
+              <li><strong>Linguagem Pedagógica Objetiva:</strong> Os pareceres utilizam indicadores objetivos (frequência, rendimento, participação), evitando rótulos pejorativos ou exposição vexatória (Art. 18 do ECA).</li>
+              <li><strong>Proteção da Imagem:</strong> As fotos têm bloqueio de clique direito/arraste, modo de desfoque para projetor (<em>Privacy Blur</em>) e marca d'água nominal de quem está logado.</li>
+              <li><strong>Envolvimento Familiar:</strong> Nos encaminhamentos de adolescentes (14-17 anos), o sistema prioriza a ciência e convocação dos responsáveis legais (Art. 53, parágrafo único do ECA).</li>
+            </ul>
+          </div>
+
+          <div class="legal-card">
+            <h4>3. Arquitetura "Zero-PII" no GitHub Pages</h4>
+            <p>
+              O GitHub Pages hospeda <strong>exclusivamente a casca visual (HTML/CSS/JS)</strong>. Para garantir que nenhum dado de menor fique público na internet:
+            </p>
+            <ul>
+              <li><strong>Proibição de Fotos no Repositório:</strong> Nenhuma foto real ou nome de aluno real é salvo em arquivos do GitHub.</li>
+              <li><strong>Banco Privado Institucional:</strong> Fotos (comprimidas em Base64 seguro) e pareceres ficam salvos exclusivamente na Planilha/Drive Privado do Google via <code>Code.gs</code>, exigindo autenticação por PIN docente.</li>
+              <li><strong>Limpeza de Sessão:</strong> Ao fechar a aba ou clicar em "Bloquear", a sessão é encerrada.</li>
+            </ul>
+          </div>
+        </div>
+
+        <hr style="margin: 1.5rem 0; border:none; border-top:1px solid var(--border-color);" />
+
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem; margin-bottom:0.8rem;">
+          <h3 style="font-size:1.05rem; font-weight:800;">🔍 Trilha de Auditoria e Aceite do Termo de Sigilo (Art. 37 e 46 LGPD)</h3>
+          <span style="font-size:0.78rem; color:#475569;">Registra todos os acessos, assinaturas de sigilo, cadastros e consultas realizadas.</span>
+        </div>
+
+        <div id="auditLogsTableContainer" style="max-height:340px; overflow-y:auto; border:1px solid var(--border-color); border-radius:10px;"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       MODAL 1: FICHA COMPLETA DO ALUNO (CLIQUE NO CARD DO ALUNO)
+       ======================================================================== -->
+  <div id="modalFichaAluno" class="modal-backdrop">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div>
+          <div id="fichaHeaderBadge" style="font-size:0.74rem; color:#4ade80; font-weight:700; text-transform:uppercase;">
+            🛡️ Ficha Protegida (LGPD / ECA - 14 a 17 anos)
+          </div>
+          <h3 id="fichaHeaderTitle" style="font-size:1.15rem; font-weight:800;">Avaliação Individual do Estudante</h3>
+        </div>
+        <div style="display:flex; align-items:center; gap:0.45rem;">
+          <button type="button" class="btn btn-glass" style="padding:0.38rem 0.7rem;" onclick="navegarAlunoModal(-1)" title="Aluno Anterior">◀ Anterior</button>
+          <button type="button" class="btn btn-glass" style="padding:0.38rem 0.7rem;" onclick="navegarAlunoModal(1)" title="Próximo Aluno">Próximo ▶</button>
+          <button type="button" class="btn btn-danger" style="padding:0.38rem 0.7rem;" onclick="fecharModalFichaAluno()">✕ Fechar</button>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <!-- Cabeçalho com Foto do Aluno e Status -->
+        <div class="student-profile-top">
+          <div class="student-profile-photo student-photo-wrap">
+            <img id="fichaFotoImg" class="student-photo-protected" src="" alt="Foto do estudante" />
+          </div>
+          <div style="flex:1; min-width:220px;">
+            <div style="display:flex; gap:0.45rem; align-items:center; flex-wrap:wrap; margin-bottom:0.25rem;">
+              <span id="fichaTurmaChip" class="chip-turma">1º DS</span>
+              <span id="fichaIdadeChip" class="chip-idade-eca">15 anos • Protegido ECA</span>
+              <span id="fichaNapneChip" class="chip-idade-eca" style="background:#ede9fe; color:#5b21b6; border-color:#ddd6fe; display:none;">♿ Acompanhamento NAPNE</span>
+            </div>
+            <h2 id="fichaNomeAluno" style="font-size:1.3rem; font-weight:800; color:#0f172a;">Nome do Estudante</h2>
+            <p id="fichaMatriculaAluno" style="font-size:0.82rem; color:#475569;">Matrícula: --</p>
+            <p id="fichaObsCoord" style="font-size:0.8rem; color:#334155; margin-top:0.25rem;"></p>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:0.4rem; min-width:210px;">
+            <label style="font-size:0.74rem; font-weight:800; color:#475569; text-transform:uppercase;">Situação Geral no Conselho:</label>
+            <select id="fichaStatusGeralSelect" class="form-control" onchange="atualizarStatusGeralAlunoAtual(this.value)">
+              <option value="avaliar">🚨 A Ser Avaliado em Plenária (Prioridade)</option>
+              <option value="atencao">⚠️ Em Atenção Pedagógica</option>
+              <option value="regular">✅ Situação Regular / Adequada</option>
+              <option value="destaque">🏆 Destaque Acadêmico Positivo</option>
+              <option value="concluido">✔️ Avaliado / Encaminhado pelo Conselho</option>
+            </select>
+            <button type="button" class="btn btn-white" style="font-size:0.76rem; padding:0.35rem 0.65rem;" onclick="editarCadastroAlunoAtual()">
+              ✏️ Editar Foto / Dados Cadastrais
+            </button>
+          </div>
+        </div>
+
+        <!-- Sub-abas da Ficha do Aluno -->
+        <div class="modal-subtabs">
+          <button type="button" class="subtab-btn active" id="subtabBtnParecer" onclick="alternarSubAbaFicha('parecer')">
+            ✍️ 1. Registrar Meu Parecer Docente
+          </button>
+          <button type="button" class="subtab-btn" id="subtabBtnConsolidado" onclick="alternarSubAbaFicha('consolidado')">
+            📊 2. Pareceres de Todos os Professores (<span id="countPareceresAluno">0</span>)
+          </button>
+          <button type="button" class="subtab-btn" id="subtabBtnEncaminhamento" onclick="alternarSubAbaFicha('encaminhamento')">
+            🧭 3. Encaminhamentos do Conselho & Família
+          </button>
+        </div>
+
+        <!-- SUB-ABA 1: REGISTRAR MEU PARECER DOCENTE -->
+        <div id="subviewParecer">
+          <form id="formParecerDocente" onsubmit="salvarParecerDocenteAtual(event)">
+            <div class="form-grid">
+              <div class="form-group">
+                <label>👨‍🏫 Professor(a) Avaliador(a):</label>
+                <input type="text" id="parecerProfInput" class="form-control" readonly style="background:#f1f5f9; font-weight:700;" />
+              </div>
+              <div class="form-group">
+                <label>📘 Disciplina / Área:</label>
+                <input type="text" id="parecerDiscInput" class="form-control" list="listaDisciplinasDocente" placeholder="Ex: Programação 1, Matemática..." required />
+                <datalist id="listaDisciplinasDocente"></datalist>
+              </div>
+              <div class="form-group">
+                <label>📈 Nota / Conceito Atual (Opcional):</label>
+                <input type="text" id="parecerNotaInput" class="form-control" placeholder="Ex: 5,5 ou Em Recuperação" />
+              </div>
+              <div class="form-group">
+                <label>📅 Nº de Faltas no Bimestre (Opcional):</label>
+                <input type="number" id="parecerFaltasInput" class="form-control" min="0" max="200" placeholder="Ex: 6" />
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label>📊 Indicador de Rendimento / Aprendizagem:</label>
+                <select id="parecerRendimentoSelect" class="form-control">
+                  <option value="adequado">✅ Adequado (Dentro do esperado)</option>
+                  <option value="atencao">⚠️ Em Atenção (Oscilação / Recuperação)</option>
+                  <option value="critico">🚨 Crítico (Dificuldade acentuada / Abaixo da média)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>🕒 Indicador de Frequência / Assiduidade:</label>
+                <select id="parecerFrequenciaSelect" class="form-control">
+                  <option value="regular">✅ Frequência Regular</option>
+                  <option value="pontual">⚠️ Faltas ou Atrasos Pontuais</option>
+                  <option value="infrequente">🚨 Infrequente / Risco por Faltas</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>🤝 Participação e Postura Pedagógica:</label>
+                <select id="parecerPosturaSelect" class="form-control">
+                  <option value="participativo">✅ Participativo e Colaborativo</option>
+                  <option value="disperso">⚠️ Disperso / Pouca Participação</option>
+                  <option value="celular">📱 Uso Indevido de Celular / Distração</option>
+                  <option value="conflito">🚨 Dificuldade de Convivência / Relacionamento</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0.9rem;">
+              <label>🏷️ Tags Rápidas de Diagnóstico Pedagógico (Clique para marcar):</label>
+              <div id="parecerTagsContainer" class="Selectable-chips"></div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0.9rem;">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.4rem;">
+                <label for="parecerObsTextarea">📝 Observação Pedagógica Objetiva (Respeitando ECA Art. 17 & LGPD):</label>
+                <div style="display:flex; gap:0.35rem; flex-wrap:wrap;">
+                  <button type="button" class="chip-toggle" style="font-size:0.7rem;" onclick="inserirFrasePedagogica('Apresenta dificuldade na entrega de atividades práticas no prazo, necessitando de acompanhamento e recuperação paralela.')">+ Frase: Entrega de Atividades</button>
+                  <button type="button" class="chip-toggle" style="font-size:0.7rem;" onclick="inserirFrasePedagogica('Demonstra potencial, porém a dispersão em sala tem impactado o rendimento nas avaliações.')">+ Frase: Dispersão</button>
+                  <button type="button" class="chip-toggle" style="font-size:0.7rem;" onclick="inserirFrasePedagogica('Apresentou evolução significativa ao longo da etapa e participa ativamente das aulas.')">+ Frase: Evolução Positiva</button>
+                </div>
+              </div>
+              <textarea id="parecerObsTextarea" class="form-control" rows="3" placeholder="Descreva de forma ética, construtiva e estritamente pedagógica os pontos observados..."></textarea>
+            </div>
+
+            <label class="checkbox-termo-label" style="background:#fff1f2; border-color:#fecdd3; color:#9f1239;">
+              <input type="checkbox" id="checkSinalizarPlenaria" />
+              <span>
+                🚨 <strong>Sinalizar este estudante para avaliação prioritária na Plenária do Conselho de Classe</strong> (Incluir na lista de "Quem são os alunos a serem avaliados").
+              </span>
+            </label>
+
+            <div style="display:flex; justify-content:flex-end; gap:0.65rem;">
+              <button type="submit" class="btn btn-primary" style="padding:0.7rem 1.35rem;">
+                💾 Salvar Meu Parecer Docente
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- SUB-ABA 2: VISÃO CONSOLIDADA DE TODOS OS PROFESSORES -->
+        <div id="subviewConsolidado" style="display:none;">
+          <div id="listaPareceresConsolidadosContainer"></div>
+        </div>
+
+        <!-- SUB-ABA 3: ENCAMINHAMENTOS OFICIAIS DO CONSELHO -->
+        <div id="subviewEncaminhamento" style="display:none;">
+          <form id="formEncaminhamentoConselho" onsubmit="salvarEncaminhamentoAtual(event)">
+            <div class="form-group" style="margin-bottom:0.95rem;">
+              <label>🧭 Selecione as Medidas e Encaminhamentos Deliberados pelo Conselho:</label>
+              <div id="encaminhamentoAcoesContainer" class="Selectable-chips" style="margin-top:0.35rem;"></div>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label>👤 Setor / Servidor Responsável pelo Acompanhamento:</label>
+                <input type="text" id="encResponsavelInput" class="form-control" placeholder="Ex: Coordenação DS + Equipe Técnico-Pedagógica" required />
+              </div>
+              <div class="form-group">
+                <label>📅 Prazo / Data Prevista de Retorno:</label>
+                <input type="text" id="encPrazoInput" class="form-control" placeholder="Ex: 15-11-2026" />
+              </div>
+              <div class="form-group">
+                <label>📌 Status do Encaminhamento:</label>
+                <select id="encStatusSelect" class="form-control">
+                  <option value="Pendente de Convocação">⏳ Pendente de Convocação</option>
+                  <option value="Em Andamento">🔄 Em Andamento</option>
+                  <option value="Família Ciente / Atendido">✅ Família Ciente / Atendido</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:1rem;">
+              <label>📋 Síntese / Deliberação Oficial para Constar em Ata:</label>
+              <textarea id="encDeliberacaoTextarea" class="form-control" rows="3" placeholder="Ex: Deliberado pelo colegiado o agendamento de atendimento individualizado e comunicação aos responsáveis legais..." required></textarea>
+            </div>
+
+            <div style="display:flex; justify-content:flex-end;">
+              <button type="submit" class="btn btn-primary">
+                ✅ Homologar Encaminhamento na Ata do Conselho
+              </button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 2: CADASTRAR / EDITAR ALUNO COM UPLOAD DE FOTO COMPACTADA
+       ======================================================================== -->
+  <div id="modalCadastroAluno" class="modal-backdrop">
+    <div class="modal-window" style="max-width: 620px;">
+      <div class="modal-header">
+        <h3 id="tituloModalCadastroAluno">➕ Cadastrar Estudante no Conselho de Classe</h3>
+        <button type="button" class="btn btn-danger" style="padding:0.35rem 0.65rem;" onclick="fecharModalNovoAluno()">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="formCadastroAluno" onsubmit="salvarCadastroAluno(event)">
+          <input type="hidden" id="cadAlunoIdHidden" />
+
+          <div style="display:flex; gap:1.15rem; align-items:center; margin-bottom:1.1rem; background:#f8fafc; padding:0.95rem; border-radius:12px; border:1px solid var(--border-color); flex-wrap:wrap;">
+            <div class="student-profile-photo" style="width:84px; height:84px;">
+              <img id="previewFotoCadastro" src="" alt="Preview Foto" />
+            </div>
+            <div style="flex:1; min-width:210px;">
+              <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.3rem;">📸 Foto de Identificação Escolar (Câmera ou Arquivo):</label>
+              <input type="file" id="inputArquivoFotoAluno" accept="image/*" class="form-control" style="font-size:0.78rem; padding:0.4rem;" onchange="processarUploadFotoInput(event)" />
+              <small style="font-size:0.72rem; color:#15803d; display:block; margin-top:0.25rem;">
+                🔒 A foto é redimensionada e comprimida no seu navegador (220x220px) e nunca vai para o repositório público do GitHub.
+              </small>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label>👤 Nome Completo do(a) Estudante:</label>
+              <input type="text" id="cadNomeInput" class="form-control" placeholder="Ex: João Pedro Alves Santos" required />
+            </div>
+            <div class="form-group">
+              <label>🆔 Matrícula (SUAP):</label>
+              <input type="text" id="cadMatriculaInput" class="form-control" placeholder="Ex: 20261DS015" required />
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label>🏫 Turma:</label>
+              <select id="cadTurmaSelect" class="form-control" required></select>
+            </div>
+            <div class="form-group">
+              <label>🎂 Idade (Proteção ECA 14-17 anos):</label>
+              <input type="number" id="cadIdadeInput" class="form-control" min="13" max="70" value="15" required />
+            </div>
+            <div class="form-group">
+              <label>📌 Situação Inicial no Conselho:</label>
+              <select id="cadStatusSelect" class="form-control">
+                <option value="avaliar">🚨 A Ser Avaliado em Plenária</option>
+                <option value="atencao">⚠️ Em Atenção Pedagógica</option>
+                <option value="regular">✅ Regular</option>
+                <option value="destaque">🏆 Destaque Positivo</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom:0.85rem;">
+            <label>📝 Contexto Inicial da Coordenação / Observação Geral (Opcional):</label>
+            <input type="text" id="cadObsCoordInput" class="form-control" placeholder="Ex: Estudante ingressante / Acompanhamento pedagógico em curso" />
+          </div>
+
+          <label class="checkbox-termo-label" style="background:#f5f3ff; border-color:#ddd6fe; color:#5b21b6;">
+            <input type="checkbox" id="cadNapneCheck" />
+            <span>♿ Estudante acompanhado pelo <strong>NAPNE</strong> (Atendimento Educacional Especializado - Sigilo Reforçado LGPD Art. 11).</span>
+          </label>
+
+          <div style="display:flex; justify-content:space-between; gap:0.5rem; margin-top:1rem;">
+            <button type="button" id="btnExcluirAlunoCadastro" class="btn btn-danger" style="display:none;" onclick="excluirAlunoAtual()">
+              🗑️ Remover Aluno
+            </button>
+            <div style="display:flex; gap:0.5rem; margin-left:auto;">
+              <button type="button" class="btn btn-white" onclick="fecharModalNovoAluno()">Cancelar</button>
+              <button type="submit" class="btn btn-primary">💾 Salvar Estudante</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 3: IMPORTAÇÃO EM LOTE DE TURMA (COPIAR E COLAR DO SUAP / CSV)
+       ======================================================================== -->
+  <div id="modalImportarLote" class="modal-backdrop">
+    <div class="modal-window" style="max-width: 640px;">
+      <div class="modal-header">
+        <h3>📥 Importar Lista de Alunos da Turma (SUAP / Planilha)</h3>
+        <button type="button" class="btn btn-danger" style="padding:0.35rem 0.65rem;" onclick="fecharModalImportarLote()">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:0.85rem; color:#334155; margin-bottom:0.85rem;">
+          Cole abaixo a lista de alunos da turma (1 aluno por linha). Você pode colar no formato <code>Matrícula;Nome;Idade</code> ou apenas <code>Nome Completo</code>:
+        </p>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>🏫 Selecione a Turma de Destino:</label>
+            <select id="importTurmaSelect" class="form-control"></select>
+          </div>
+          <div class="form-group">
+            <label>🎂 Idade Padrão (se não informada na linha):</label>
+            <input type="number" id="importIdadePadrao" class="form-control" value="15" min="13" max="70" />
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label>📋 Lista de Alunos (Um por linha):</label>
+          <textarea id="importTextoLote" class="form-control" rows="7" placeholder="20261DS010;Ana Clara Silva;15&#10;20261DS011;Bruno Santos Oliveira;16&#10;20261DS012;Carla Eduarda Lima;15"></textarea>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
+          <button type="button" class="btn btn-white" onclick="fecharModalImportarLote()">Cancelar</button>
+          <button type="button" class="btn btn-primary" onclick="processarImportacaoLote()">🚀 Importar Alunos Agora</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 4: CONFIGURAÇÃO DA PLANILHA PRIVADA (GOOGLE APPS SCRIPT) E PIN
+       ======================================================================== -->
+  <div id="modalConfigNuvem" class="modal-backdrop">
+    <div class="modal-window" style="max-width: 660px;">
+      <div class="modal-header">
+        <h3>⚙️ Configuração da Nuvem Privada (Google Sheets/Drive) & Segurança</h3>
+        <button type="button" class="btn btn-danger" style="padding:0.35rem 0.65rem;" onclick="fecharModalConfigNuvem()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="legal-box-gate" style="max-height:none;">
+          <strong>🔒 Como funciona a proteção no GitHub Pages:</strong><br/>
+          Ao colar abaixo a URL do seu <strong>Google Apps Script</strong> (arquivo <code>backend/Code.gs</code> implantado na sua conta institucional), todas as fotos e pareceres ficam salvos de forma privada na sua Planilha Google, invisíveis no repositório do GitHub!
+        </div>
+
+        <div class="form-group" style="margin-bottom:0.9rem;">
+          <label>🔗 URL do Web App (Google Apps Script):</label>
+          <input type="url" id="configApiUrlInput" class="form-control" placeholder="https://script.google.com/macros/s/.../exec" />
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>📅 Identificação do Ciclo / Bimestre:</label>
+            <input type="text" id="configBimestreInput" class="form-control" placeholder="Ex: 2026.2 • 1º Conselho Bimestral" />
+          </div>
+          <div class="form-group">
+            <label>🔑 Alterar Meu PIN Docente Atual:</label>
+            <input type="password" id="configNovoPinInput" class="form-control" placeholder="Deixe em branco para manter o atual" maxlength="8" />
+          </div>
+        </div>
+
+        <div style="display:flex; flex-wrap:wrap; gap:0.5rem; justify-content:space-between; margin-top:1.1rem; padding-top:1rem; border-top:1px solid var(--border-color);">
+          <div style="display:flex; gap:0.45rem; flex-wrap:wrap;">
+            <button type="button" class="btn btn-amber" onclick="removerAlunosDemo()">
+              🧹 Limpar Perfis [DEMO]
+            </button>
+            <button type="button" class="btn btn-white" onclick="forcarSincronizacaoManual()">
+              🔄 Sincronizar com Planilha Agora
+            </button>
+          </div>
+          <button type="button" class="btn btn-primary" onclick="salvarConfiguracoesNuvem()">
+            💾 Salvar Configurações
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="api.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
