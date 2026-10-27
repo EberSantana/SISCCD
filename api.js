@@ -30,10 +30,11 @@ const STORAGE_KEYS = {
   PINS: 'IFS_CONSELHO_TEACHER_PINS',
   SESSION: 'IFS_CONSELHO_ACTIVE_SESSION',
   CONFIG: 'IFS_CONSELHO_CONFIG',
-  DB_VERSION: 'IFS_CONSELHO_DB_VER'
+  DB_VERSION: 'IFS_CONSELHO_DB_VER',
+  DEMO_DELETED: 'IFS_CONSELHO_DEMO_DELETED'
 };
 
-const CURRENT_CONSELHO_VERSION = 'v3_apresentacao_diversa_2026';
+const CURRENT_CONSELHO_VERSION = 'v4_32_alunos_todas_turmas_2026';
 const DEFAULT_PIN = '1234';
 
 // Turmas do Ensino Médio Integrado (14 a 17 anos - Proteção prioritária ECA/LGPD) e Subsequente
@@ -327,19 +328,15 @@ function gerarRetratoIlustradoEstudanteSVG(config) {
     </defs>
     <rect width="200" height="200" rx="28" fill="url(#bg)"/>
     ${cabeloTraseiro}
-    <!-- Ombros / Uniforme IFS -->
     <path d="M34 195 C38 144 162 144 166 195 Z" fill="${camisa}"/>
     <path d="M82 148 L100 172 L118 148" fill="#ffffff" opacity="0.88"/>
-    <!-- Pescoço e Rosto -->
     <rect x="88" y="120" width="24" height="26" rx="8" fill="${pele}"/>
     <ellipse cx="100" cy="92" rx="38" ry="42" fill="${pele}"/>
-    <!-- Olhos e Sorriso -->
     <circle cx="83" cy="90" r="3.8" fill="#0f172a"/>
     <circle cx="117" cy="90" r="3.8" fill="#0f172a"/>
     <path d="M88 110 Q100 119 112 110" stroke="#7c2d12" stroke-width="3" fill="none" stroke-linecap="round"/>
     ${oculosSvg}
     ${cabeloTopo}
-    <!-- Badge DEMO Fictício -->
     <rect x="14" y="12" width="54" height="20" rx="10" fill="rgba(15,23,42,0.72)"/>
     <text x="41" y="25" text-anchor="middle" fill="#4ade80" font-family="Inter, sans-serif" font-weight="800" font-size="9.5">DEMO • ${iniciais}</text>
   </svg>`;
@@ -377,10 +374,10 @@ function validarLinguagemEticaParecer(texto) {
 }
 
 // ============================================================================
-// 15 ALUNOS DEMO DAS MAIS DIVERSAS SITUAÇÕES PEDAGÓGICAS E LEGAIS (APRESENTAÇÃO)
+// 24 ALUNOS DEMO DISTRIBUÍDOS EM TODAS AS 8 TURMAS (3 POR TURMA)
 // ============================================================================
 const ALUNOS_DEMO_INICIAIS = [
-  // --- 1º DS ---
+  // ==================== 1º DS (3 Alunos) ====================
   {
     id: "ALU-DEMO-01",
     matricula: "20261DS001",
@@ -436,7 +433,7 @@ const ALUNOS_DEMO_INICIAIS = [
     criadoEm: "27-10-2026"
   },
 
-  // --- 2º DS ---
+  // ==================== 2º DS (3 Alunos) ====================
   {
     id: "ALU-DEMO-04",
     matricula: "20262DS001",
@@ -473,8 +470,26 @@ const ALUNOS_DEMO_INICIAIS = [
     isDemo: true,
     criadoEm: "27-10-2026"
   },
+  {
+    id: "ALU-DEMO-16",
+    matricula: "20262DS003",
+    nome: "Enzo Gabriel L. [DEMO]",
+    turma: "2º DS",
+    idade: 15,
+    verificacaoEtariaSUAP: "Certidão/RG validado na Matrícula SUAP (Vedada Autodeclaração - Lei 15.211/2025)",
+    responsavelLegal: "Tatiane L. (Mãe - Vínculo SUAP Confirmado)",
+    contatoResponsavel: "(79) 99911-1016",
+    consentimentoImagemPais: true,
+    alertaProtecaoEcaDigital: "nenhum",
+    fotoUrl: gerarRetratoIlustradoEstudanteSVG({ fundo: '#0f766e', pele: '#e0ac69', cabeloCor: '#1e293b', estiloCabelo: 'curto', oculos: false, camisa: '#14532d', iniciais: 'EG' }),
+    statusConselho: "regular",
+    napne: false,
+    observacaoCoord: "✅ Situação Regular: Bom desempenho em Projeto Integrador 1 e Português.",
+    isDemo: true,
+    criadoEm: "27-10-2026"
+  },
 
-  // --- 3º DS ---
+  // ==================== 3º DS (3 Alunos) ====================
   {
     id: "ALU-DEMO-06",
     matricula: "20263DS001",
@@ -511,8 +526,26 @@ const ALUNOS_DEMO_INICIAIS = [
     isDemo: true,
     criadoEm: "27-10-2026"
   },
+  {
+    id: "ALU-DEMO-17",
+    matricula: "20263DS003",
+    nome: "Matheus Henrique C. [DEMO]",
+    turma: "3º DS",
+    idade: 17,
+    verificacaoEtariaSUAP: "Certidão/RG validado na Matrícula SUAP (Vedada Autodeclaração - Lei 15.211/2025)",
+    responsavelLegal: "Paulo C. (Pai - Vínculo SUAP Confirmado)",
+    contatoResponsavel: "(79) 99911-1017",
+    consentimentoImagemPais: true,
+    alertaProtecaoEcaDigital: "nenhum",
+    fotoUrl: gerarRetratoIlustradoEstudanteSVG({ fundo: '#0284c7', pele: '#8d5524', cabeloCor: '#09090b', estiloCabelo: 'cacheado', oculos: true, camisa: '#14532d', iniciais: 'MH' }),
+    statusConselho: "destaque",
+    napne: false,
+    observacaoCoord: "🏆 Destaque em Desenvolvimento Web e Tópicos Especiais (Prof. Christiano).",
+    isDemo: true,
+    criadoEm: "27-10-2026"
+  },
 
-  // --- 1º ADM ---
+  // ==================== 1º ADM (3 Alunos) ====================
   {
     id: "ALU-DEMO-08",
     matricula: "20261ADM001",
@@ -549,8 +582,26 @@ const ALUNOS_DEMO_INICIAIS = [
     isDemo: true,
     criadoEm: "27-10-2026"
   },
+  {
+    id: "ALU-DEMO-18",
+    matricula: "20261ADM003",
+    nome: "Sofia Vasconcelos M. [DEMO]",
+    turma: "1º ADM",
+    idade: 15,
+    verificacaoEtariaSUAP: "Certidão/RG validado na Matrícula SUAP (Vedada Autodeclaração - Lei 15.211/2025)",
+    responsavelLegal: "Adriana M. (Mãe - Vínculo SUAP Confirmado)",
+    contatoResponsavel: "(79) 99911-1018",
+    consentimentoImagemPais: true,
+    alertaProtecaoEcaDigital: "nenhum",
+    fotoUrl: gerarRetratoIlustradoEstudanteSVG({ fundo: '#0369a1', pele: '#ffdbac', cabeloCor: '#451a03', estiloCabelo: 'longo', oculos: false, camisa: '#166534', iniciais: 'SV' }),
+    statusConselho: "destaque",
+    napne: false,
+    observacaoCoord: "🏆 Destaque em Administração Mercadológica (Prof. Sérgio) e Artes (Prof. Adriano).",
+    isDemo: true,
+    criadoEm: "27-10-2026"
+  },
 
-  // --- 2º ADM ---
+  // ==================== 2º ADM (3 Alunos) ====================
   {
     id: "ALU-DEMO-10",
     matricula: "20262ADM001",
@@ -587,8 +638,26 @@ const ALUNOS_DEMO_INICIAIS = [
     isDemo: true,
     criadoEm: "27-10-2026"
   },
+  {
+    id: "ALU-DEMO-19",
+    matricula: "20262ADM003",
+    nome: "Isabela Andrade G. [DEMO]",
+    turma: "2º ADM",
+    idade: 16,
+    verificacaoEtariaSUAP: "Certidão/RG validado na Matrícula SUAP (Vedada Autodeclaração - Lei 15.211/2025)",
+    responsavelLegal: "Rogério G. (Pai - Vínculo SUAP Confirmado)",
+    contatoResponsavel: "(79) 99911-1019",
+    consentimentoImagemPais: true,
+    alertaProtecaoEcaDigital: "nenhum",
+    fotoUrl: gerarRetratoIlustradoEstudanteSVG({ fundo: '#7c3aed', pele: '#e0ac69', cabeloCor: '#1c1917', estiloCabelo: 'coque', oculos: true, camisa: '#15803d', iniciais: 'IA' }),
+    statusConselho: "atencao",
+    napne: true,
+    observacaoCoord: "♿ Acompanhamento NAPNE (Baixa Visão): Material ampliado em Matemática Financeira (Prof. Felippe) e Gestão de Projetos (Profa. Grayce).",
+    isDemo: true,
+    criadoEm: "27-10-2026"
+  },
 
-  // --- 3º ADM ---
+  // ==================== 3º ADM (3 Alunos) ====================
   {
     id: "ALU-DEMO-12",
     matricula: "20263ADM001",
@@ -625,8 +694,26 @@ const ALUNOS_DEMO_INICIAIS = [
     isDemo: true,
     criadoEm: "27-10-2026"
   },
+  {
+    id: "ALU-DEMO-20",
+    matricula: "20263ADM003",
+    nome: "Felipe Augusto S. [DEMO]",
+    turma: "3º ADM",
+    idade: 17,
+    verificacaoEtariaSUAP: "Certidão/RG validado na Matrícula SUAP (Vedada Autodeclaração - Lei 15.211/2025)",
+    responsavelLegal: "Mônica S. (Mãe - Vínculo SUAP Confirmado)",
+    contatoResponsavel: "(79) 99911-1020",
+    consentimentoImagemPais: true,
+    alertaProtecaoEcaDigital: "nenhum",
+    fotoUrl: gerarRetratoIlustradoEstudanteSVG({ fundo: '#15803d', pele: '#c68642', cabeloCor: '#09090b', estiloCabelo: 'curto', oculos: false, camisa: '#166534', iniciais: 'FA' }),
+    statusConselho: "regular",
+    napne: false,
+    observacaoCoord: "✅ Situação Regular em Gestão da Operação e Matemática.",
+    isDemo: true,
+    criadoEm: "27-10-2026"
+  },
 
-  // --- SUBSEQUENTE (MAIORES DE 18 ANOS) ---
+  // ==================== 1º INFO SUBSEQUENTE (2 Alunos) ====================
   {
     id: "ALU-DEMO-14",
     matricula: "20261INF001",
@@ -646,6 +733,26 @@ const ALUNOS_DEMO_INICIAIS = [
     criadoEm: "27-10-2026"
   },
   {
+    id: "ALU-DEMO-21",
+    matricula: "20261INF002",
+    nome: "Aline Ferreira N. [DEMO]",
+    turma: "1º Info (Subsequente)",
+    idade: 19,
+    verificacaoEtariaSUAP: "Maior de 18 anos (Subsequente Noturno - Matrícula SUAP)",
+    responsavelLegal: "Maior de idade",
+    contatoResponsavel: "(79) 99911-1021",
+    consentimentoImagemPais: true,
+    alertaProtecaoEcaDigital: "nenhum",
+    fotoUrl: gerarRetratoIlustradoEstudanteSVG({ fundo: '#0f766e', pele: '#f1c27d', cabeloCor: '#451a03', estiloCabelo: 'longo', oculos: false, camisa: '#15803d', iniciais: 'AF' }),
+    statusConselho: "destaque",
+    napne: false,
+    observacaoCoord: "🏆 Excelente aproveitamento em Programação 1 (Prof. Eric) e Org. de Computadores (Prof. Emerson).",
+    isDemo: true,
+    criadoEm: "27-10-2026"
+  },
+
+  // ==================== 3º INFO SUBSEQUENTE (2 Alunos) ====================
+  {
     id: "ALU-DEMO-15",
     matricula: "20263INF001",
     nome: "Juliana Martins G. [DEMO]",
@@ -662,11 +769,28 @@ const ALUNOS_DEMO_INICIAIS = [
     observacaoCoord: "🏆 Destaque Técnico Subsequente: Desenvolveu sistema completo nas aulas de Engenharia de Software e Programação 3.",
     isDemo: true,
     criadoEm: "27-10-2026"
+  },
+  {
+    id: "ALU-DEMO-22",
+    matricula: "20263INF002",
+    nome: "Diego Nascimento R. [DEMO]",
+    turma: "3º Info (Subsequente)",
+    idade: 22,
+    verificacaoEtariaSUAP: "Maior de 18 anos (Subsequente Noturno - Matrícula SUAP)",
+    responsavelLegal: "Maior de idade",
+    contatoResponsavel: "(79) 99911-1022",
+    consentimentoImagemPais: true,
+    alertaProtecaoEcaDigital: "nenhum",
+    fotoUrl: gerarRetratoIlustradoEstudanteSVG({ fundo: '#b91c1c', pele: '#8d5524', cabeloCor: '#09090b', estiloCabelo: 'curto', oculos: false, camisa: '#1e293b', iniciais: 'DN' }),
+    statusConselho: "avaliar",
+    napne: false,
+    observacaoCoord: "🚨 Risco de Evasão no Subsequente: Faltas seguidas em CS2 (Prof. Christiano) e Tópicos Especiais 1 (Prof. Ângelo).",
+    isDemo: true,
+    criadoEm: "27-10-2026"
   }
 ];
 
 const PARECERES_DEMO_INICIAIS = [
-  // Lucas Gabriel (1º DS) - 3 alertas docentes
   {
     id: "PAR-DEMO-01",
     alunoId: "ALU-DEMO-01",
@@ -715,8 +839,6 @@ const PARECERES_DEMO_INICIAIS = [
     observacao: "Demonstra potencial, porém a dispersão em sala tem impactado o rendimento nas avaliações escritas.",
     dataHora: "27-10-2026 09:00"
   },
-
-  // Mariana Costa (1º DS) - Destaque
   {
     id: "PAR-DEMO-04",
     alunoId: "ALU-DEMO-02",
@@ -749,8 +871,6 @@ const PARECERES_DEMO_INICIAIS = [
     observacao: "Domínio exemplar dos conteúdos práticos. Sugiro registro de Elogio Formal em Ata.",
     dataHora: "27-10-2026 09:15"
   },
-
-  // Cauã Victor (1º DS) - Alerta Lei 14.811/2024 (Cyberbullying / Convivência)
   {
     id: "PAR-DEMO-06",
     alunoId: "ALU-DEMO-03",
@@ -783,8 +903,6 @@ const PARECERES_DEMO_INICIAIS = [
     observacao: "Evitou apresentar o trabalho em grupo e faltou às duas últimas aulas práticas.",
     dataHora: "27-10-2026 09:40"
   },
-
-  // Pedro Henrique (2º DS) - NAPNE + Faltas Transporte
   {
     id: "PAR-DEMO-08",
     alunoId: "ALU-DEMO-04",
@@ -817,8 +935,6 @@ const PARECERES_DEMO_INICIAIS = [
     observacao: "Bom raciocínio lógico em orientação a objetos, mas precisa repor as atividades perdidas nos dias de falta.",
     dataHora: "27-10-2026 10:12"
   },
-
-  // Yasmin (2º DS) - Atenção
   {
     id: "PAR-DEMO-10",
     alunoId: "ALU-DEMO-05",
@@ -835,8 +951,6 @@ const PARECERES_DEMO_INICIAIS = [
     observacao: "Estudante extremamente educada e pontual; apresenta dúvida na configuração de serviços web, sendo indicada para monitoria.",
     dataHora: "27-10-2026 10:20"
   },
-
-  // Rafael Oliveira (3º DS) - Concluinte Crítico
   {
     id: "PAR-DEMO-11",
     alunoId: "ALU-DEMO-06",
@@ -869,8 +983,6 @@ const PARECERES_DEMO_INICIAIS = [
     observacao: "Relata cansaço por trabalhar à noite, deixando de concluir os laboratórios práticos de redes.",
     dataHora: "27-10-2026 10:42"
   },
-
-  // Letícia (3º DS) - Concluído
   {
     id: "PAR-DEMO-13",
     alunoId: "ALU-DEMO-07",
@@ -887,8 +999,6 @@ const PARECERES_DEMO_INICIAIS = [
     observacao: "Após reunião com a responsável e entrega do projeto de recuperação, superou a defasagem inicial com êxito.",
     dataHora: "27-10-2026 10:50"
   },
-
-  // Ana Beatriz (1º ADM) - Sem consentimento de foto + Atenção Matemática/Física
   {
     id: "PAR-DEMO-14",
     alunoId: "ALU-DEMO-08",
@@ -921,8 +1031,6 @@ const PARECERES_DEMO_INICIAIS = [
     observacao: "Dificuldade na interpretação algébrica dos problemas de cinemática.",
     dataHora: "27-10-2026 11:05"
   },
-
-  // Guilherme (1º ADM - 14 anos) - Adaptação
   {
     id: "PAR-DEMO-16",
     alunoId: "ALU-DEMO-09",
@@ -955,8 +1063,6 @@ const PARECERES_DEMO_INICIAIS = [
     observacao: "Necessita de orientação da equipe pedagógica junto à mãe para estruturar horário de estudo diário.",
     dataHora: "27-10-2026 11:18"
   },
-
-  // João Vitor (2º ADM) - Postura / Conversas
   {
     id: "PAR-DEMO-18",
     alunoId: "ALU-DEMO-11",
@@ -973,8 +1079,6 @@ const PARECERES_DEMO_INICIAIS = [
     observacao: "Tem facilidade de aprendizado, porém conversa excessivamente e utiliza fones/celular durante a explicação.",
     dataHora: "27-10-2026 11:25"
   },
-
-  // Gabriel Rocha (3º ADM) - Saúde Mental / Ansiedade
   {
     id: "PAR-DEMO-19",
     alunoId: "ALU-DEMO-13",
@@ -991,8 +1095,6 @@ const PARECERES_DEMO_INICIAIS = [
     observacao: "Estudante dedicado que apresentou bloqueio por ansiedade durante a prova bimestral. Recomendado acolhimento pela Psicologia Escolar.",
     dataHora: "27-10-2026 11:32"
   },
-
-  // Carlos Eduardo (1º Info Subsequente)
   {
     id: "PAR-DEMO-20",
     alunoId: "ALU-DEMO-14",
@@ -1008,6 +1110,22 @@ const PARECERES_DEMO_INICIAIS = [
     avaliarEmPlenaria: false,
     observacao: "Trabalha no comércio até as 18h30 e chega com 20 minutos de atraso, mas esforça-se bastante nos exercícios de laboratório.",
     dataHora: "27-10-2026 11:40"
+  },
+  {
+    id: "PAR-DEMO-21",
+    alunoId: "ALU-DEMO-22",
+    turma: "3º Info (Subsequente)",
+    professor: "Christiano",
+    disciplina: "CS2",
+    rendimento: "critico",
+    frequencia: "infrequente",
+    postura: "disperso",
+    notaAtual: "3,5",
+    faltas: "14",
+    tags: ["Faltas Recorrentes", "Não Entrega Atividades"],
+    avaliarEmPlenaria: true,
+    observacao: "Ausente nas últimas três semanas; coordenação do Subsequente precisa contatar para evitar evasão.",
+    dataHora: "27-10-2026 11:48"
   }
 ];
 
@@ -1102,10 +1220,12 @@ const ENCAMINHAMENTOS_DEMO_INICIAIS = [
 
 function inicializarBancoConselho() {
   const ver = localStorage.getItem(STORAGE_KEYS.DB_VERSION);
-  if (ver !== CURRENT_CONSELHO_VERSION) {
-    // preserva alunos reais cadastrados pelo usuário (isDemo === false), atualizando os demos para a versão rica de 15 alunos
-    const atuais = obterAlunosLocal().filter(a => a && a.isDemo === false);
-    salvarAlunosLocal([...atuais, ...ALUNOS_DEMO_INICIAIS]);
+  const demoDeletadoManualmente = localStorage.getItem(STORAGE_KEYS.DEMO_DELETED) === 'true';
+  const alunosExistentes = obterAlunosLocal();
+
+  if (ver !== CURRENT_CONSELHO_VERSION || (!demoDeletadoManualmente && alunosExistentes.length === 0)) {
+    const atuaisReais = alunosExistentes.filter(a => a && a.isDemo === false);
+    salvarAlunosLocal([...atuaisReais, ...ALUNOS_DEMO_INICIAIS]);
 
     const pareceresReais = obterPareceresLocal().filter(p => p && !String(p.id).startsWith('PAR-DEMO-'));
     salvarPareceresLocal([...pareceresReais, ...PARECERES_DEMO_INICIAIS]);
@@ -1114,6 +1234,7 @@ function inicializarBancoConselho() {
     salvarEncaminhamentosLocal([...encReais, ...ENCAMINHAMENTOS_DEMO_INICIAIS]);
 
     localStorage.setItem(STORAGE_KEYS.DB_VERSION, CURRENT_CONSELHO_VERSION);
+    localStorage.removeItem(STORAGE_KEYS.DEMO_DELETED);
   }
 
   if (!localStorage.getItem(STORAGE_KEYS.PINS)) {
@@ -1322,9 +1443,9 @@ async function sincronizarComNuvemPrivada() {
   try {
     const res = await enviarRequisicaoSeguraBackend('SYNC_GET_ALL');
     if (res && res.ok) {
-      if (Array.isArray(res.alunos)) salvarAlunosLocal(res.alunos);
-      if (Array.isArray(res.pareceres)) salvarPareceresLocal(res.pareceres);
-      if (Array.isArray(res.encaminhamentos)) salvarEncaminhamentosLocal(res.encaminhamentos);
+      if (Array.isArray(res.alunos) && res.alunos.length > 0) salvarAlunosLocal(res.alunos);
+      if (Array.isArray(res.pareceres) && res.pareceres.length > 0) salvarPareceresLocal(res.pareceres);
+      if (Array.isArray(res.encaminhamentos) && res.encaminhamentos.length > 0) salvarEncaminhamentosLocal(res.encaminhamentos);
       if (res.pins && typeof res.pins === 'object') {
         localStorage.setItem(STORAGE_KEYS.PINS, JSON.stringify(res.pins));
       }

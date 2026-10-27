@@ -297,6 +297,10 @@ function analisarSituacaoAluno(aluno, todosPareceres, todosEncaminhamentos) {
 // RENDERIZAÇÃO DE TURMAS, FILTROS E CARDS DE ALUNOS COM FOTO
 // ============================================================================
 
+function normalizarTurmaId(str) {
+  return String(str || '').trim().replace(/°/g, 'º').replace(/\s+/g, ' ').toUpperCase();
+}
+
 function renderizarPillsTurmas() {
   const container = document.getElementById('turmaPillsContainer');
   if (!container) return;
@@ -307,8 +311,9 @@ function renderizarPillsTurmas() {
   </button>`;
 
   TURMAS_IFS.forEach(t => {
-    const count = alunos.filter(a => a.turma === t.id).length;
-    html += `<button type="button" class="turma-pill ${estadoApp.turmaSelecionada === t.id ? 'active' : ''}" onclick="selecionarTurmaFiltro('${t.id}')">
+    const count = alunos.filter(a => normalizarTurmaId(a.turma) === normalizarTurmaId(t.id)).length;
+    const isAtiva = normalizarTurmaId(estadoApp.turmaSelecionada) === normalizarTurmaId(t.id);
+    html += `<button type="button" class="turma-pill ${isAtiva ? 'active' : ''}" onclick="selecionarTurmaFiltro('${t.id}')">
       ${t.id} (${count})
     </button>`;
   });
@@ -318,6 +323,15 @@ function renderizarPillsTurmas() {
 
 function selecionarTurmaFiltro(turmaId) {
   estadoApp.turmaSelecionada = turmaId;
+  // Ao clicar em uma turma, garante que a visão de todos os alunos daquela turma seja exibida sem filtros restritivos ocultos
+  const selectSit = document.getElementById('selectFiltroSituacao');
+  if (selectSit && selectSit.value !== 'todos') {
+    selectSit.value = 'todos';
+  }
+  const inputBusca = document.getElementById('inputBuscaAluno');
+  if (inputBusca && inputBusca.value) {
+    inputBusca.value = '';
+  }
   renderizarPillsTurmas();
   renderizarTudo();
 }
@@ -358,7 +372,7 @@ function obterAlunosFiltrados() {
       analise: analisarSituacaoAluno(aluno, pareceres, encaminhamentos)
     }))
     .filter(({ aluno, analise }) => {
-      if (estadoApp.turmaSelecionada !== 'TODAS' && aluno.turma !== estadoApp.turmaSelecionada) {
+      if (estadoApp.turmaSelecionada !== 'TODAS' && normalizarTurmaId(aluno.turma) !== normalizarTurmaId(estadoApp.turmaSelecionada)) {
         return false;
       }
       if (busca) {
@@ -387,7 +401,7 @@ function renderizarTudo() {
   const listaFiltrada = obterAlunosFiltrados();
   estadoApp.listaNavegacaoModalIds = listaFiltrada.map(item => item.aluno.id);
 
-  const todosAlunos = obterAlunosLocal().filter(a => estadoApp.turmaSelecionada === 'TODAS' || a.turma === estadoApp.turmaSelecionada);
+  const todosAlunos = obterAlunosLocal().filter(a => estadoApp.turmaSelecionada === 'TODAS' || normalizarTurmaId(a.turma) === normalizarTurmaId(estadoApp.turmaSelecionada));
   const todosPareceres = obterPareceresLocal();
   const todosEnc = obterEncaminhamentosLocal();
 
@@ -1408,6 +1422,7 @@ function removerAlunosDemo() {
   salvarAlunosLocal(alunosReais);
   salvarPareceresLocal(pareceres);
   salvarEncaminhamentosLocal(enc);
+  localStorage.setItem(STORAGE_KEYS.DEMO_DELETED, 'true');
   registrarLogAuditoriaLGPD(estadoApp.professorLogado, 'LIMPEZA_ALUNOS_DEMO', `Removeu ${qtdDemos} perfis fictícios [DEMO] do sistema.`);
   renderizarTudo();
   fecharModalConfigNuvem();
@@ -1419,12 +1434,13 @@ function restaurarAlunosDemoApresentacao() {
   const pareceresReais = obterPareceresLocal().filter(p => !String(p.id).startsWith('PAR-DEMO-'));
   const encReais = obterEncaminhamentosLocal().filter(e => !String(e.id).startsWith('ENC-DEMO-'));
 
+  localStorage.removeItem(STORAGE_KEYS.DEMO_DELETED);
   salvarAlunosLocal([...reais, ...ALUNOS_DEMO_INICIAIS]);
   salvarPareceresLocal([...pareceresReais, ...PARECERES_DEMO_INICIAIS]);
   salvarEncaminhamentosLocal([...encReais, ...ENCAMINHAMENTOS_DEMO_INICIAIS]);
-  registrarLogAuditoriaLGPD(estadoApp.professorLogado, 'RESTAURACAO_ALUNOS_DEMO', 'Recarregou os 15 perfis fictícios [DEMO] para apresentação.');
+  registrarLogAuditoriaLGPD(estadoApp.professorLogado, 'RESTAURACAO_ALUNOS_DEMO', 'Recarregou os 22 perfis fictícios [DEMO] para apresentação.');
   renderizarTudo();
-  mostrarToast('🎭 15 Alunos [DEMO] de diversas situações recarregados para apresentação!');
+  mostrarToast('🎭 22 Alunos [DEMO] de todas as turmas recarregados para apresentação!');
 }
 
 function excluirAlunoDiretoDaFicha() {
