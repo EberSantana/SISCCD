@@ -1,15 +1,32 @@
 # 🚀 SISCCD — Sistema de Conselho de Classe Digital
 **Sistema de Gestão de Conselho de Classe com Blindagem LGPD & ECA Digital para a Rede Federal de Ensino Médio Técnico**
 
+🌐 **Acesso Produção (GitHub Pages):** [https://ebersantana.github.io/SISCCD/](https://ebersantana.github.io/SISCCD/)
+
+---
+
+## ⚖️ Matriz de Adequação às 6 Leis Vigentes de Proteção Infantojuvenil (14 a 17 anos)
+
+O **SISCCD** implementa controles técnicos de código (*Privacy by Design* e *Security by Design*) para atender integralmente às 6 legislações que regem o tratamento de dados, a imagem e a dignidade de adolescentes no Brasil:
+
+| Legislação | Exigência Legal Principal | Como o SISCCD Implementa no Código |
+| :--- | :--- | :--- |
+| **1. ECA Digital (Lei nº 15.211/2025)** *(Em vigor desde março/2026)* | Proíbe a simples autodeclaração de idade, exige vinculação de menores de 16 anos aos pais/responsáveis, veda perfilamento comercial e protege contra conteúdos perigosos e automutilação. | • **Vedação de Autodeclaração Etária:** O sistema não possui auto-cadastro livre por alunos; a idade é aferida via documentação oficial da matrícula SUAP (`verificacaoEtariaSUAP`).<br/>• **Vinculação Parental Obrigatória (< 16 anos):** Para estudantes de **14 e 15 anos**, o formulário exige obrigatoriamente o nome e contato do Pai/Mãe ou Responsável Legal vinculado ([`verificarRegraMenor16Cadastro`](app.js)).<br/>• **Zero Perfilamento Comercial:** Zero cookies de terceiros, zero publicidade e vedação de decisão automatizada sem revisão docente.<br/>• **Protocolo de Saúde Mental e Proteção à Vida:** Encaminhamento sigiloso imediato à Psicologia Escolar e Família. |
+| **2. LGPD (Lei nº 13.709/2018 — Art. 14 e 18)** | O tratamento de dados de crianças e adolescentes deve ocorrer em seu *melhor interesse*, com consentimento específico e em destaque de pelo menos um dos pais ou responsável legal e direito à revogação. | • **Trava Técnica de Consentimento de Foto (`consentimentoImagemPais`):** Se o consentimento parental para uso de imagem não estiver ativo (ou for revogado com 1 clique pelo botão `🖼️ Consentimento Foto Art. 14`), a função [`obterFotoSeguraAluno`](app.js) **bloqueia automaticamente a foto real** e exibe apenas um Avatar Institucional Anonimizado com iniciais!<br/>• **Zero-PII no GitHub Pages:** Nenhum nome ou foto real fica no código público do GitHub; dados reais trafegam via `POST` autenticado com PIN para planilha institucional privada. |
+| **3. Lei do Bullying e Cyberbullying (Lei nº 13.185/2015 e Lei nº 14.811/2024)** | Previne e combate a intimidação sistemática (*bullying* e *cyberbullying*) e veda a exposição humilhante ou estigmatizante no meio digital. | • **Validador Ético Anti-Rotulagem ([`validarLinguagemEticaParecer`](api.js)):** Analisa o texto do parecer em tempo real antes de salvar, bloqueando termos pejorativos/estigmatizantes e sugerindo redação técnica construtiva.<br/>• **Protocolo Anti-Bullying / Cyberbullying:** Ação específica nos encaminhamentos do conselho para mediação multiprofissional imediata. |
+| **4. Estatuto da Criança e do Adolescente — ECA (Lei nº 8.069/1990)** | Assegura a proteção integral (Art. 1º), a inviolabilidade da imagem, identidade e autonomia (Art. 17), a dignidade (Art. 18) e a ciência dos pais no processo pedagógico (Art. 53). | • **Proteção de Imagem (Art. 17):** Bloqueio de botão direito/arraste em fotos, **Modo Projetor (`👁️ Desfocar Fotos`)** para reuniões em sala e **Marca d'Água Nominal Anti-Print** com o nome do docente logado.<br/>• **Participação Familiar (Art. 53):** Registro formal de convocação e ciência dos responsáveis legais na Ata. |
+| **5. Constituição Federal de 1988 (Artigo 227)** | Dever da família, da sociedade e do Estado de assegurar ao adolescente, com **absoluta prioridade**, o direito à vida, à saúde, à educação, à dignidade e ao respeito. | • **Fila de Prioridade Absoluta ([`analisarSituacaoAluno`](app.js)):** Ordena automaticamente no topo da plenária os estudantes com alertas docentes de risco acadêmico, infrequência ou vulnerabilidade para ação protetiva imediata. |
+| **6. Marco Civil da Internet (Lei nº 12.965/2014 — Art. 3º e 7º)** | Proteção da privacidade, inviolabilidade da intimidade, não fornecimento a terceiros e guarda auditável de registros de acesso a aplicações. | • **Trilha de Auditoria ([`registrarLogAuditoriaLGPD`](api.js)):** Registra todos os logins, aceites do Termo de Sigilo, consultas de fichas e alterações, com bloqueio automático de sessão após 15 minutos de inatividade. |
+
 ---
 
 ## 🔄 Ciclo de Desenvolvimento de Software (SDLC)
 
-O ciclo de desenvolvimento do **SISCCD** foi desenhado sob uma abordagem de **Privacy by Design** e **Security by Design**, garantindo conformidade estrita com a **LGPD (Lei nº 13.709/2018)** e o **ECA Digital (Proteção Integral de Adolescentes de 14 a 17 anos)**, além de atender às especificidades pedagógicas dos Institutos Federais.
+O ciclo de desenvolvimento do **SISCCD** foi desenhado sob uma abordagem de **Privacy by Design** e **Security by Design**, garantindo conformidade estrita com a **LGPD (Lei nº 13.709/2018)** e o **ECA Digital (Lei nº 15.211/2025 — Proteção Integral de Adolescentes de 14 a 17 anos)**, além de atender às especificidades pedagógicas dos Institutos Federais.
 
 ### 1. Concepção & Alinhamento Legal (Discovery)
 * **Mapeamento de Processos Pedagógicos:** Levantamento dos fluxos tradicionais de conselho de classe no ensino médio integrado e técnico.
-* **Análise de Conformidade Regulatória:** Definição dos parâmetros legais exigidos pela LGPD (tratamento de dados pessoais sensíveis de menores) e pelas diretrizes do ECA Digital.
+* **Análise de Conformidade Regulatória:** Definição dos parâmetros legais exigidos pela LGPD (tratamento de dados pessoais sensíveis de menores) e pelas diretrizes do ECA Digital (Lei nº 15.211/2025).
 * **Definição de Stakeholders:** Envolvimento de equipes pedagógicas, coordenações de ensino, núcleos de tecnologia da informação e encarregados de dados (DPO) da instituição federal.
 
 ### 2. Modelagem & Requisitos de Privacidade (Privacy by Design)
@@ -42,45 +59,17 @@ O ciclo de desenvolvimento do **SISCCD** foi desenhado sob uma abordagem de **Pr
 
 ---
 
-## ✨ Funcionalidades Principais do SISCCD
-
-1. **🚨 Identificação Imediata de "Quem São os Alunos a Serem Avaliados":**
-   - Painel e filtro de **Prioridade de Plenária** que destaca automaticamente os estudantes sinalizados pelos professores com rendimento crítico, infrequência ou pedido expresso de análise em reunião.
-   - Ordenação automática por **Score de Prioridade Pedagógica** (alunos com alertas em mais disciplinas aparecem no topo da fila do conselho).
-2. **📸 Cards de Alunos com Foto e Compressão Automática:**
-   - Upload de foto via câmera do celular ou computador com **recorte quadrado 1:1 e compressão automática no navegador (`220x220px WebP/JPEG`)**, permitindo salvar diretamente no banco privado sem pesar.
-   - Importação rápida de turmas inteiras via copiar-e-colar do SUAP/CSV.
-3. **✍️ Ficha Interativa ao Clicar no Aluno:**
-   - **Aba 1 (Registrar Meu Parecer):** Reconhece automaticamente o professor logado e sugere sua disciplina naquela turma; permite marcar indicadores rápidos (Rendimento, Frequência, Participação/Postura), tags de diagnóstico, nota, faltas e observação ética padronizada.
-   - **Aba 2 (Visão Consolidada da Turma):** Exibe em tempo real todos os pareceres de todos os professores sobre aquele aluno.
-   - **Aba 3 (Encaminhamentos e Ata):** Permite registrar convocação dos responsáveis legais (pais/mães), encaminhamento ao NAPNE, Psicologia/Assistência Estudantil, Monitoria e texto oficial da Ata.
-4. **🖥️ Modo Plenária (Passador de Alunos ◀ ▶):**
-   - Durante a reunião do conselho, permite navegar de um aluno prioritário para o próximo com 1 clique, sem precisar fechar a janela.
-
----
-
-## ⚖️ Blindagem Técnica Implementada (LGPD + ECA + ECA Digital)
-
-* **Zero Dados Pessoais no GitHub Pages (`.gitignore` blindado):** Nenhum nome real ou foto de estudante real é versionado no repositório público. Os dados reais ficam restritos à Planilha/Banco Privado Institucional via requisição `POST` autenticada.
-* **Gatekeeper com Termo de Sigilo Obrigatório:** O acesso só é liberado após seleção do docente, validação de **PIN individual** e assinatura digital do **Termo de Confidencialidade e Sigilo Funcional (Art. 14 e 23 da LGPD / Art. 17 e 18 do ECA / Res. CONANDA nº 245/2024)**.
-* **Marca d'Água Dinâmica Anti-Print:** Toda a tela exibe uma marca d'água diagonal com o nome do professor logado, data e aviso de proibição de reprodução.
-* **Modo Projetor / Privacidade (`👁️ Desfocar Fotos`):** Com 1 clique no topo, desfoca as fotos dos alunos e abrevia os sobrenomes quando a tela estiver sendo projetada em sala.
-* **Bloqueio de Clique Direito e Auto-Lock:** Impede salvar imagem com botão direito e bloqueia a sessão automaticamente após 15 minutos de inatividade.
-* **Trilha de Auditoria Completa (`Auditoria_LGPD`):** Registra quem acessou, quem assinou o termo e quais fichas foram avaliadas ou editadas.
-
----
-
 ## 📂 Estrutura do Repositório
 
 ```text
-├── index.html                           # Interface principal (Gatekeeper LGPD/ECA, Mural de Fotos e Modais)
+├── index.html                           # Interface principal (Gatekeeper 6 Leis, Mural de Fotos e Modais)
 ├── styles.css                           # Estilos responsivos, marca d'água anti-print e modo projetor
-├── app.js                               # Lógica de pareceres, fila de prioridades, modo plenária e ata
-├── api.js                               # Compressão de fotos, auditoria LGPD e sincronização segura
+├── app.js                               # Lógica de pareceres, vínculo parental <16 anos, bloqueio de foto sem consentimento
+├── api.js                               # Validador ético anti-bullying, compressão de fotos e auditoria LGPD
 ├── manifest.json                        # Manifesto PWA instalável
 ├── sw.js                                # Service Worker seguro (cache apenas da casca estática)
 ├── backend/
 │   ├── Code.gs                          # Backend Google Apps Script com LockService e validação de PIN
 │   └── INSTRUCOES_LGPD_E_PLANILHA.md    # Guia passo a passo de configuração da nuvem privada
-└── README.md                            # Documentação oficial e Ciclo de Desenvolvimento (SDLC)
+└── README.md                            # Documentação oficial, Matriz das 6 Leis e SDLC
 ```

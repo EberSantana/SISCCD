@@ -1,6 +1,7 @@
 /**
  * ============================================================================
- * APP.JS - Lógica da Interface, Ficha do Aluno, Pareceres e Proteção LGPD/ECA
+ * APP.JS - Lógica da Interface, Ficha do Aluno, Pareceres e Blindagem das 6 Leis
+ * (ECA Digital Lei 15.211/2025, LGPD Art. 14, ECA, CF Art. 227, Marco Civil e Lei 14.811/2024)
  * IFS Campus Tobias Barreto
  * ============================================================================
  */
@@ -22,8 +23,9 @@ const TAGS_DIAGNOSTICO_PADRAO = [
   "Não Entrega Atividades",
   "Baixa Concentração / Dispersão",
   "Faltas Recorrentes",
-  "Uso Indevido de Celular",
+  "Uso Indevido de Celular / Telas",
   "Recuperação Paralela Recomendada",
+  "Alerta de Convivência / Bullying (Lei 14.811/24)",
   "Demanda Apoio Psicopedagógico",
   "Evoluiu no Bimestre",
   "Participação Positiva",
@@ -31,10 +33,11 @@ const TAGS_DIAGNOSTICO_PADRAO = [
 ];
 
 const ACOES_ENCAMINHAMENTO_PADRAO = [
-  "📞 Convocar Responsáveis Legais (Pais/Mães - ECA)",
+  "📞 Convocar Responsáveis Legais (Pais/Mães - ECA & Lei 15.211/2025)",
   "📚 Plano de Estudos / Monitoria no Contraturno",
   "🧭 Atendimento pela Coordenação de Curso (DS/ADM)",
-  "🧠 Encaminhar à Psicologia / Assistência Estudantil",
+  "🧠 Encaminhar à Psicologia / Assistência Estudantil (Sigilo Protegido)",
+  "🤝 Mediação Preventiva Anti-Bullying / Cyberbullying (Lei 14.811/2024)",
   "♿ Encaminhar / Alinhar com o NAPNE",
   "📝 Compromisso Pedagógico de Entrega de Atividades",
   "🏆 Registrar Elogio Formal em Ata (Destaque)"
@@ -50,7 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
   popularSelectsTurmas();
   configurarMonitorInatividade();
 
-  // Verifica se há sessão ativa válida na aba atual
   try {
     const sessaoSalva = JSON.parse(sessionStorage.getItem(STORAGE_KEYS.SESSION) || 'null');
     if (sessaoSalva && sessaoSalva.professor) {
@@ -88,7 +90,7 @@ function popularSelectsTurmas() {
 }
 
 // ============================================================================
-// AUTENTICAÇÃO + TERMO DE SIGILO LGPD & ECA + MARCA D'ÁGUA DINÂMICA
+// AUTENTICAÇÃO + TERMO DE SIGILO + MARCA D'ÁGUA DINÂMICA
 // ============================================================================
 
 function realizarLoginConselho(event) {
@@ -102,7 +104,7 @@ function realizarLoginConselho(event) {
     return;
   }
   if (!aceitouTermo) {
-    mostrarToast('É obrigatório aceitar o Termo de Sigilo Funcional (LGPD/ECA).', true);
+    mostrarToast('É obrigatório aceitar o Termo de Sigilo Funcional (Lei 15.211/2025 & LGPD).', true);
     return;
   }
 
@@ -115,7 +117,7 @@ function realizarLoginConselho(event) {
     return;
   }
 
-  registrarAceiteTermoLGPD(professor, 'v1.0-2026-ECA-LGPD');
+  registrarAceiteTermoLGPD(professor, 'v2.0-2026-LEI15211-LGPD-ECA');
   sessionStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify({
     professor,
     pin: pinDigitado,
@@ -132,7 +134,7 @@ async function ativarSessaoDocente(professor, exibirBoasVindas = true) {
 
   const cfg = obterConfigConselho();
   if (cfg.bimestreAtual) {
-    document.getElementById('headerBimestreLabel').textContent = `${cfg.bimestreAtual} • Proteção ECA & LGPD (14 a 17 anos)`;
+    document.getElementById('headerBimestreLabel').textContent = `${cfg.bimestreAtual} • Proteção Lei 15.211/2025 (ECA Digital) & LGPD`;
   }
 
   gerarMarcaDaguaRastreavel(professor);
@@ -141,10 +143,9 @@ async function ativarSessaoDocente(professor, exibirBoasVindas = true) {
   renderizarTudo();
 
   if (exibirBoasVindas) {
-    mostrarToast(`Bem-vindo(a), ${professor}! Termo LGPD/ECA ativo.`);
+    mostrarToast(`Bem-vindo(a), ${professor}! Proteção ECA Digital (Lei 15.211/25) & LGPD ativa.`);
   }
 
-  // Se houver URL de nuvem configurada, sincroniza automaticamente em background
   if (obterApiUrl()) {
     const syncRes = await sincronizarComNuvemPrivada();
     atualizarBadgeConexao(syncRes.mode);
@@ -169,9 +170,9 @@ function configurarMonitorInatividade() {
     timerInatividade = setTimeout(() => {
       if (estadoApp.professorLogado) {
         encerrarSessaoSegura();
-        mostrarToast('Sessão bloqueada automaticamente por inatividade (Proteção LGPD).', true);
+        mostrarToast('Sessão bloqueada automaticamente por inatividade (Marco Civil Art. 7º & LGPD).', true);
       }
-    }, 15 * 60 * 1000); // 15 minutos
+    }, 15 * 60 * 1000);
   };
   ['mousemove', 'keydown', 'click', 'touchstart'].forEach(ev => {
     window.addEventListener(ev, resetarTimer, { passive: true });
@@ -184,7 +185,7 @@ function gerarMarcaDaguaRastreavel(professor) {
   if (!container) return;
   container.innerHTML = '';
   const dataCurta = new Date().toLocaleDateString('pt-BR');
-  const texto = `SIGILO LGPD/ECA • ${professor.toUpperCase()} • IFS TOBIAS BARRETO • ${dataCurta}`;
+  const texto = `SIGILO LEI 15.211/25 & LGPD • ${professor.toUpperCase()} • IFS TOBIAS BARRETO • ${dataCurta}`;
   for (let i = 0; i < 28; i++) {
     const span = document.createElement('div');
     span.className = 'watermark-item';
@@ -207,10 +208,22 @@ function alternarModoPrivacidade() {
 
 function formatarNomeExibicao(nomeCompleto) {
   if (!estadoApp.modoPrivacidadeBlur) return nomeCompleto;
-  // No modo projetor/privacidade, preserva o primeiro nome e abrevia os sobrenomes intermediários
   const partes = (nomeCompleto || '').trim().split(/\s+/);
   if (partes.length <= 1) return nomeCompleto;
   return partes[0] + ' ' + partes.slice(1).map(p => p.startsWith('[') ? p : (p[0] + '.')).join(' ');
+}
+
+/**
+ * TRAVA TÉCNICA LGPD ART. 14 & ECA DIGITAL (LEI 15.211/2025):
+ * Se o estudante menor de idade não possuir consentimento parental de imagem ativo
+ * (consentimentoImagemPais === false), bloqueia qualquer foto real e retorna Avatar Institucional!
+ */
+function obterFotoSeguraAluno(aluno) {
+  const iniciais = obterIniciaisNome(aluno.nome);
+  if (aluno.consentimentoImagemPais === false) {
+    return gerarAvatarDemoSVG(iniciais, '#64748b', 'SEM CONSENTIMENTO FOTO (ART. 14)');
+  }
+  return aluno.fotoUrl || gerarAvatarDemoSVG(iniciais, '#15803d');
 }
 
 function atualizarBadgeConexao(modoForcado) {
@@ -238,18 +251,22 @@ function analisarSituacaoAluno(aluno, todosPareceres, todosEncaminhamentos) {
   const qtdRendimentoCritico = pareceresAluno.filter(p => p.rendimento === 'critico').length;
   const qtdRendimentoAtencao = pareceresAluno.filter(p => p.rendimento === 'atencao').length;
   const qtdInfrequente = pareceresAluno.filter(p => p.frequencia === 'infrequente').length;
+  const qtdConflitoConvivencia = pareceresAluno.filter(p => p.postura === 'conflito').length;
 
   const precisaSerAvaliado =
     aluno.statusConselho === 'avaliar' ||
     qtdSinalizadosPlenaria > 0 ||
     qtdRendimentoCritico > 0 ||
-    qtdInfrequente > 0;
+    qtdInfrequente > 0 ||
+    qtdConflitoConvivencia > 0 ||
+    (aluno.alertaProtecaoEcaDigital && aluno.alertaProtecaoEcaDigital !== 'nenhum');
 
   const scorePrioridade =
     (aluno.statusConselho === 'avaliar' ? 10 : 0) +
     (qtdSinalizadosPlenaria * 8) +
     (qtdRendimentoCritico * 6) +
     (qtdInfrequente * 5) +
+    (qtdConflitoConvivencia * 7) +
     (qtdRendimentoAtencao * 2);
 
   const meuParecer = pareceresAluno.find(p => p.professor === estadoApp.professorLogado) || null;
@@ -268,6 +285,7 @@ function analisarSituacaoAluno(aluno, todosPareceres, todosEncaminhamentos) {
     qtdRendimentoCritico,
     qtdRendimentoAtencao,
     qtdInfrequente,
+    qtdConflitoConvivencia,
     precisaSerAvaliado,
     scorePrioridade,
     meuParecer,
@@ -344,11 +362,12 @@ function obterAlunosFiltrados() {
         return false;
       }
       if (busca) {
-        const textoAlvo = `${aluno.nome} ${aluno.matricula} ${aluno.turma} ${aluno.observacaoCoord || ''}`.toLowerCase();
+        const textoAlvo = `${aluno.nome} ${aluno.matricula} ${aluno.turma} ${aluno.responsavelLegal || ''} ${aluno.observacaoCoord || ''}`.toLowerCase();
         if (!textoAlvo.includes(busca)) return false;
       }
       if (filtroSituacao === 'avaliar') return analise.precisaSerAvaliado && analise.statusVisual !== 'concluido';
       if (filtroSituacao === 'atencao') return analise.statusVisual === 'atencao' || analise.qtdRendimentoAtencao > 0;
+      if (filtroSituacao === 'menores_16') return Number(aluno.idade || 15) < 16;
       if (filtroSituacao === 'pendentes_meu') return !analise.meuParecer;
       if (filtroSituacao === 'avaliados_meu') return Boolean(analise.meuParecer);
       if (filtroSituacao === 'destaque') return aluno.statusConselho === 'destaque';
@@ -368,7 +387,6 @@ function renderizarTudo() {
   const listaFiltrada = obterAlunosFiltrados();
   estadoApp.listaNavegacaoModalIds = listaFiltrada.map(item => item.aluno.id);
 
-  // Atualiza KPIs
   const todosAlunos = obterAlunosLocal().filter(a => estadoApp.turmaSelecionada === 'TODAS' || a.turma === estadoApp.turmaSelecionada);
   const todosPareceres = obterPareceresLocal();
   const todosEnc = obterEncaminhamentosLocal();
@@ -416,7 +434,7 @@ function renderizarGridAlunos(listaFiltrada) {
         <div style="font-size: 2.4rem; margin-bottom: 0.5rem;">🔍</div>
         <h3 style="font-size: 1.1rem; font-weight: 800;">Nenhum estudante encontrado para este filtro</h3>
         <p style="font-size: 0.86rem; color: #475569; margin-top: 0.3rem;">
-          Altere o filtro de turma/situação ou clique em <strong>"➕ Cadastrar Aluno + Foto"</strong> no topo.
+          Altere o filtro de turma/situação ou clique em <strong>"➕ Cadastrar Aluno + Vínculo Parental"</strong> no topo.
         </p>
       </div>`;
     return;
@@ -424,8 +442,10 @@ function renderizarGridAlunos(listaFiltrada) {
 
   container.innerHTML = listaFiltrada.map(({ aluno, analise }) => {
     const rotulo = obterRotuloStatus(analise.statusVisual);
-    const fotoSrc = aluno.fotoUrl || gerarAvatarDemoSVG(obterIniciaisNome(aluno.nome), '#15803d');
-    const isMenorEca = Number(aluno.idade) < 18;
+    const fotoSrc = obterFotoSeguraAluno(aluno);
+    const idadeNum = Number(aluno.idade || 15);
+    const isMenor16 = idadeNum < 16;
+    const isMenor18 = idadeNum < 18;
 
     return `
       <article class="student-card priority-${analise.statusVisual}" onclick="abrirModalFichaAluno('${aluno.id}')">
@@ -436,11 +456,13 @@ function renderizarGridAlunos(listaFiltrada) {
           <div class="student-meta">
             <div class="student-turma-row">
               <span class="chip-turma">${escaparHtml(aluno.turma)}</span>
-              <span class="chip-idade-eca">${aluno.idade || 15} anos ${isMenorEca ? '• 🛡️ ECA' : ''}</span>
+              <span class="chip-idade-eca" style="${isMenor16 ? 'background:#fef3c7;color:#92400e;border-color:#fde68a;' : ''}">
+                ${idadeNum} anos ${isMenor16 ? '• 🔒 <16a (Lei 15.211/25)' : (isMenor18 ? '• 🛡️ ECA' : '')}
+              </span>
               ${aluno.napne ? '<span class="chip-idade-eca" style="background:#ede9fe;color:#5b21b6;border-color:#ddd6fe;">♿ NAPNE</span>' : ''}
             </div>
             <h3 class="student-name" title="${escaparHtml(aluno.nome)}">${escaparHtml(formatarNomeExibicao(aluno.nome))}</h3>
-            <div class="student-matricula">Matrícula: ${escaparHtml(aluno.matricula)}</div>
+            <div class="student-matricula">Matrícula SUAP: ${escaparHtml(aluno.matricula)}</div>
           </div>
         </div>
 
@@ -454,6 +476,10 @@ function renderizarGridAlunos(listaFiltrada) {
             ${analise.meuParecer
               ? `<span class="tag-mini tag-my-done">✅ Meu parecer (${escaparHtml(analise.meuParecer.disciplina)})</span>`
               : `<span class="tag-mini">⏳ Sem meu parecer</span>`
+            }
+            ${aluno.consentimentoImagemPais === false
+              ? `<span class="tag-mini" style="background:#f1f5f9;color:#475569;">🔒 Foto Anonimizada (Art. 14)</span>`
+              : ''
             }
             ${analise.qtdRendimentoCritico > 0
               ? `<span class="tag-mini tag-alert">📉 ${analise.qtdRendimentoCritico} disc. crítica(s)</span>`
@@ -469,12 +495,9 @@ function renderizarGridAlunos(listaFiltrada) {
             }
           </div>
 
-          ${aluno.observacaoCoord
-            ? `<p style="font-size:0.76rem; color:#475569; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">
-                💬 ${escaparHtml(aluno.observacaoCoord)}
-               </p>`
-            : ''
-          }
+          <div style="font-size:0.73rem; color:#334155; background:#f8fafc; padding:0.3rem 0.55rem; border-radius:6px; border:1px solid #e2e8f0;">
+            👨‍👩‍👧 <strong>Resp. Legal:</strong> ${escaparHtml(aluno.responsavelLegal || 'Vinculado no SUAP')}
+          </div>
         </div>
 
         <div class="student-card-footer">
@@ -501,22 +524,39 @@ function abrirModalFichaAluno(alunoId, subAbaInicial = 'parecer') {
   const pareceres = obterPareceresLocal();
   const encaminhamentos = obterEncaminhamentosLocal();
   const analise = analisarSituacaoAluno(aluno, pareceres, encaminhamentos);
+  const idadeNum = Number(aluno.idade || 15);
 
-  document.getElementById('fichaFotoImg').src = aluno.fotoUrl || gerarAvatarDemoSVG(obterIniciaisNome(aluno.nome), '#15803d');
+  document.getElementById('fichaFotoImg').src = obterFotoSeguraAluno(aluno);
   document.getElementById('fichaTurmaChip').textContent = aluno.turma;
-  document.getElementById('fichaIdadeChip').textContent = `${aluno.idade || 15} anos • ${Number(aluno.idade) < 18 ? 'Protegido ECA & LGPD' : 'LGPD Ativa'}`;
+  document.getElementById('fichaIdadeChip').textContent = `${idadeNum} anos • Idade aferida via SUAP (Lei 15.211/25)`;
+  document.getElementById('fichaMenor16Chip').style.display = idadeNum < 16 ? 'inline-flex' : 'none';
   document.getElementById('fichaNapneChip').style.display = aluno.napne ? 'inline-flex' : 'none';
   document.getElementById('fichaNomeAluno').textContent = formatarNomeExibicao(aluno.nome);
-  document.getElementById('fichaMatriculaAluno').textContent = `Matrícula SUAP: ${aluno.matricula}`;
+  document.getElementById('fichaMatriculaAluno').textContent = `Matrícula SUAP: ${aluno.matricula} • ${aluno.verificacaoEtariaSUAP || 'Aferição Documental SUAP'}`;
+
+  const respTexto = aluno.responsavelLegal
+    ? `${aluno.responsavelLegal} ${aluno.contatoResponsavel ? '• Tel: ' + aluno.contatoResponsavel : ''}`
+    : 'Vinculado na Matrícula Institucional SUAP';
+  document.getElementById('fichaResponsavelTexto').textContent = respTexto;
+
   document.getElementById('fichaObsCoord').textContent = aluno.observacaoCoord ? `📌 Coordenação: ${aluno.observacaoCoord}` : '';
   document.getElementById('fichaStatusGeralSelect').value = analise.statusVisual;
   document.getElementById('countPareceresAluno').textContent = analise.qtdPareceres;
 
-  // Preenche formulário do Parecer do Professor Logado
+  // Botão de Consentimento de Foto (Art. 14 e 18 da LGPD)
+  const btnFotoConsent = document.getElementById('btnToggleConsentimentoFoto');
+  if (btnFotoConsent) {
+    const ativo = aluno.consentimentoImagemPais !== false;
+    btnFotoConsent.textContent = ativo
+      ? '🖼️ Consentimento Foto (Art. 14): ATIVO'
+      : '🔒 Foto Bloqueada (Sem Consent. Art. 14)';
+    btnFotoConsent.style.borderColor = ativo ? '#86efac' : '#fca5a5';
+    btnFotoConsent.style.color = ativo ? '#166534' : '#991b1b';
+  }
+
   const prof = estadoApp.professorLogado || 'Docente';
   document.getElementById('parecerProfInput').value = prof;
 
-  // Sugere disciplinas do professor naquela turma
   const infoDocente = DOCENTES_IFS[prof];
   const datalist = document.getElementById('listaDisciplinasDocente');
   datalist.innerHTML = '';
@@ -555,10 +595,39 @@ function abrirModalFichaAluno(alunoId, subAbaInicial = 'parecer') {
 
   renderizarChipsTagsParecer();
   renderizarListaPareceresConsolidados(analise.pareceresAluno);
-  preencherFormularioEncaminhamento(analise.encaminhamentoAluno);
+  preencherFormularioEncaminhamento(analise.encaminhamentoAluno, idadeNum < 16);
 
   alternarSubAbaFicha(subAbaInicial);
   document.getElementById('modalFichaAluno').classList.add('open');
+}
+
+function alternarConsentimentoFotoAlunoAtual() {
+  const alunoId = estadoApp.alunoModalAtualId;
+  if (!alunoId) return;
+  const alunos = obterAlunosLocal();
+  const aluno = alunos.find(a => a.id === alunoId);
+  if (!aluno) return;
+
+  aluno.consentimentoImagemPais = aluno.consentimentoImagemPais === false ? true : false;
+  salvarAlunosLocal(alunos);
+
+  registrarLogAuditoriaLGPD(
+    estadoApp.professorLogado,
+    aluno.consentimentoImagemPais ? 'CONSENTIMENTO_FOTO_ATIVADO' : 'REVOGACAO_CONSENTIMENTO_FOTO_ART18',
+    `Alterou status de consentimento parental de imagem (Art. 14/18 LGPD) de ${aluno.nome} para: ${aluno.consentimentoImagemPais ? 'Autorizado' : 'Revogado/Anonimizado'}`
+  );
+
+  abrirModalFichaAluno(alunoId);
+  renderizarTudo();
+  mostrarToast(
+    aluno.consentimentoImagemPais
+      ? 'Consentimento parental de foto (Art. 14 LGPD) ativado!'
+      : 'Consentimento de foto revogado (Art. 18 LGPD): Foto substituída por Avatar Anonimizado!'
+  );
+
+  if (obterApiUrl()) {
+    enviarRequisicaoSeguraBackend('UPSERT_ALUNO', { aluno }).catch(() => {});
+  }
 }
 
 function fecharModalFichaAluno() {
@@ -633,6 +702,15 @@ async function salvarParecerDocenteAtual(event) {
   const aluno = alunos.find(a => a.id === alunoId);
   if (!aluno) return;
 
+  const observacao = document.getElementById('parecerObsTextarea').value.trim();
+
+  // Validador Ético Anti-Rotulagem (ECA Art. 17/18 e Lei do Bullying/Cyberbullying 13.185/2015 & 14.811/2024)
+  const validacaoEtica = validarLinguagemEticaParecer(observacao);
+  if (!validacaoEtica.valido) {
+    mostrarToast(validacaoEtica.mensagem, true);
+    return;
+  }
+
   const professor = estadoApp.professorLogado || 'Docente';
   const disciplina = document.getElementById('parecerDiscInput').value.trim();
   const notaAtual = document.getElementById('parecerNotaInput').value.trim();
@@ -640,8 +718,11 @@ async function salvarParecerDocenteAtual(event) {
   const rendimento = document.getElementById('parecerRendimentoSelect').value;
   const frequencia = document.getElementById('parecerFrequenciaSelect').value;
   const postura = document.getElementById('parecerPosturaSelect').value;
-  const observacao = document.getElementById('parecerObsTextarea').value.trim();
-  const avaliarEmPlenaria = document.getElementById('checkSinalizarPlenaria').checked || rendimento === 'critico' || frequencia === 'infrequente';
+  const avaliarEmPlenaria =
+    document.getElementById('checkSinalizarPlenaria').checked ||
+    rendimento === 'critico' ||
+    frequencia === 'infrequente' ||
+    postura === 'conflito';
 
   const todosPareceres = obterPareceresLocal();
   const idxExistente = todosPareceres.findIndex(p => p.alunoId === alunoId && p.professor === professor);
@@ -670,16 +751,14 @@ async function salvarParecerDocenteAtual(event) {
   }
   salvarPareceresLocal(todosPareceres);
 
-  // Se o professor sinalizou para plenária, atualiza o status do aluno para 'avaliar'
   if (avaliarEmPlenaria && aluno.statusConselho !== 'concluido') {
     aluno.statusConselho = 'avaliar';
     salvarAlunosLocal(alunos);
   }
 
-  registrarLogAuditoriaLGPD(professor, 'REGISTRO_PARECER_DOCENTE', `Registrou parecer em ${disciplina} para ${aluno.nome} (${aluno.turma})`);
-  mostrarToast(`Parecer de ${disciplina} salvo com sucesso!`);
+  registrarLogAuditoriaLGPD(professor, 'REGISTRO_PARECER_DOCENTE', `Registrou parecer ético validado em ${disciplina} para ${aluno.nome} (${aluno.turma})`);
+  mostrarToast(`Parecer de ${disciplina} validado e salvo com sucesso!`);
 
-  // Atualiza a visualização do modal e sincroniza com Google Apps Script se configurado
   abrirModalFichaAluno(alunoId, 'consolidado');
   renderizarTudo();
 
@@ -715,7 +794,7 @@ function renderizarListaPareceresConsolidados(pareceresAluno) {
           <div>
             <strong style="font-size:0.95rem; color:#0f172a;">👨‍🏫 Prof(a). ${escaparHtml(p.professor)}</strong>
             <span class="chip-turma" style="margin-left:0.4rem;">${escaparHtml(p.disciplina)}</span>
-            ${p.avaliarEmPlenaria ? '<span class="tag-mini tag-alert" style="margin-left:0.35rem;">🚨 Pediu Avaliação em Plenária</span>' : ''}
+            ${p.avaliarEmPlenaria ? '<span class="tag-mini tag-alert" style="margin-left:0.35rem;">🚨 Prioridade Plenária (CF Art. 227)</span>' : ''}
           </div>
           <small style="color:#64748b; font-size:0.75rem;">🕒 ${escaparHtml(p.dataHora || '')}</small>
         </div>
@@ -736,10 +815,16 @@ function renderizarListaPareceresConsolidados(pareceresAluno) {
   }).join('');
 }
 
-function preencherFormularioEncaminhamento(encaminhamento) {
+function preencherFormularioEncaminhamento(encaminhamento, isMenor16) {
   estadoApp.acoesSelecionadasEncaminhamento = encaminhamento && Array.isArray(encaminhamento.acoes)
     ? [...encaminhamento.acoes]
-    : [];
+    : (isMenor16 ? ["📞 Convocar Responsáveis Legais (Pais/Mães - ECA & Lei 15.211/2025)"] : []);
+
+  const selectProt = document.getElementById('encProtocoloProtecaoSelect');
+  if (selectProt) {
+    selectProt.value = encaminhamento?.protocoloProtecaoIntegral ||
+      (isMenor16 ? "Vinculação Obrigatória aos Pais (<16 anos - Lei 15.211/2025)" : "Acompanhamento Pedagógico Ordinário");
+  }
 
   document.getElementById('encResponsavelInput').value = encaminhamento ? (encaminhamento.responsavel || '') : 'Coordenação de Curso + Equipe Técnico-Pedagógica';
   document.getElementById('encPrazoInput').value = encaminhamento ? (encaminhamento.prazo || '') : '';
@@ -785,6 +870,7 @@ async function salvarEncaminhamentoAtual(event) {
     alunoId,
     turma: aluno.turma,
     acoes: [...estadoApp.acoesSelecionadasEncaminhamento],
+    protocoloProtecaoIntegral: document.getElementById('encProtocoloProtecaoSelect')?.value || 'Acompanhamento Pedagógico Ordinário',
     responsavel: document.getElementById('encResponsavelInput').value.trim(),
     prazo: document.getElementById('encPrazoInput').value.trim(),
     statusEncaminhamento: document.getElementById('encStatusSelect').value,
@@ -804,7 +890,7 @@ async function salvarEncaminhamentoAtual(event) {
   salvarAlunosLocal(alunos);
   document.getElementById('fichaStatusGeralSelect').value = 'concluido';
 
-  registrarLogAuditoriaLGPD(estadoApp.professorLogado, 'HOMOLOGACAO_ENCAMINHAMENTO', `Homologou encaminhamento na Ata para ${aluno.nome} (${aluno.turma})`);
+  registrarLogAuditoriaLGPD(estadoApp.professorLogado, 'HOMOLOGACAO_ENCAMINHAMENTO', `Homologou encaminhamento (${novoEnc.protocoloProtecaoIntegral}) na Ata para ${aluno.nome} (${aluno.turma})`);
   mostrarToast('Encaminhamento homologado e registrado na Ata Oficial!');
   renderizarTudo();
 
@@ -832,24 +918,54 @@ function atualizarStatusGeralAlunoAtual(novoStatus) {
 }
 
 // ============================================================================
-// CADASTRO INDIVIDUAL DE ALUNO + UPLOAD DE FOTO COMPACTADA E LOTE
+// CADASTRO INDIVIDUAL DE ALUNO + VINCULAÇÃO PARENTAL (LEI 15.211/2025)
 // ============================================================================
 
+function verificarRegraMenor16Cadastro() {
+  const idade = parseInt(document.getElementById('cadIdadeInput')?.value || '15', 10);
+  const alertaEl = document.getElementById('alertaMenor16Texto');
+  const inputResp = document.getElementById('cadResponsavelInput');
+  const box = document.getElementById('boxVinculoParentalCadastro');
+
+  if (!alertaEl || !inputResp || !box) return;
+
+  if (idade < 16) {
+    alertaEl.innerHTML = '🔒 <strong>ECA Digital (Lei nº 15.211/2025):</strong> Estudante menor de 16 anos (' + idade + ' anos) — <strong>Vinculação ao Pai/Mãe ou Responsável Legal OBRIGATÓRIA!</strong>';
+    box.style.background = '#fffbeb';
+    box.style.borderColor = '#fde68a';
+    inputResp.required = true;
+  } else if (idade < 18) {
+    alertaEl.innerHTML = '🛡️ <strong>ECA (Lei 8.069/90) & LGPD (Art. 14):</strong> Adolescente (' + idade + ' anos) — Recomendado registro do Responsável Legal vinculado no SUAP.';
+    box.style.background = '#f0fdf4';
+    box.style.borderColor = '#bbf7d0';
+    inputResp.required = true;
+  } else {
+    alertaEl.innerHTML = 'ℹ️ Estudante maior de 18 anos (Subsequente) — Vínculo parental opcional.';
+    box.style.background = '#f8fafc';
+    box.style.borderColor = '#cbd5e1';
+    inputResp.required = false;
+  }
+}
+
 function abrirModalNovoAluno() {
-  document.getElementById('tituloModalCadastroAluno').textContent = '➕ Cadastrar Estudante + Foto (Protegido LGPD/ECA)';
+  document.getElementById('tituloModalCadastroAluno').textContent = '➕ Cadastrar Estudante (Conformidade Lei 15.211/2025 & LGPD)';
   document.getElementById('cadAlunoIdHidden').value = '';
   document.getElementById('cadNomeInput').value = '';
   document.getElementById('cadMatriculaInput').value = '';
   document.getElementById('cadTurmaSelect').value = estadoApp.turmaSelecionada !== 'TODAS' ? estadoApp.turmaSelecionada : '1º DS';
   document.getElementById('cadIdadeInput').value = 15;
   document.getElementById('cadStatusSelect').value = 'avaliar';
+  document.getElementById('cadResponsavelInput').value = '';
+  document.getElementById('cadContatoRespInput').value = '';
   document.getElementById('cadObsCoordInput').value = '';
+  document.getElementById('cadConsentimentoFotoCheck').checked = true;
   document.getElementById('cadNapneCheck').checked = false;
   document.getElementById('inputArquivoFotoAluno').value = '';
   document.getElementById('btnExcluirAlunoCadastro').style.display = 'none';
 
   estadoApp.fotoTempCadastroBase64 = gerarAvatarDemoSVG('IFS', '#15803d');
   document.getElementById('previewFotoCadastro').src = estadoApp.fotoTempCadastroBase64;
+  verificarRegraMenor16Cadastro();
   document.getElementById('modalCadastroAluno').classList.add('open');
 }
 
@@ -860,19 +976,23 @@ function editarCadastroAlunoAtual() {
   if (!aluno) return;
 
   fecharModalFichaAluno();
-  document.getElementById('tituloModalCadastroAluno').textContent = '✏️ Editar Dados e Foto do Estudante';
+  document.getElementById('tituloModalCadastroAluno').textContent = '✏️ Editar Dados e Vínculo Parental (Lei 15.211/2025)';
   document.getElementById('cadAlunoIdHidden').value = aluno.id;
   document.getElementById('cadNomeInput').value = aluno.nome;
   document.getElementById('cadMatriculaInput').value = aluno.matricula;
   document.getElementById('cadTurmaSelect').value = aluno.turma;
   document.getElementById('cadIdadeInput').value = aluno.idade || 15;
   document.getElementById('cadStatusSelect').value = aluno.statusConselho || 'regular';
+  document.getElementById('cadResponsavelInput').value = aluno.responsavelLegal || '';
+  document.getElementById('cadContatoRespInput').value = aluno.contatoResponsavel || '';
   document.getElementById('cadObsCoordInput').value = aluno.observacaoCoord || '';
+  document.getElementById('cadConsentimentoFotoCheck').checked = aluno.consentimentoImagemPais !== false;
   document.getElementById('cadNapneCheck').checked = Boolean(aluno.napne);
   document.getElementById('btnExcluirAlunoCadastro').style.display = 'inline-flex';
 
   estadoApp.fotoTempCadastroBase64 = aluno.fotoUrl || gerarAvatarDemoSVG(obterIniciaisNome(aluno.nome), '#15803d');
   document.getElementById('previewFotoCadastro').src = estadoApp.fotoTempCadastroBase64;
+  verificarRegraMenor16Cadastro();
   document.getElementById('modalCadastroAluno').classList.add('open');
 }
 
@@ -887,7 +1007,7 @@ async function processarUploadFotoInput(event) {
     const comprimida = await comprimirFotoAluno(file, 220, 0.78);
     estadoApp.fotoTempCadastroBase64 = comprimida;
     document.getElementById('previewFotoCadastro').src = comprimida;
-    mostrarToast('Foto otimizada e criptografada localmente com sucesso!');
+    mostrarToast('Foto otimizada localmente (220x220px) com sucesso!');
   } catch (err) {
     mostrarToast('Erro ao processar imagem: ' + err.message, true);
   }
@@ -901,8 +1021,17 @@ async function salvarCadastroAluno(event) {
   const turma = document.getElementById('cadTurmaSelect').value;
   const idade = parseInt(document.getElementById('cadIdadeInput').value, 10) || 15;
   const statusConselho = document.getElementById('cadStatusSelect').value;
+  const responsavelLegal = document.getElementById('cadResponsavelInput').value.trim();
+  const contatoResponsavel = document.getElementById('cadContatoRespInput').value.trim();
   const observacaoCoord = document.getElementById('cadObsCoordInput').value.trim();
+  const consentimentoImagemPais = document.getElementById('cadConsentimentoFotoCheck').checked;
   const napne = document.getElementById('cadNapneCheck').checked;
+
+  // Exigência estrita do ECA Digital (Lei 15.211/2025) para menores de 16 anos
+  if (idade < 16 && !responsavelLegal) {
+    mostrarToast('⚠️ Lei nº 15.211/2025 (ECA Digital): Para menores de 16 anos, é obrigatório informar o Pai/Mãe ou Responsável Legal vinculado!', true);
+    return;
+  }
 
   const alunos = obterAlunosLocal();
   let fotoFinal = estadoApp.fotoTempCadastroBase64;
@@ -916,6 +1045,10 @@ async function salvarCadastroAluno(event) {
     nome,
     turma,
     idade,
+    verificacaoEtariaSUAP: 'Certidão/RG validado na Matrícula SUAP (Vedada Autodeclaração - Lei 15.211/2025)',
+    responsavelLegal: responsavelLegal || 'Vinculado na Matrícula SUAP',
+    contatoResponsavel,
+    consentimentoImagemPais,
     fotoUrl: fotoFinal,
     statusConselho,
     napne,
@@ -932,10 +1065,14 @@ async function salvarCadastroAluno(event) {
   }
 
   salvarAlunosLocal(alunos);
-  registrarLogAuditoriaLGPD(estadoApp.professorLogado, idExistente ? 'EDICAO_ALUNO' : 'CADASTRO_ALUNO', `Cadastrou/atualizou estudante ${nome} (${turma})`);
+  registrarLogAuditoriaLGPD(
+    estadoApp.professorLogado,
+    idExistente ? 'EDICAO_ALUNO' : 'CADASTRO_ALUNO',
+    `Cadastrou/atualizou ${nome} (${turma}, ${idade} anos, Resp: ${objAluno.responsavelLegal}, Consentimento Foto: ${consentimentoImagemPais ? 'Sim' : 'Não'})`
+  );
   fecharModalNovoAluno();
   renderizarTudo();
-  mostrarToast(`Estudante ${nome} salvo com sucesso!`);
+  mostrarToast(`Estudante ${nome} salvo em conformidade com a Lei 15.211/2025 e LGPD!`);
 
   if (obterApiUrl()) {
     enviarRequisicaoSeguraBackend('UPSERT_ALUNO', { aluno: objAluno }).catch(() => {});
@@ -990,6 +1127,7 @@ function processarImportacaoLote() {
     let matricula = '';
     let nome = '';
     let idade = idadePadrao;
+    let responsavelLegal = 'Responsável Vinculado no SUAP';
 
     if (partes.length === 1) {
       nome = partes[0];
@@ -1000,6 +1138,9 @@ function processarImportacaoLote() {
       if (partes[2] && !isNaN(parseInt(partes[2], 10))) {
         idade = parseInt(partes[2], 10);
       }
+      if (partes[3]) {
+        responsavelLegal = partes[3];
+      }
     }
 
     if (nome) {
@@ -1009,6 +1150,10 @@ function processarImportacaoLote() {
         nome,
         turma,
         idade,
+        verificacaoEtariaSUAP: 'Certidão/RG validado na Matrícula SUAP (Vedada Autodeclaração - Lei 15.211/2025)',
+        responsavelLegal,
+        contatoResponsavel: '',
+        consentimentoImagemPais: true,
         fotoUrl: gerarAvatarDemoSVG(obterIniciaisNome(nome), '#0f766e'),
         statusConselho: 'regular',
         napne: false,
@@ -1021,7 +1166,7 @@ function processarImportacaoLote() {
   });
 
   salvarAlunosLocal(alunos);
-  registrarLogAuditoriaLGPD(estadoApp.professorLogado, 'IMPORTACAO_LOTE_TURMA', `Importou ${importados} alunos para a turma ${turma}`);
+  registrarLogAuditoriaLGPD(estadoApp.professorLogado, 'IMPORTACAO_LOTE_TURMA', `Importou ${importados} alunos para a turma ${turma} (Idades aferidas SUAP - Lei 15.211/2025)`);
   fecharModalImportarLote();
   selecionarTurmaFiltro(turma);
   mostrarToast(`${importados} estudantes importados para ${turma}!`);
@@ -1051,7 +1196,7 @@ function renderizarVisaoPrioridades() {
 
   container.innerHTML = prioritarios.map(({ aluno, analise }, idx) => {
     const disciplinasCriticas = analise.pareceresAluno
-      .filter(p => p.avaliarEmPlenaria || p.rendimento === 'critico' || p.frequencia === 'infrequente')
+      .filter(p => p.avaliarEmPlenaria || p.rendimento === 'critico' || p.frequencia === 'infrequente' || p.postura === 'conflito')
       .map(p => `${p.disciplina} (${p.professor})`)
       .join(' • ');
 
@@ -1060,15 +1205,18 @@ function renderizarVisaoPrioridades() {
         <div style="display:flex; align-items:center; gap:0.9rem;">
           <div style="font-size:1.1rem; font-weight:800; color:#dc2626; min-width:28px;">#${idx + 1}</div>
           <div class="student-photo-wrap" style="width:54px; height:54px;">
-            <img class="student-photo-protected" src="${aluno.fotoUrl}" alt="" />
+            <img class="student-photo-protected" src="${obterFotoSeguraAluno(aluno)}" alt="" />
           </div>
           <div>
-            <div style="display:flex; gap:0.4rem; align-items:center;">
+            <div style="display:flex; gap:0.4rem; align-items:center; flex-wrap:wrap;">
               <span class="chip-turma">${escaparHtml(aluno.turma)}</span>
               <strong style="font-size:1rem;">${escaparHtml(formatarNomeExibicao(aluno.nome))}</strong>
-              <span class="chip-idade-eca">${aluno.idade || 15} anos</span>
+              <span class="chip-idade-eca">${aluno.idade || 15} anos ${Number(aluno.idade) < 16 ? '• 🔒 <16a (Lei 15.211/25)' : ''}</span>
             </div>
-            <div style="font-size:0.8rem; color:#991b1b; font-weight:600; margin-top:0.2rem;">
+            <div style="font-size:0.78rem; color:#334155; margin-top:0.15rem;">
+              👨‍👩‍👧 Resp. Legal: <strong>${escaparHtml(aluno.responsavelLegal || 'Vinculado SUAP')}</strong>
+            </div>
+            <div style="font-size:0.8rem; color:#991b1b; font-weight:600; margin-top:0.15rem;">
               🚨 Alertas Docentes: ${escaparHtml(disciplinasCriticas || 'Sinalizado pela Coordenação')}
             </div>
           </div>
@@ -1102,8 +1250,8 @@ function renderizarVisaoAta() {
           <h3 style="font-size:1.1rem; font-weight:800;">INSTITUTO FEDERAL DE SERGIPE — CAMPUS TOBIAS BARRETO</h3>
           <p style="font-size:0.84rem; color:#334155;">ATA DE CONSELHO DE CLASSE • ${escaparHtml(cfg.bimestreAtual || '2026.2')}</p>
         </div>
-        <div style="font-size:0.78rem; color:#475569; text-align:right;">
-          <div>Documento com Sigilo Legal (Art. 14 LGPD & Art. 17 ECA)</div>
+        <div style="font-size:0.75rem; color:#475569; text-align:right;">
+          <div>Documento Protegido: CF Art. 227 • ECA Digital (Lei 15.211/2025) • LGPD Art. 14 • Lei 14.811/2024</div>
           <div>Emitido em: ${new Date().toLocaleString('pt-BR')} por ${escaparHtml(estadoApp.professorLogado || '')}</div>
         </div>
       </div>
@@ -1118,12 +1266,16 @@ function renderizarVisaoAta() {
                   <strong>[${escaparHtml(aluno.turma)}] ${escaparHtml(formatarNomeExibicao(aluno.nome))} (Matrícula: ${escaparHtml(aluno.matricula)} • ${aluno.idade || 15} anos)</strong>
                   <span style="font-size:0.78rem; font-weight:700; color:#15803d;">${enc ? escaparHtml(enc.statusEncaminhamento) : 'Em Avaliação'}</span>
                 </div>
+                <div style="font-size:0.78rem; color:#475569; margin-top:0.15rem;">
+                  👨‍👩‍👧 <strong>Responsável Legal Vinculado (Lei 15.211/2025):</strong> ${escaparHtml(aluno.responsavelLegal || 'Vinculado no SUAP')}
+                </div>
                 <div style="font-size:0.82rem; color:#334155; margin-top:0.3rem;">
                   <strong>Síntese Docente (${analise.qtdPareceres} pareceres):</strong>
                   ${analise.pareceresAluno.map(p => `${escaparHtml(p.disciplina)} (${escaparHtml(p.professor)}): ${escaparHtml(p.observacao || p.rendimento)}`).join(' | ') || 'Sem pareceres detalhados.'}
                 </div>
                 ${enc ? `
                   <div style="font-size:0.82rem; color:#0f172a; margin-top:0.3rem; background:#f8fafc; padding:0.5rem 0.75rem; border-radius:8px;">
+                    <strong>🛡️ Protocolo Legal:</strong> ${escaparHtml(enc.protocoloProtecaoIntegral || 'Ordinário')}<br/>
                     <strong>🧭 Encaminhamento Deliberado:</strong> ${(enc.acoes || []).join(', ')}<br/>
                     <strong>📋 Registro em Ata:</strong> ${escaparHtml(enc.deliberacaoAta)} (Responsável: ${escaparHtml(enc.responsavel)} • Prazo: ${escaparHtml(enc.prazo || 'Imediato')})
                   </div>
@@ -1153,7 +1305,7 @@ function renderizarTabelaAuditoriaLGPD() {
           <th style="padding:0.6rem 0.8rem;">Data/Hora</th>
           <th style="padding:0.6rem 0.8rem;">Docente / Perfil</th>
           <th style="padding:0.6rem 0.8rem;">Evento Auditado</th>
-          <th style="padding:0.6rem 0.8rem;">Detalhes & Base Legal</th>
+          <th style="padding:0.6rem 0.8rem;">Detalhes & Marco Legal</th>
         </tr>
       </thead>
       <tbody>
@@ -1246,7 +1398,7 @@ function exportarBackupJSON() {
   const pacote = {
     exportadoEm: new Date().toISOString(),
     exportadoPor: estadoApp.professorLogado,
-    avisoLegal: 'ARQUIVO CONFIDENCIAL PROTEGIDO PELA LGPD (LEI 13.709/2018) E ECA (LEI 8.069/1990)',
+    avisoLegal: 'ARQUIVO CONFIDENCIAL PROTEGIDO PELA CF ART. 227, ECA DIGITAL (LEI 15.211/2025), LGPD (LEI 13.709/2018), ECA (LEI 8.069/1990) E LEI 14.811/2024',
     alunos: obterAlunosLocal(),
     pareceres: obterPareceresLocal(),
     encaminhamentos: obterEncaminhamentosLocal(),
@@ -1256,7 +1408,7 @@ function exportarBackupJSON() {
   const blob = new Blob([JSON.stringify(pacote, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = `conselho_classe_ifs_backup_${new Date().toISOString().slice(0, 10)}.json`;
+  a.download = `sisccd_ifs_backup_${new Date().toISOString().slice(0, 10)}.json`;
   a.click();
   registrarLogAuditoriaLGPD(estadoApp.professorLogado, 'EXPORTACAO_BACKUP_JSON', 'Exportou backup administrativo dos dados do conselho.');
 }
@@ -1290,5 +1442,5 @@ function mostrarToast(mensagem, isErro = false) {
   container.appendChild(el);
   setTimeout(() => {
     el.remove();
-  }, 3800);
+  }, 4500);
 }

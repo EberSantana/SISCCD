@@ -1,16 +1,23 @@
 /**
  * ============================================================================
- * API.JS - Sistema de Conselho de Classe Seguro (Conformidade LGPD & ECA Digital)
+ * API.JS - Sistema de Conselho de Classe Seguro (SISCCD)
  * IFS Campus Tobias Barreto
  * ============================================================================
- * ARQUITETURA DE PRIVACIDADE (ZERO-PII NO GITHUB PAGES):
- * 1. Nenhum dado real ou foto de estudante menor de idade (14 a 17 anos) fica
- *    armazenado no código-fonte público do GitHub Pages.
- * 2. Os dados reais trafegam exclusivamente via HTTPS entre o navegador do
- *    docente autenticado (PIN + Aceite do Termo de Sigilo LGPD/ECA) e o
- *    Google Apps Script conectado à Planilha/Drive Privado Institucional.
- * 3. Enquanto a URL do Google Apps Script não é conectada (ou em modo de teste),
- *    o sistema utiliza apenas perfis fictícios demonstrativos ("Aluno Demonstração").
+ * CONFORMIDADE JURÍDICA INTEGRADA (6 PILARES LEGAIS):
+ * 1. ECA Digital (Lei nº 15.211/2025): Proibição de autodeclaração de idade
+ *    (idade aferida via registro documental SUAP), vinculação obrigatória de
+ *    menores de 16 anos (14-15 anos) aos pais/responsáveis legais, vedação de
+ *    perfilamento comercial e protocolo de proteção contra violência/automutilação.
+ * 2. LGPD (Lei nº 13.709/2018 - Art. 14): Tratamento no melhor interesse do
+ *    adolescente com controle de Consentimento Específico do Responsável Legal
+ *    para exibição de foto (bloqueio automático de foto caso não haja consentimento).
+ * 3. ECA (Lei nº 8.069/1990 - Arts. 17, 18 e 53) & CF/88 (Art. 227): Proteção
+ *    integral, prioridade absoluta e inviolabilidade da imagem e dignidade.
+ * 4. Marco Civil da Internet (Lei nº 12.965/2014): Guarda segura de registros
+ *    de acesso, privacidade e não fornecimento de dados a terceiros.
+ * 5. Lei do Bullying e Cyberbullying (Lei nº 13.185/2015 e Lei nº 14.811/2024):
+ *    Validador ético anti-estigmatização nos pareceres e protocolo de acolhimento
+ *    contra intimidação sistemática e cyberbullying.
  */
 
 const STORAGE_KEYS = {
@@ -26,7 +33,7 @@ const STORAGE_KEYS = {
   DB_VERSION: 'IFS_CONSELHO_DB_VER'
 };
 
-const CURRENT_CONSELHO_VERSION = 'v1_lgpd_eca_2026';
+const CURRENT_CONSELHO_VERSION = 'v2_lei15211_eca_digital_2026';
 const DEFAULT_PIN = '1234';
 
 // Turmas do Ensino Médio Integrado (14 a 17 anos - Proteção prioritária ECA/LGPD) e Subsequente
@@ -41,7 +48,7 @@ const TURMAS_IFS = [
   { id: '3º Info (Subsequente)', nome: '3º Semestre - Informática (Subsequente)', curso: 'INFO', modalidade: 'Subsequente', ecaProtegido: false }
 ];
 
-// Docentes e Equipe Pedagógica do IFS Campus Tobias Barreto com suas respectivas disciplinas por turma
+// Docentes e Equipe Pedagógica do IFS Campus Tobias Barreto
 const DOCENTES_IFS = {
   "Coordenação Pedagógica / ETP": {
     email: "coordenacao.tobiasbarreto@ifs.edu.br",
@@ -257,8 +264,8 @@ const DOCENTES_IFS = {
   }
 };
 
-// Gera avatar SVG ilustrativo para dados de demonstração (Zero fotos reais no GitHub!)
-function gerarAvatarDemoSVG(iniciais, corFundo) {
+// Gera avatar SVG ilustrativo para dados de demonstração ou quando o consentimento de imagem não está ativo
+function gerarAvatarDemoSVG(iniciais, corFundo, legenda = "AVATAR PROTEGIDO (ECA/LGPD)") {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
     <defs>
       <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -270,24 +277,60 @@ function gerarAvatarDemoSVG(iniciais, corFundo) {
     <circle cx="100" cy="78" r="34" fill="rgba(255,255,255,0.22)"/>
     <path d="M42 178 C42 132 158 132 158 178" fill="rgba(255,255,255,0.22)"/>
     <text x="100" y="90" text-anchor="middle" fill="#ffffff" font-family="Inter, sans-serif" font-weight="800" font-size="26">${iniciais}</text>
-    <rect x="20" y="156" width="160" height="24" rx="12" fill="rgba(0,0,0,0.45)"/>
-    <text x="100" y="172" text-anchor="middle" fill="#e2e8f0" font-family="Inter, sans-serif" font-weight="600" font-size="10">PERFIL DEMO (SEM FOTO REAL)</text>
+    <rect x="14" y="156" width="172" height="24" rx="12" fill="rgba(0,0,0,0.52)"/>
+    <text x="100" y="172" text-anchor="middle" fill="#e2e8f0" font-family="Inter, sans-serif" font-weight="600" font-size="9">${legenda}</text>
   </svg>`;
   return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
 }
 
-// Dados Fictícios Demonstração (Apenas para avaliação do sistema sem expor alunos reais no GitHub)
+// Validador Ético de Linguagem Pedagógica (Lei 13.185/2015, Lei 14.811/2024 e ECA Art. 17/18)
+// Impede o registro acidental de termos pejorativos, humilhantes ou estigmatizantes sobre adolescentes.
+const TERMOS_ESTIGMATIZANTES_VEDADOS = [
+  { termo: "burro", sugestao: "apresenta defasagem de aprendizagem que requer mediação pedagógica" },
+  { termo: "preguiçoso", sugestao: "baixa adesão à realização das atividades propostas" },
+  { termo: "preguicoso", sugestao: "baixa adesão à realização das atividades propostas" },
+  { termo: "inútil", sugestao: "necessita de reorientação metodológica" },
+  { termo: "incapaz", sugestao: "demanda adaptação curricular / apoio individualizado" },
+  { termo: "sem futuro", sugestao: "necessita de plano de acompanhamento vocacional e pedagógico" },
+  { termo: "caso perdido", sugestao: "demanda intervenção conjunta da equipe multiprofissional e família" },
+  { termo: "retardado", sugestao: "linguagem inadequada (utilize descrição técnica e respeitosa conforme Art. 17 do ECA)" },
+  { termo: "marginal", sugestao: "linguagem inadequada (descreva objetivamente o fato escolar observado)" }
+];
+
+function validarLinguagemEticaParecer(texto) {
+  if (!texto) return { valido: true };
+  const textoLower = texto.toLowerCase();
+  for (const item of TERMOS_ESTIGMATIZANTES_VEDADOS) {
+    const regex = new RegExp(`\\b${item.termo}\\b`, 'i');
+    if (regex.test(textoLower)) {
+      return {
+        valido: false,
+        termoEncontrado: item.termo,
+        sugestao: item.sugestao,
+        mensagem: `⚠️ Proteção ECA (Art. 17 e 18) & Lei 14.811/2024: O termo "${item.termo}" pode caracterizar rotulagem estigmatizante. Sugestão técnica: "${item.sugestao}".`
+      };
+    }
+  }
+  return { valido: true };
+}
+
+// Dados Fictícios Demonstração com todos os metadados da Lei 15.211/2025 (ECA Digital) e Art. 14 LGPD
 const ALUNOS_DEMO_INICIAIS = [
   {
     id: "ALU-DEMO-01",
     matricula: "20261DS001",
     nome: "Lucas Gabriel M. [DEMO]",
     turma: "1º DS",
-    idade: 15,
+    idade: 15, // < 16 anos: Exige vinculação obrigatória ao responsável (Lei 15.211/2025)
+    verificacaoEtariaSUAP: "Certidão/RG validado na Matrícula SUAP (Vedada Autodeclaração - Lei 15.211/2025)",
+    responsavelLegal: "Maria Helena M. (Mãe - Vínculo SUAP Confirmado)",
+    contatoResponsavel: "(79) 99900-0001",
+    consentimentoImagemPais: true,
+    alertaProtecaoEcaDigital: "nenhum", // 'nenhum' | 'bullying_cyberbullying' | 'vulnerabilidade_emocional'
     fotoUrl: gerarAvatarDemoSVG("LG", "#15803d"),
-    statusConselho: "avaliar", // 'avaliar' | 'atencao' | 'regular' | 'destaque' | 'concluido'
+    statusConselho: "avaliar",
     napne: false,
-    observacaoCoord: "Estudante demonstrativo para simulação de Conselho de Classe.",
+    observacaoCoord: "Estudante demonstrativo (15 anos - menor de 16 anos com responsável legal vinculado conforme Lei 15.211/2025).",
     isDemo: true,
     criadoEm: "27-10-2026"
   },
@@ -297,6 +340,11 @@ const ALUNOS_DEMO_INICIAIS = [
     nome: "Mariana Costa S. [DEMO]",
     turma: "1º DS",
     idade: 14,
+    verificacaoEtariaSUAP: "Certidão/RG validado na Matrícula SUAP (Vedada Autodeclaração - Lei 15.211/2025)",
+    responsavelLegal: "Carlos Eduardo S. (Pai - Vínculo SUAP Confirmado)",
+    contatoResponsavel: "(79) 99900-0002",
+    consentimentoImagemPais: true,
+    alertaProtecaoEcaDigital: "nenhum",
     fotoUrl: gerarAvatarDemoSVG("MC", "#0369a1"),
     statusConselho: "destaque",
     napne: false,
@@ -310,6 +358,11 @@ const ALUNOS_DEMO_INICIAIS = [
     nome: "Pedro Henrique A. [DEMO]",
     turma: "2º DS",
     idade: 16,
+    verificacaoEtariaSUAP: "Certidão/RG validado na Matrícula SUAP (Vedada Autodeclaração - Lei 15.211/2025)",
+    responsavelLegal: "Fernanda A. (Mãe - Vínculo SUAP Confirmado)",
+    contatoResponsavel: "(79) 99900-0003",
+    consentimentoImagemPais: true,
+    alertaProtecaoEcaDigital: "nenhum",
     fotoUrl: gerarAvatarDemoSVG("PH", "#b45309"),
     statusConselho: "avaliar",
     napne: true,
@@ -323,10 +376,15 @@ const ALUNOS_DEMO_INICIAIS = [
     nome: "Ana Beatriz R. [DEMO]",
     turma: "1º ADM",
     idade: 15,
-    fotoUrl: gerarAvatarDemoSVG("AB", "#7e22ce"),
+    verificacaoEtariaSUAP: "Certidão/RG validado na Matrícula SUAP (Vedada Autodeclaração - Lei 15.211/2025)",
+    responsavelLegal: "Roberto R. (Pai - Vínculo SUAP Confirmado)",
+    contatoResponsavel: "(79) 99900-0004",
+    consentimentoImagemPais: false, // Exemplo prático: sem consentimento de imagem, o sistema bloqueia foto real!
+    alertaProtecaoEcaDigital: "bullying_cyberbullying",
+    fotoUrl: gerarAvatarDemoSVG("AB", "#7e22ce", "SEM CONSENTIMENTO FOTO (ART. 14)"),
     statusConselho: "atencao",
     napne: false,
-    observacaoCoord: "Oscilação de frequência nas primeiras aulas da manhã.",
+    observacaoCoord: "Oscilação de frequência nas primeiras aulas da manhã. Protocolo preventivo de convivência escolar ativo.",
     isDemo: true,
     criadoEm: "27-10-2026"
   },
@@ -336,6 +394,11 @@ const ALUNOS_DEMO_INICIAIS = [
     nome: "Rafael Oliveira T. [DEMO]",
     turma: "3º DS",
     idade: 17,
+    verificacaoEtariaSUAP: "Certidão/RG validado na Matrícula SUAP (Vedada Autodeclaração - Lei 15.211/2025)",
+    responsavelLegal: "Luciana T. (Mãe - Vínculo SUAP Confirmado)",
+    contatoResponsavel: "(79) 99900-0005",
+    consentimentoImagemPais: true,
+    alertaProtecaoEcaDigital: "nenhum",
     fotoUrl: gerarAvatarDemoSVG("RO", "#be123c"),
     statusConselho: "avaliar",
     napne: false,
@@ -349,6 +412,11 @@ const ALUNOS_DEMO_INICIAIS = [
     nome: "Camila Vitória F. [DEMO]",
     turma: "2º ADM",
     idade: 16,
+    verificacaoEtariaSUAP: "Certidão/RG validado na Matrícula SUAP (Vedada Autodeclaração - Lei 15.211/2025)",
+    responsavelLegal: "Patrícia F. (Mãe - Vínculo SUAP Confirmado)",
+    contatoResponsavel: "(79) 99900-0006",
+    consentimentoImagemPais: true,
+    alertaProtecaoEcaDigital: "nenhum",
     fotoUrl: gerarAvatarDemoSVG("CV", "#0f766e"),
     statusConselho: "regular",
     napne: false,
@@ -365,9 +433,9 @@ const PARECERES_DEMO_INICIAIS = [
     turma: "1º DS",
     professor: "Eber",
     disciplina: "CS1",
-    rendimento: "atencao", // 'adequado' | 'atencao' | 'critico'
-    frequencia: "regular", // 'regular' | 'pontual' | 'infrequente'
-    postura: "disperso",   // 'participativo' | 'disperso' | 'conflito' | 'celular'
+    rendimento: "atencao",
+    frequencia: "regular",
+    postura: "disperso",
     notaAtual: "5,5",
     faltas: "4",
     tags: ["Dificuldade de Base", "Não Entrega Atividades"],
@@ -386,7 +454,7 @@ const PARECERES_DEMO_INICIAIS = [
     postura: "celular",
     notaAtual: "4,2",
     faltas: "8",
-    tags: ["Dificuldade de Base", "Recuperação Paralela"],
+    tags: ["Dificuldade de Base", "Recuperação Paralela Recomendada"],
     avaliarEmPlenaria: true,
     observacao: "Apresenta dificuldade em lógica de repetição. Recomendado encaminhamento para monitoria no contraturno.",
     dataHora: "27-10-2026 10:05"
@@ -431,13 +499,14 @@ const ENCAMINHAMENTOS_DEMO_INICIAIS = [
     alunoId: "ALU-DEMO-01",
     turma: "1º DS",
     acoes: [
-      "Convocar Responsáveis Legais (Pais/Mães)",
-      "Plano de Estudos / Monitoria no Contraturno",
-      "Orientação da Coordenação de Curso"
+      "📞 Convocar Responsáveis Legais (Pais/Mães - ECA & Lei 15.211/2025)",
+      "📚 Plano de Estudos / Monitoria no Contraturno",
+      "🧭 Atendimento pela Coordenação de Curso (DS/ADM)"
     ],
+    protocoloProtecaoIntegral: "Acompanhamento Pedagógico Ordinário (Com Ciência Familiar - Menor de 16 anos)",
     responsavel: "Coordenação DS / ETP",
     prazo: "10-11-2026",
-    deliberacaoAta: "Deliberado pelo Conselho a convocação dos responsáveis legais para ciência do plano de recuperação paralela em CS1 e Programação 1.",
+    deliberacaoAta: "Deliberado pelo Conselho a convocação da responsável legal (Maria Helena M.) para ciência do plano de recuperação paralela em CS1 e Programação 1, nos termos do Art. 14 da LGPD e Lei nº 15.211/2025.",
     statusEncaminhamento: "Em Andamento",
     registradoPor: "Eber",
     dataHora: "27-10-2026 11:30"
@@ -451,9 +520,7 @@ const ENCAMINHAMENTOS_DEMO_INICIAIS = [
 function inicializarBancoConselho() {
   const ver = localStorage.getItem(STORAGE_KEYS.DB_VERSION);
   if (ver !== CURRENT_CONSELHO_VERSION) {
-    if (!localStorage.getItem(STORAGE_KEYS.STUDENTS)) {
-      localStorage.setItem(STORAGE_KEYS.STUDENTS, JSON.stringify(ALUNOS_DEMO_INICIAIS));
-    }
+    localStorage.setItem(STORAGE_KEYS.STUDENTS, JSON.stringify(ALUNOS_DEMO_INICIAIS));
     if (!localStorage.getItem(STORAGE_KEYS.EVALUATIONS)) {
       localStorage.setItem(STORAGE_KEYS.EVALUATIONS, JSON.stringify(PARECERES_DEMO_INICIAIS));
     }
@@ -539,7 +606,7 @@ function salvarEncaminhamentosLocal(lista) {
 }
 
 // ============================================================================
-// AUDITORIA LGPD & ECA DIGITAL (REGISTRO DE ACESSOS E OPERAÇÕES)
+// AUDITORIA LGPD, MARCO CIVIL (ART. 7º), ECA DIGITAL (LEI 15.211/2025)
 // ============================================================================
 
 function registrarLogAuditoriaLGPD(usuario, acao, detalhes) {
@@ -551,12 +618,11 @@ function registrarLogAuditoriaLGPD(usuario, acao, detalhes) {
       usuario: usuario || 'Não autenticado',
       acao: acao,
       detalhes: detalhes,
-      baseLegal: 'Art. 14 e Art. 23 LGPD / Art. 17 ECA'
+      baseLegal: 'CF Art. 227 • ECA Digital (Lei 15.211/2025) • LGPD Art. 14 • Lei 14.811/2024'
     };
     logs.unshift(novoLog);
     localStorage.setItem(STORAGE_KEYS.AUDIT_LOGS, JSON.stringify(logs.slice(0, 300)));
 
-    // Se houver backend configurado, envia o log de auditoria de forma assíncrona
     const apiUrl = obterApiUrl();
     if (apiUrl) {
       enviarRequisicaoSeguraBackend('LOG_AUDITORIA_LGPD', { log: novoLog }).catch(() => {});
@@ -579,19 +645,17 @@ function registrarAceiteTermoLGPD(professor, versaoTermo) {
   const aceites = JSON.parse(localStorage.getItem(STORAGE_KEYS.LGPD_CONSENTS) || '{}');
   aceites[professor] = {
     professor,
-    versaoTermo: versaoTermo || 'v1.0-2026-ECA-LGPD',
+    versaoTermo: versaoTermo || 'v2.0-2026-LEI15211-LGPD-ECA',
     dataHora: new Date().toLocaleString('pt-BR'),
     userAgent: navigator.userAgent.slice(0, 120)
   };
   localStorage.setItem(STORAGE_KEYS.LGPD_CONSENTS, JSON.stringify(aceites));
-  registrarLogAuditoriaLGPD(professor, 'ACEITE_TERMO_SIGILO', `Assinou digitalmente o Termo de Sigilo Funcional LGPD & ECA Digital (${versaoTermo})`);
+  registrarLogAuditoriaLGPD(professor, 'ACEITE_TERMO_SIGILO', `Assinou digitalmente o Termo de Sigilo Funcional (CF Art. 227, Lei 15.211/2025, LGPD Art. 14, Marco Civil e Lei 14.811/2024)`);
 }
 
 // ============================================================================
 // COMPRESSÃO INTELIGENTE DE FOTO DO ALUNO (CLIENT-SIDE CANVAS WEBP/JPEG)
 // ============================================================================
-// Reduz qualquer foto de câmera/celular de 5MB para ~18KB (220x220px),
-// permitindo armazenamento instantâneo e privado via Google Apps Script!
 function comprimirFotoAluno(file, tamanhoMax = 220, qualidade = 0.78) {
   return new Promise((resolve, reject) => {
     if (!file) return reject(new Error('Nenhum arquivo selecionado.'));
@@ -604,7 +668,6 @@ function comprimirFotoAluno(file, tamanhoMax = 220, qualidade = 0.78) {
         canvas.height = tamanhoMax;
         const ctx = canvas.getContext('2d');
 
-        // Crop central quadrado (aspect-ratio 1:1 estilo foto 3x4/perfil)
         const menorLado = Math.min(img.width, img.height);
         const sx = (img.width - menorLado) / 2;
         const sy = (img.height - menorLado) / 2;
@@ -613,7 +676,6 @@ function comprimirFotoAluno(file, tamanhoMax = 220, qualidade = 0.78) {
         ctx.fillRect(0, 0, tamanhoMax, tamanhoMax);
         ctx.drawImage(img, sx, sy, menorLado, menorLado, 0, 0, tamanhoMax, tamanhoMax);
 
-        // Tenta WebP primeiro (menor tamanho), fallback para JPEG
         let dataUrl = canvas.toDataURL('image/webp', qualidade);
         if (!dataUrl || dataUrl.length > 45000) {
           dataUrl = canvas.toDataURL('image/jpeg', 0.72);
