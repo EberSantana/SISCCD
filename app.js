@@ -47,11 +47,14 @@ const ACOES_ENCAMINHAMENTO_PADRAO = [
 // INICIALIZAÇÃO DO SISTEMA
 // ============================================================================
 
+let deferredPwaPrompt = null;
+
 document.addEventListener('DOMContentLoaded', () => {
   inicializarBancoConselho();
   popularSelectDocentesLogin();
   popularSelectsTurmas();
   configurarMonitorInatividade();
+  inicializarSuportePWA();
 
   try {
     const sessaoSalva = JSON.parse(sessionStorage.getItem(STORAGE_KEYS.SESSION) || 'null');
@@ -60,6 +63,54 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   } catch (e) {}
 });
+
+function inicializarSuportePWA() {
+  // Registra Service Worker para funcionamento como App Instalável (Android/iOS)
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  }
+
+  // Oculta botão de instalar se já estiver rodando instalado em tela cheia (Standalone)
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  const btnPwa = document.getElementById('btnInstalarPWA');
+  if (isStandalone && btnPwa) {
+    btnPwa.style.display = 'none';
+  }
+
+  // Captura evento nativo de instalação no Android (Chrome/Edge/Samsung)
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPwaPrompt = e;
+    if (btnPwa) {
+      btnPwa.style.display = 'inline-flex';
+    }
+  });
+
+  window.addEventListener('appinstalled', () => {
+    deferredPwaPrompt = null;
+    if (btnPwa) btnPwa.style.display = 'none';
+    mostrarToast('🎉 Aplicativo SISCCD instalado com sucesso no seu dispositivo!');
+  });
+}
+
+async function instalarPwaNoCelular() {
+  if (deferredPwaPrompt) {
+    deferredPwaPrompt.prompt();
+    const { outcome } = await deferredPwaPrompt.userChoice;
+    if (outcome === 'accepted') {
+      deferredPwaPrompt = null;
+    }
+    return;
+  }
+  // No iPhone (iOS Safari) ou navegadores que exigem menu manual, abre o guia visual passo a passo
+  const modal = document.getElementById('modalInstalarPWA');
+  if (modal) modal.classList.add('open');
+}
+
+function fecharModalInstalarPWA() {
+  const modal = document.getElementById('modalInstalarPWA');
+  if (modal) modal.classList.remove('open');
+}
 
 function popularSelectDocentesLogin() {
   const select = document.getElementById('loginDocenteSelect');
@@ -347,7 +398,7 @@ function aplicarFiltroSituacao(situacao) {
 
 function mudarAbaPrincipal(aba) {
   estadoApp.abaAtiva = aba;
-  document.querySelectorAll('.nav-tab').forEach(btn => {
+  document.querySelectorAll('.nav-tab, .mobile-nav-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.tab === aba);
   });
 

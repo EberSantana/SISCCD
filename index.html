@@ -2,15 +2,21 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
+  <meta name="theme-color" content="#14532d" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="SISCCD IFS" />
   <title>SISCCD • Conselho de Classe Seguro (ECA Digital Lei 15.211/2025 & LGPD) • IFS</title>
   <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#14532d" />
+  <link rel="icon" type="image/png" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=2026.4" />
+  <link rel="stylesheet" href="styles.css?v=2026.5" />
 </head>
 <body oncontextmenu="if(event.target.tagName==='IMG') return false;">
 
@@ -71,6 +77,9 @@
       <span id="loggedTeacherBanner">👤 Docente: --</span>
     </div>
     <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+      <button type="button" class="btn btn-amber" style="padding:0.25rem 0.65rem; font-size:0.74rem;" onclick="instalarPwaNoCelular()" id="btnInstalarPWA">
+        📲 Instalar App no Celular
+      </button>
       <button type="button" class="btn btn-glass" style="padding:0.25rem 0.65rem; font-size:0.74rem;" onclick="alternarModoPrivacidade()" id="btnPrivacyBlur">
         👁️ Modo Projetor (Desfocar Fotos): OFF
       </button>
@@ -340,7 +349,7 @@
           <span style="font-size:0.78rem; color:#475569;">Registra todos os acessos, assinaturas de sigilo, revogações de imagem e avaliações realizadas.</span>
         </div>
 
-        <div id="auditLogsTableContainer" style="max-height:340px; overflow-y:auto; border:1px solid var(--border-color); border-radius:10px;"></div>
+        <div id="auditLogsTableContainer" style="max-height:340px; overflow-y:auto; overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid var(--border-color); border-radius:10px;"></div>
       </div>
     </section>
 
@@ -752,10 +761,67 @@
     </div>
   </div>
 
+  <!-- ========================================================================
+       MODAL 5: GUIA DE INSTALAÇÃO DO APP PWA (IPHONE SAFARI / ANDROID CHROME)
+       ======================================================================== -->
+  <div id="modalInstalarPWA" class="modal-backdrop">
+    <div class="modal-window" style="max-width: 520px;">
+      <div class="modal-header">
+        <h3>📲 Instalar Aplicativo SISCCD no Celular</h3>
+        <button type="button" class="btn btn-danger" style="padding:0.35rem 0.65rem;" onclick="fecharModalInstalarPWA()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="display:flex; flex-direction:column; gap:0.85rem;">
+          <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-left:4px solid #15803d; padding:0.9rem; border-radius:10px;">
+            <h4 style="font-size:0.92rem; font-weight:800; color:#14532d; margin-bottom:0.35rem;">🍎 No iPhone / iPad (Safari):</h4>
+            <ol style="font-size:0.82rem; color:#1e293b; padding-left:1.2rem; display:flex; flex-direction:column; gap:0.25rem;">
+              <li>Abra este link no navegador <strong>Safari</strong> do iPhone.</li>
+              <li>Toque no ícone <strong>Compartilhar</strong> <span style="background:#e2e8f0; padding:0.1rem 0.35rem; border-radius:4px; font-weight:700;">⬆️</span> na barra inferior do Safari.</li>
+              <li>Role para baixo e toque em <strong>"Adicionar à Tela de Início"</strong> (<em>Add to Home Screen</em>).</li>
+              <li>Toque em <strong>Adicionar</strong> no canto superior direito.</li>
+            </ol>
+          </div>
+
+          <div style="background:#eff6ff; border:1px solid #bfdbfe; border-left:4px solid #0284c7; padding:0.9rem; border-radius:10px;">
+            <h4 style="font-size:0.92rem; font-weight:800; color:#0c4a6e; margin-bottom:0.35rem;">🤖 No Android (Chrome / Edge / Samsung):</h4>
+            <ol style="font-size:0.82rem; color:#1e293b; padding-left:1.2rem; display:flex; flex-direction:column; gap:0.25rem;">
+              <li>Toque no menu de <strong>3 pontinhos (⋮)</strong> no canto superior direito do Chrome.</li>
+              <li>Selecione <strong>"Instalar aplicativo"</strong> ou <strong>"Adicionar à tela inicial"</strong>.</li>
+              <li>Confirme em <strong>Instalar</strong> para abrir em tela cheia sem barra de endereço.</li>
+            </ol>
+          </div>
+        </div>
+        <div style="display:flex; justify-content:flex-end; margin-top:1rem;">
+          <button type="button" class="btn btn-primary" style="width:100%;" onclick="fecharModalInstalarPWA()">Entendi</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BARRA DE NAVEGAÇÃO INFERIOR NATIVA PARA CELULAR (IPHONE & ANDROID) -->
+  <nav class="mobile-bottom-nav no-print" aria-label="Navegação Mobile">
+    <button type="button" class="mobile-nav-btn active" data-tab="turmas" onclick="mudarAbaPrincipal('turmas')">
+      <span class="nav-icon">📸</span>
+      <span>Turmas</span>
+    </button>
+    <button type="button" class="mobile-nav-btn" data-tab="prioridades" onclick="mudarAbaPrincipal('prioridades')">
+      <span class="nav-icon">🚨</span>
+      <span>Prioridades</span>
+    </button>
+    <button type="button" class="mobile-nav-btn" data-tab="ata" onclick="mudarAbaPrincipal('ata')">
+      <span class="nav-icon">📋</span>
+      <span>Ata / PDF</span>
+    </button>
+    <button type="button" class="mobile-nav-btn" data-tab="respaldo" onclick="mudarAbaPrincipal('respaldo')">
+      <span class="nav-icon">⚖️</span>
+      <span>6 Leis</span>
+    </button>
+  </nav>
+
   <!-- Toast Container -->
   <div id="toastContainer" class="toast-container"></div>
 
-  <script src="api.js?v=2026.4"></script>
-  <script src="app.js?v=2026.4"></script>
+  <script src="api.js?v=2026.5"></script>
+  <script src="app.js?v=2026.5"></script>
 </body>
 </html>
