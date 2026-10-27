@@ -106,6 +106,12 @@
         <button type="button" class="btn btn-glass" onclick="iniciarModoReuniaoPlenaria()">
           🖥️ Modo Plenária (Avaliar Prioridades)
         </button>
+        <button type="button" id="btnHeaderLimparDemos" class="btn btn-danger" onclick="removerAlunosDemo()" title="Remove todos os alunos fictícios [DEMO] com 1 clique">
+          🗑️ Deletar Alunos Demo
+        </button>
+        <button type="button" id="btnHeaderRestaurarDemos" class="btn btn-amber" style="display:none;" onclick="restaurarAlunosDemoApresentacao()" title="Recarrega os 15 alunos [DEMO] para apresentação">
+          🎭 Recarregar 15 Demos (Apresentação)
+        </button>
       </div>
     </div>
   </header>
@@ -391,9 +397,14 @@
             <button type="button" id="btnToggleConsentimentoFoto" class="btn btn-white" style="font-size:0.74rem; padding:0.35rem 0.6rem;" onclick="alternarConsentimentoFotoAlunoAtual()">
               🖼️ Consentimento Foto (Art. 14 LGPD): Ativo
             </button>
-            <button type="button" class="btn btn-white" style="font-size:0.74rem; padding:0.35rem 0.6rem;" onclick="editarCadastroAlunoAtual()">
-              ✏️ Editar Dados / Vínculo Parental
-            </button>
+            <div style="display:flex; gap:0.35rem;">
+              <button type="button" class="btn btn-white" style="flex:1; font-size:0.73rem; padding:0.35rem 0.5rem;" onclick="editarCadastroAlunoAtual()">
+                ✏️ Editar
+              </button>
+              <button type="button" class="btn btn-danger" style="font-size:0.73rem; padding:0.35rem 0.6rem;" onclick="excluirAlunoDiretoDaFicha()" title="Deletar este aluno">
+                🗑️ Deletar
+              </button>
+            </div>
           </div>
         </div>
 

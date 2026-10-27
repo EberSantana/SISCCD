@@ -403,6 +403,18 @@ function renderizarTudo() {
   document.getElementById('kpiPrioridadeAvaliar').textContent = countPrioridade;
   document.getElementById('kpiPendentesMeu').textContent = countPendentesMeu;
 
+  // Atualiza botões de Deletar / Recarregar Demos no cabeçalho principal
+  const qtdDemos = obterAlunosLocal().filter(a => a.isDemo).length;
+  const btnLimpar = document.getElementById('btnHeaderLimparDemos');
+  const btnRestaurar = document.getElementById('btnHeaderRestaurarDemos');
+  if (btnLimpar) {
+    btnLimpar.style.display = qtdDemos > 0 ? 'inline-flex' : 'none';
+    btnLimpar.textContent = `🗑️ Deletar Alunos Demo (${qtdDemos})`;
+  }
+  if (btnRestaurar) {
+    btnRestaurar.style.display = qtdDemos === 0 ? 'inline-flex' : 'none';
+  }
+
   renderizarGridAlunos(listaFiltrada);
   renderizarVisaoPrioridades();
   renderizarVisaoAta();
@@ -1381,17 +1393,59 @@ async function forcarSincronizacaoManual() {
 }
 
 function removerAlunosDemo() {
-  const alunos = obterAlunosLocal().filter(a => !a.isDemo);
-  const idsRestantes = new Set(alunos.map(a => a.id));
+  const todos = obterAlunosLocal();
+  const qtdDemos = todos.filter(a => a.isDemo).length;
+  if (qtdDemos === 0) {
+    mostrarToast('Não há alunos de demonstração para remover.');
+    return;
+  }
+
+  const alunosReais = todos.filter(a => !a.isDemo);
+  const idsRestantes = new Set(alunosReais.map(a => a.id));
   const pareceres = obterPareceresLocal().filter(p => idsRestantes.has(p.alunoId));
   const enc = obterEncaminhamentosLocal().filter(e => idsRestantes.has(e.alunoId));
 
-  salvarAlunosLocal(alunos);
+  salvarAlunosLocal(alunosReais);
   salvarPareceresLocal(pareceres);
   salvarEncaminhamentosLocal(enc);
+  registrarLogAuditoriaLGPD(estadoApp.professorLogado, 'LIMPEZA_ALUNOS_DEMO', `Removeu ${qtdDemos} perfis fictícios [DEMO] do sistema.`);
   renderizarTudo();
   fecharModalConfigNuvem();
-  mostrarToast('Perfis de demonstração removidos! Sistema limpo para dados oficiais.');
+  mostrarToast(`🗑️ ${qtdDemos} alunos [DEMO] removidos! (Você pode recarregá-los no botão do topo se precisar apresentar novamente).`);
+}
+
+function restaurarAlunosDemoApresentacao() {
+  const reais = obterAlunosLocal().filter(a => !a.isDemo);
+  const pareceresReais = obterPareceresLocal().filter(p => !String(p.id).startsWith('PAR-DEMO-'));
+  const encReais = obterEncaminhamentosLocal().filter(e => !String(e.id).startsWith('ENC-DEMO-'));
+
+  salvarAlunosLocal([...reais, ...ALUNOS_DEMO_INICIAIS]);
+  salvarPareceresLocal([...pareceresReais, ...PARECERES_DEMO_INICIAIS]);
+  salvarEncaminhamentosLocal([...encReais, ...ENCAMINHAMENTOS_DEMO_INICIAIS]);
+  registrarLogAuditoriaLGPD(estadoApp.professorLogado, 'RESTAURACAO_ALUNOS_DEMO', 'Recarregou os 15 perfis fictícios [DEMO] para apresentação.');
+  renderizarTudo();
+  mostrarToast('🎭 15 Alunos [DEMO] de diversas situações recarregados para apresentação!');
+}
+
+function excluirAlunoDiretoDaFicha() {
+  const alunoId = estadoApp.alunoModalAtualId;
+  if (!alunoId) return;
+  const alunos = obterAlunosLocal();
+  const alvo = alunos.find(a => a.id === alunoId);
+  if (!alvo) return;
+
+  salvarAlunosLocal(alunos.filter(a => a.id !== alunoId));
+  salvarPareceresLocal(obterPareceresLocal().filter(p => p.alunoId !== alunoId));
+  salvarEncaminhamentosLocal(obterEncaminhamentosLocal().filter(e => e.alunoId !== alunoId));
+  registrarLogAuditoriaLGPD(estadoApp.professorLogado, 'EXCLUSAO_ALUNO', `Removeu o estudante ${alvo.nome} (${alvo.turma})`);
+
+  fecharModalFichaAluno();
+  renderizarTudo();
+  mostrarToast(`🗑️ Estudante ${alvo.nome} removido com sucesso.`);
+
+  if (obterApiUrl()) {
+    enviarRequisicaoSeguraBackend('DELETE_ALUNO', { alunoId }).catch(() => {});
+  }
 }
 
 function exportarBackupJSON() {
