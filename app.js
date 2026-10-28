@@ -43,6 +43,29 @@ const ACOES_ENCAMINHAMENTO_PADRAO = [
   "🏆 Registrar Elogio Formal em Ata (Destaque)"
 ];
 
+// Mapa de exibição: associa o prefixo emoji histórico de ACOES_ENCAMINHAMENTO_PADRAO
+// (preservado por compatibilidade com dados já persistidos/exportados) a um ícone SVG
+// equivalente, apenas para renderização visual — nunca altera o valor armazenado.
+const MAPA_ICONE_POR_PREFIXO_EMOJI = {
+  '📞': 'phone',
+  '📚': 'book-open',
+  '🧭': 'compass',
+  '🧠': 'brain',
+  '🤝': 'users',
+  '♿': 'accessibility',
+  '📝': 'edit-3',
+  '🏆': 'trophy'
+};
+
+function exibirTextoComIcone(texto) {
+  const limpo = (texto || '').trim();
+  const prefixoEncontrado = Object.keys(MAPA_ICONE_POR_PREFIXO_EMOJI).find(p => limpo.startsWith(p));
+  if (!prefixoEncontrado) return escaparHtml(limpo);
+  const nomeIcone = MAPA_ICONE_POR_PREFIXO_EMOJI[prefixoEncontrado];
+  const resto = limpo.slice(prefixoEncontrado.length).trim();
+  return icone(nomeIcone) + ' ' + escaparHtml(resto);
+}
+
 // ============================================================================
 // INICIALIZAÇÃO DO SISTEMA
 // ============================================================================
@@ -89,7 +112,7 @@ function inicializarSuportePWA() {
   window.addEventListener('appinstalled', () => {
     deferredPwaPrompt = null;
     if (btnPwa) btnPwa.style.display = 'none';
-    mostrarToast('🎉 Aplicativo SISCCD instalado com sucesso no seu dispositivo!');
+    mostrarToast('Aplicativo SISCCD instalado com sucesso no seu dispositivo!', false, 'smartphone');
   });
 }
 
@@ -120,7 +143,7 @@ function popularSelectDocentesLogin() {
     const info = DOCENTES_IFS[nome];
     const opt = document.createElement('option');
     opt.value = nome;
-    opt.textContent = info.perfil === 'coordenacao' ? `🛡️ ${nome}` : `👨‍🏫 Prof(a). ${nome}`;
+    opt.textContent = info.perfil === 'coordenacao' ? nome : `Prof(a). ${nome}`;
     select.appendChild(opt);
   });
 }
@@ -181,7 +204,7 @@ function realizarLoginConselho(event) {
 async function ativarSessaoDocente(professor, exibirBoasVindas = true) {
   estadoApp.professorLogado = professor;
   document.getElementById('authGatekeeper').style.display = 'none';
-  document.getElementById('loggedTeacherBanner').textContent = `👤 Autenticado: ${professor}`;
+  document.getElementById('loggedTeacherBanner').innerHTML = icone('user') + ` Autenticado: ${escaparHtml(professor)}`;
 
   const cfg = obterConfigConselho();
   if (cfg.bimestreAtual) {
@@ -250,9 +273,9 @@ function alternarModoPrivacidade() {
   document.body.classList.toggle('privacy-blur-mode', estadoApp.modoPrivacidadeBlur);
   const btn = document.getElementById('btnPrivacyBlur');
   if (btn) {
-    btn.textContent = estadoApp.modoPrivacidadeBlur
-      ? '🙈 Modo Projetor (Desfocar Fotos): ON'
-      : '👁️ Modo Projetor (Desfocar Fotos): OFF';
+    btn.innerHTML = estadoApp.modoPrivacidadeBlur
+      ? icone('eye-off') + ' Modo Projetor (Desfocar Fotos): ON'
+      : icone('eye') + ' Modo Projetor (Desfocar Fotos): OFF';
   }
   renderizarTudo();
 }
@@ -283,10 +306,10 @@ function atualizarBadgeConexao(modoForcado) {
   const url = obterApiUrl();
   if (url && modoForcado !== 'offline') {
     badge.className = 'badge-pill badge-cloud';
-    badge.textContent = '☁️ Conectado à Planilha/Drive Privado (Zero Dados no GitHub)';
+    badge.innerHTML = icone('cloud') + ' Conectado à Planilha/Drive Privado (Zero Dados no GitHub)';
   } else {
     badge.className = 'badge-pill badge-demo';
-    badge.textContent = '⚡ Modo Local / Demonstração (Configure a Planilha Privada em ⚙️)';
+    badge.innerHTML = icone('zap') + ' Modo Local / Demonstração (Configure a Planilha Privada em ' + icone('settings') + ')';
   }
 }
 
@@ -474,7 +497,7 @@ function renderizarTudo() {
   const btnRestaurar = document.getElementById('btnHeaderRestaurarDemos');
   if (btnLimpar) {
     btnLimpar.style.display = qtdDemos > 0 ? 'inline-flex' : 'none';
-    btnLimpar.textContent = `🗑️ Deletar Alunos Demo (${qtdDemos})`;
+    btnLimpar.innerHTML = icone('trash-2') + ` Deletar Alunos Demo (${qtdDemos})`;
   }
   if (btnRestaurar) {
     btnRestaurar.style.display = qtdDemos === 0 ? 'inline-flex' : 'none';
@@ -616,7 +639,7 @@ function abrirModalFichaAluno(alunoId, subAbaInicial = 'parecer') {
     : 'Vinculado na Matrícula Institucional SUAP';
   document.getElementById('fichaResponsavelTexto').textContent = respTexto;
 
-  document.getElementById('fichaObsCoord').textContent = aluno.observacaoCoord ? `📌 Coordenação: ${aluno.observacaoCoord}` : '';
+  document.getElementById('fichaObsCoord').innerHTML = aluno.observacaoCoord ? icone('tag') + ` Coordenação: ${escaparHtml(aluno.observacaoCoord)}` : '';
   document.getElementById('fichaStatusGeralSelect').value = analise.statusVisual;
   document.getElementById('countPareceresAluno').textContent = analise.qtdPareceres;
 
@@ -624,9 +647,9 @@ function abrirModalFichaAluno(alunoId, subAbaInicial = 'parecer') {
   const btnFotoConsent = document.getElementById('btnToggleConsentimentoFoto');
   if (btnFotoConsent) {
     const ativo = aluno.consentimentoImagemPais !== false;
-    btnFotoConsent.textContent = ativo
-      ? '🖼️ Consentimento Foto (Art. 14): ATIVO'
-      : '🔒 Foto Bloqueada (Sem Consent. Art. 14)';
+    btnFotoConsent.innerHTML = ativo
+      ? icone('image') + ' Consentimento Foto (Art. 14): ATIVO'
+      : icone('lock') + ' Foto Bloqueada (Sem Consent. Art. 14)';
     btnFotoConsent.style.borderColor = ativo ? '#86efac' : '#fca5a5';
     btnFotoConsent.style.color = ativo ? '#166534' : '#991b1b';
   }
@@ -914,9 +937,9 @@ function preencherFormularioEncaminhamento(encaminhamento, isMenor16) {
 function renderizarChipsAcoesEncaminhamento() {
   const container = document.getElementById('encaminhamentoAcoesContainer');
   if (!container) return;
-  container.innerHTML = ACOES_ENCAMINHAMENTO_PADRAO.map(acao => {
+  container.innerHTML = ACOES_ENCAMINHAMENTO_PADRAO.map((acao, idx) => {
     const sel = estadoApp.acoesSelecionadasEncaminhamento.includes(acao);
-    return `<span class="chip-toggle ${sel ? 'selected' : ''}" onclick="alternarAcaoEncaminhamento('${acao}')">${acao}</span>`;
+    return `<span class="chip-toggle ${sel ? 'selected' : ''}" onclick="alternarAcaoEncaminhamentoPorIndice(${idx})">${exibirTextoComIcone(acao)}</span>`;
   }).join('');
 }
 
@@ -928,6 +951,11 @@ function alternarAcaoEncaminhamento(acao) {
     estadoApp.acoesSelecionadasEncaminhamento.push(acao);
   }
   renderizarChipsAcoesEncaminhamento();
+}
+
+function alternarAcaoEncaminhamentoPorIndice(indice) {
+  const acao = ACOES_ENCAMINHAMENTO_PADRAO[indice];
+  if (acao !== undefined) alternarAcaoEncaminhamento(acao);
 }
 
 async function salvarEncaminhamentoAtual(event) {
@@ -1106,7 +1134,7 @@ async function salvarCadastroAluno(event) {
 
   // Exigência estrita do ECA Digital (Lei 15.211/2025) para menores de 16 anos
   if (idade < 16 && !responsavelLegal) {
-    mostrarToast('⚠️ Lei nº 15.211/2025 (ECA Digital): Para menores de 16 anos, é obrigatório informar o Pai/Mãe ou Responsável Legal vinculado!', true);
+    mostrarToast('Lei nº 15.211/2025 (ECA Digital): Para menores de 16 anos, é obrigatório informar o Pai/Mãe ou Responsável Legal vinculado!', true);
     return;
   }
 
@@ -1353,7 +1381,7 @@ function renderizarVisaoAta() {
                 ${enc ? `
                   <div style="font-size:0.82rem; color:#0f172a; margin-top:0.3rem; background:#f8fafc; padding:0.5rem 0.75rem; border-radius:8px;">
                     <strong>${icone('shield')} Protocolo Legal:</strong> ${escaparHtml(enc.protocoloProtecaoIntegral || 'Ordinário')}<br/>
-                    <strong>${icone('compass')} Encaminhamento Deliberado:</strong> ${(enc.acoes || []).join(', ')}<br/>
+                    <strong>${icone('compass')} Encaminhamento Deliberado:</strong> ${(enc.acoes || []).map(exibirTextoComIcone).join(' &nbsp;•&nbsp; ')}<br/>
                     <strong>${icone('clipboard-list')} Registro em Ata:</strong> ${escaparHtml(enc.deliberacaoAta)} (Responsável: ${escaparHtml(enc.responsavel)} • Prazo: ${escaparHtml(enc.prazo || 'Imediato')})
                   </div>
                 ` : ''}
@@ -1477,7 +1505,7 @@ function removerAlunosDemo() {
   registrarLogAuditoriaLGPD(estadoApp.professorLogado, 'LIMPEZA_ALUNOS_DEMO', `Removeu ${qtdDemos} perfis fictícios [DEMO] do sistema.`);
   renderizarTudo();
   fecharModalConfigNuvem();
-  mostrarToast(`🗑️ ${qtdDemos} alunos [DEMO] removidos! (Você pode recarregá-los no botão do topo se precisar apresentar novamente).`);
+  mostrarToast(`${qtdDemos} alunos [DEMO] removidos! (Você pode recarregá-los no botão do topo se precisar apresentar novamente).`, false, 'trash-2');
 }
 
 function restaurarAlunosDemoApresentacao() {
@@ -1491,7 +1519,7 @@ function restaurarAlunosDemoApresentacao() {
   salvarEncaminhamentosLocal([...encReais, ...ENCAMINHAMENTOS_DEMO_INICIAIS]);
   registrarLogAuditoriaLGPD(estadoApp.professorLogado, 'RESTAURACAO_ALUNOS_DEMO', 'Recarregou os 22 perfis fictícios [DEMO] para apresentação.');
   renderizarTudo();
-  mostrarToast('🎭 22 Alunos [DEMO] de todas as turmas recarregados para apresentação!');
+  mostrarToast('22 Alunos [DEMO] de todas as turmas recarregados para apresentação!', false, 'refresh-cw');
 }
 
 function excluirAlunoDiretoDaFicha() {
@@ -1508,7 +1536,7 @@ function excluirAlunoDiretoDaFicha() {
 
   fecharModalFichaAluno();
   renderizarTudo();
-  mostrarToast(`🗑️ Estudante ${alvo.nome} removido com sucesso.`);
+  mostrarToast(`Estudante ${alvo.nome} removido com sucesso.`, false, 'trash-2');
 
   if (obterApiUrl()) {
     enviarRequisicaoSeguraBackend('DELETE_ALUNO', { alunoId }).catch(() => {});
@@ -1553,13 +1581,22 @@ function escaparHtml(str) {
     .replace(/'/g, '&#39;');
 }
 
-function mostrarToast(mensagem, isErro = false) {
+function mostrarToast(mensagem, isErro = false, nomeIcone = null) {
   const container = document.getElementById('toastContainer');
   if (!container) return;
   const el = document.createElement('div');
-  el.className = 'toast-msg';
+  el.className = 'toast-msg' + (isErro ? ' toast-erro' : '');
   if (isErro) el.style.borderLeftColor = '#ef4444';
-  el.textContent = mensagem;
+
+  const iconWrap = document.createElement('span');
+  iconWrap.className = 'icon';
+  iconWrap.innerHTML = icone(nomeIcone || (isErro ? 'alert-triangle' : 'check-circle'));
+  el.appendChild(iconWrap);
+
+  const textoWrap = document.createElement('span');
+  textoWrap.textContent = mensagem;
+  el.appendChild(textoWrap);
+
   container.appendChild(el);
   setTimeout(() => {
     el.remove();
