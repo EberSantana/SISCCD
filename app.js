@@ -489,15 +489,15 @@ function renderizarTudo() {
 function obterRotuloStatus(statusVisual) {
   switch (statusVisual) {
     case 'avaliar':
-      return { classe: 'status-avaliar', icone: '🚨', texto: 'Avaliar na Plenária (Prioridade)' };
+      return { classe: 'status-avaliar', icone: icone('alert-octagon'), texto: 'Avaliar na Plenária (Prioridade)' };
     case 'atencao':
-      return { classe: 'status-atencao', icone: '⚠️', texto: 'Em Atenção Pedagógica' };
+      return { classe: 'status-atencao', icone: icone('alert-triangle'), texto: 'Em Atenção Pedagógica' };
     case 'destaque':
-      return { classe: 'status-destaque', icone: '🏆', texto: 'Destaque Positivo' };
+      return { classe: 'status-destaque', icone: icone('trophy'), texto: 'Destaque Positivo' };
     case 'concluido':
-      return { classe: 'status-concluido', icone: '✔️', texto: 'Avaliado & Encaminhado' };
+      return { classe: 'status-concluido', icone: icone('check'), texto: 'Avaliado & Encaminhado' };
     default:
-      return { classe: 'status-regular', icone: '✅', texto: 'Situação Regular' };
+      return { classe: 'status-regular', icone: icone('check-circle'), texto: 'Situação Regular' };
   }
 }
 
@@ -508,10 +508,10 @@ function renderizarGridAlunos(listaFiltrada) {
   if (listaFiltrada.length === 0) {
     container.innerHTML = `
       <div class="card-panel" style="grid-column: 1 / -1; text-align:center; padding: 2.5rem;">
-        <div style="font-size: 2.4rem; margin-bottom: 0.5rem;">🔍</div>
+        <div style="font-size: 2.4rem; margin-bottom: 0.5rem; display:flex; justify-content:center;">${icone('search')}</div>
         <h3 style="font-size: 1.1rem; font-weight: 800;">Nenhum estudante encontrado para este filtro</h3>
         <p style="font-size: 0.86rem; color: #475569; margin-top: 0.3rem;">
-          Altere o filtro de turma/situação ou clique em <strong>"➕ Cadastrar Aluno + Vínculo Parental"</strong> no topo.
+          Altere o filtro de turma/situação ou clique em <strong>"${icone('plus')} Cadastrar Aluno + Vínculo Parental"</strong> no topo.
         </p>
       </div>`;
     return;
@@ -534,9 +534,9 @@ function renderizarGridAlunos(listaFiltrada) {
             <div class="student-turma-row">
               <span class="chip-turma">${escaparHtml(aluno.turma)}</span>
               <span class="chip-idade-eca" style="${isMenor16 ? 'background:#fef3c7;color:#92400e;border-color:#fde68a;' : ''}">
-                ${idadeNum} anos ${isMenor16 ? '• 🔒 <16a (Lei 15.211/25)' : (isMenor18 ? '• 🛡️ ECA' : '')}
+                ${idadeNum} anos ${isMenor16 ? '• ' + icone('lock') + ' <16a (Lei 15.211/25)' : (isMenor18 ? '• ' + icone('shield') + ' ECA' : '')}
               </span>
-              ${aluno.napne ? '<span class="chip-idade-eca" style="background:#ede9fe;color:#5b21b6;border-color:#ddd6fe;">♿ NAPNE</span>' : ''}
+              ${aluno.napne ? '<span class="chip-idade-eca" style="background:#ede9fe;color:#5b21b6;border-color:#ddd6fe;">' + icone('accessibility') + ' NAPNE</span>' : ''}
             </div>
             <h3 class="student-name" title="${escaparHtml(aluno.nome)}">${escaparHtml(formatarNomeExibicao(aluno.nome))}</h3>
             <div class="student-matricula">Matrícula SUAP: ${escaparHtml(aluno.matricula)}</div>
@@ -551,35 +551,35 @@ function renderizarGridAlunos(listaFiltrada) {
 
           <div class="pareceres-mini-summary">
             ${analise.meuParecer
-              ? `<span class="tag-mini tag-my-done">✅ Meu parecer (${escaparHtml(analise.meuParecer.disciplina)})</span>`
-              : `<span class="tag-mini">⏳ Sem meu parecer</span>`
+              ? `<span class="tag-mini tag-my-done">${icone('check-circle')} Meu parecer (${escaparHtml(analise.meuParecer.disciplina)})</span>`
+              : `<span class="tag-mini">${icone('clock')} Sem meu parecer</span>`
             }
             ${aluno.consentimentoImagemPais === false
-              ? `<span class="tag-mini" style="background:#f1f5f9;color:#475569;">🔒 Foto Anonimizada (Art. 14)</span>`
+              ? `<span class="tag-mini" style="background:#f1f5f9;color:#475569;">${icone('lock')} Foto Anonimizada (Art. 14)</span>`
               : ''
             }
             ${analise.qtdRendimentoCritico > 0
-              ? `<span class="tag-mini tag-alert">📉 ${analise.qtdRendimentoCritico} disc. crítica(s)</span>`
+              ? `<span class="tag-mini tag-alert">${icone('trending-down')} ${analise.qtdRendimentoCritico} disc. crítica(s)</span>`
               : ''
             }
             ${analise.qtdInfrequente > 0
-              ? `<span class="tag-mini tag-alert">📅 Alerta de Faltas (${analise.qtdInfrequente})</span>`
+              ? `<span class="tag-mini tag-alert">${icone('calendar')} Alerta de Faltas (${analise.qtdInfrequente})</span>`
               : ''
             }
             ${analise.encaminhamentoAluno
-              ? `<span class="tag-mini" style="background:#e0f2fe;color:#0369a1;border-color:#bae6fd;">🧭 Encaminhado</span>`
+              ? `<span class="tag-mini" style="background:#e0f2fe;color:#0369a1;border-color:#bae6fd;">${icone('compass')} Encaminhado</span>`
               : ''
             }
           </div>
 
           <div style="font-size:0.73rem; color:#334155; background:#f8fafc; padding:0.3rem 0.55rem; border-radius:6px; border:1px solid #e2e8f0;">
-            👨‍👩‍👧 <strong>Resp. Legal:</strong> ${escaparHtml(aluno.responsavelLegal || 'Vinculado no SUAP')}
+            ${icone('users')} <strong>Resp. Legal:</strong> ${escaparHtml(aluno.responsavelLegal || 'Vinculado no SUAP')}
           </div>
         </div>
 
         <div class="student-card-footer">
-          <span>👆 Clique para abrir ficha e avaliar</span>
-          <span>➔</span>
+          <span>${icone('mouse-pointer')} Clique para abrir ficha e avaliar</span>
+          <span>${icone('arrow-right')}</span>
         </div>
       </article>
     `;
@@ -859,29 +859,29 @@ function renderizarListaPareceresConsolidados(pareceresAluno) {
 
   container.innerHTML = pareceresAluno.map(p => {
     const badgeRend = p.rendimento === 'critico'
-      ? '🚨 Rendimento Crítico'
-      : (p.rendimento === 'atencao' ? '⚠️ Em Atenção' : '✅ Rendimento Adequado');
+      ? icone('alert-octagon') + ' Rendimento Crítico'
+      : (p.rendimento === 'atencao' ? icone('alert-triangle') + ' Em Atenção' : icone('check-circle') + ' Rendimento Adequado');
     const badgeFreq = p.frequencia === 'infrequente'
-      ? '🚨 Infrequente'
-      : (p.frequencia === 'pontual' ? '⚠️ Faltas Pontuais' : '✅ Assíduo');
+      ? icone('alert-octagon') + ' Infrequente'
+      : (p.frequencia === 'pontual' ? icone('alert-triangle') + ' Faltas Pontuais' : icone('check-circle') + ' Assíduo');
 
     return `
       <div class="parecer-item ${p.avaliarEmPlenaria ? 'avaliar-highlight' : ''}">
         <div class="parecer-top">
           <div>
-            <strong style="font-size:0.95rem; color:#0f172a;">👨‍🏫 Prof(a). ${escaparHtml(p.professor)}</strong>
+            <strong style="font-size:0.95rem; color:#0f172a;">${icone('user')} Prof(a). ${escaparHtml(p.professor)}</strong>
             <span class="chip-turma" style="margin-left:0.4rem;">${escaparHtml(p.disciplina)}</span>
-            ${p.avaliarEmPlenaria ? '<span class="tag-mini tag-alert" style="margin-left:0.35rem;">🚨 Prioridade Plenária (CF Art. 227)</span>' : ''}
+            ${p.avaliarEmPlenaria ? '<span class="tag-mini tag-alert" style="margin-left:0.35rem;">' + icone('alert-octagon') + ' Prioridade Plenária (CF Art. 227)</span>' : ''}
           </div>
-          <small style="color:#64748b; font-size:0.75rem;">🕒 ${escaparHtml(p.dataHora || '')}</small>
+          <small style="color:#64748b; font-size:0.75rem;">${icone('clock')} ${escaparHtml(p.dataHora || '')}</small>
         </div>
 
         <div class="pareceres-mini-summary" style="margin-bottom:0.5rem;">
           <span class="tag-mini">${badgeRend}</span>
           <span class="tag-mini">${badgeFreq}</span>
-          ${p.notaAtual ? `<span class="tag-mini">📊 Nota/Conceito: <strong>${escaparHtml(p.notaAtual)}</strong></span>` : ''}
-          ${p.faltas ? `<span class="tag-mini">📅 Faltas: <strong>${escaparHtml(p.faltas)}</strong></span>` : ''}
-          ${(p.tags || []).map(t => `<span class="tag-mini" style="background:#f0fdf4;color:#166534;border-color:#bbf7d0;">🏷️ ${escaparHtml(t)}</span>`).join('')}
+          ${p.notaAtual ? `<span class="tag-mini">${icone('bar-chart')} Nota/Conceito: <strong>${escaparHtml(p.notaAtual)}</strong></span>` : ''}
+          ${p.faltas ? `<span class="tag-mini">${icone('calendar')} Faltas: <strong>${escaparHtml(p.faltas)}</strong></span>` : ''}
+          ${(p.tags || []).map(t => `<span class="tag-mini" style="background:#f0fdf4;color:#166534;border-color:#bbf7d0;">${icone('tag')} ${escaparHtml(t)}</span>`).join('')}
         </div>
 
         <p style="font-size:0.86rem; color:#1e293b; background:#f8fafc; padding:0.65rem 0.8rem; border-radius:8px;">
@@ -1007,17 +1007,17 @@ function verificarRegraMenor16Cadastro() {
   if (!alertaEl || !inputResp || !box) return;
 
   if (idade < 16) {
-    alertaEl.innerHTML = '🔒 <strong>ECA Digital (Lei nº 15.211/2025):</strong> Estudante menor de 16 anos (' + idade + ' anos) — <strong>Vinculação ao Pai/Mãe ou Responsável Legal OBRIGATÓRIA!</strong>';
+    alertaEl.innerHTML = icone('lock') + ' <strong>ECA Digital (Lei nº 15.211/2025):</strong> Estudante menor de 16 anos (' + idade + ' anos) — <strong>Vinculação ao Pai/Mãe ou Responsável Legal OBRIGATÓRIA!</strong>';
     box.style.background = '#fffbeb';
     box.style.borderColor = '#fde68a';
     inputResp.required = true;
   } else if (idade < 18) {
-    alertaEl.innerHTML = '🛡️ <strong>ECA (Lei 8.069/90) & LGPD (Art. 14):</strong> Adolescente (' + idade + ' anos) — Recomendado registro do Responsável Legal vinculado no SUAP.';
+    alertaEl.innerHTML = icone('shield') + ' <strong>ECA (Lei 8.069/90) & LGPD (Art. 14):</strong> Adolescente (' + idade + ' anos) — Recomendado registro do Responsável Legal vinculado no SUAP.';
     box.style.background = '#f0fdf4';
     box.style.borderColor = '#bbf7d0';
     inputResp.required = true;
   } else {
-    alertaEl.innerHTML = 'ℹ️ Estudante maior de 18 anos (Subsequente) — Vínculo parental opcional.';
+    alertaEl.innerHTML = icone('info') + ' Estudante maior de 18 anos (Subsequente) — Vínculo parental opcional.';
     box.style.background = '#f8fafc';
     box.style.borderColor = '#cbd5e1';
     inputResp.required = false;
@@ -1025,7 +1025,7 @@ function verificarRegraMenor16Cadastro() {
 }
 
 function abrirModalNovoAluno() {
-  document.getElementById('tituloModalCadastroAluno').textContent = '➕ Cadastrar Estudante (Conformidade Lei 15.211/2025 & LGPD)';
+  document.getElementById('tituloModalCadastroAluno').innerHTML = icone('plus') + ' Cadastrar Estudante (Conformidade Lei 15.211/2025 & LGPD)';
   document.getElementById('cadAlunoIdHidden').value = '';
   document.getElementById('cadNomeInput').value = '';
   document.getElementById('cadMatriculaInput').value = '';
@@ -1053,7 +1053,7 @@ function editarCadastroAlunoAtual() {
   if (!aluno) return;
 
   fecharModalFichaAluno();
-  document.getElementById('tituloModalCadastroAluno').textContent = '✏️ Editar Dados e Vínculo Parental (Lei 15.211/2025)';
+  document.getElementById('tituloModalCadastroAluno').innerHTML = icone('edit-3') + ' Editar Dados e Vínculo Parental (Lei 15.211/2025)';
   document.getElementById('cadAlunoIdHidden').value = aluno.id;
   document.getElementById('cadNomeInput').value = aluno.nome;
   document.getElementById('cadMatriculaInput').value = aluno.matricula;
@@ -1288,19 +1288,19 @@ function renderizarVisaoPrioridades() {
             <div style="display:flex; gap:0.4rem; align-items:center; flex-wrap:wrap;">
               <span class="chip-turma">${escaparHtml(aluno.turma)}</span>
               <strong style="font-size:1rem;">${escaparHtml(formatarNomeExibicao(aluno.nome))}</strong>
-              <span class="chip-idade-eca">${aluno.idade || 15} anos ${Number(aluno.idade) < 16 ? '• 🔒 <16a (Lei 15.211/25)' : ''}</span>
+              <span class="chip-idade-eca">${aluno.idade || 15} anos ${Number(aluno.idade) < 16 ? '• ' + icone('lock') + ' <16a (Lei 15.211/25)' : ''}</span>
             </div>
             <div style="font-size:0.78rem; color:#334155; margin-top:0.15rem;">
-              👨‍👩‍👧 Resp. Legal: <strong>${escaparHtml(aluno.responsavelLegal || 'Vinculado SUAP')}</strong>
+              ${icone('users')} Resp. Legal: <strong>${escaparHtml(aluno.responsavelLegal || 'Vinculado SUAP')}</strong>
             </div>
             <div style="font-size:0.8rem; color:#991b1b; font-weight:600; margin-top:0.15rem;">
-              🚨 Alertas Docentes: ${escaparHtml(disciplinasCriticas || 'Sinalizado pela Coordenação')}
+              ${icone('alert-octagon')} Alertas Docentes: ${escaparHtml(disciplinasCriticas || 'Sinalizado pela Coordenação')}
             </div>
           </div>
         </div>
         <div style="display:flex; align-items:center; gap:0.5rem;">
           <span class="tag-mini tag-alert">${analise.qtdPareceres} parecer(es)</span>
-          <button type="button" class="btn btn-primary" style="padding:0.45rem 0.85rem; font-size:0.78rem;">Abrir na Plenária ➔</button>
+          <button type="button" class="btn btn-primary" style="padding:0.45rem 0.85rem; font-size:0.78rem;">Abrir na Plenária ${icone('arrow-right')}</button>
         </div>
       </div>
     `;
@@ -1344,7 +1344,7 @@ function renderizarVisaoAta() {
                   <span style="font-size:0.78rem; font-weight:700; color:#15803d;">${enc ? escaparHtml(enc.statusEncaminhamento) : 'Em Avaliação'}</span>
                 </div>
                 <div style="font-size:0.78rem; color:#475569; margin-top:0.15rem;">
-                  👨‍👩‍👧 <strong>Responsável Legal Vinculado (Lei 15.211/2025):</strong> ${escaparHtml(aluno.responsavelLegal || 'Vinculado no SUAP')}
+                  ${icone('users')} <strong>Responsável Legal Vinculado (Lei 15.211/2025):</strong> ${escaparHtml(aluno.responsavelLegal || 'Vinculado no SUAP')}
                 </div>
                 <div style="font-size:0.82rem; color:#334155; margin-top:0.3rem;">
                   <strong>Síntese Docente (${analise.qtdPareceres} pareceres):</strong>
@@ -1352,9 +1352,9 @@ function renderizarVisaoAta() {
                 </div>
                 ${enc ? `
                   <div style="font-size:0.82rem; color:#0f172a; margin-top:0.3rem; background:#f8fafc; padding:0.5rem 0.75rem; border-radius:8px;">
-                    <strong>🛡️ Protocolo Legal:</strong> ${escaparHtml(enc.protocoloProtecaoIntegral || 'Ordinário')}<br/>
-                    <strong>🧭 Encaminhamento Deliberado:</strong> ${(enc.acoes || []).join(', ')}<br/>
-                    <strong>📋 Registro em Ata:</strong> ${escaparHtml(enc.deliberacaoAta)} (Responsável: ${escaparHtml(enc.responsavel)} • Prazo: ${escaparHtml(enc.prazo || 'Imediato')})
+                    <strong>${icone('shield')} Protocolo Legal:</strong> ${escaparHtml(enc.protocoloProtecaoIntegral || 'Ordinário')}<br/>
+                    <strong>${icone('compass')} Encaminhamento Deliberado:</strong> ${(enc.acoes || []).join(', ')}<br/>
+                    <strong>${icone('clipboard-list')} Registro em Ata:</strong> ${escaparHtml(enc.deliberacaoAta)} (Responsável: ${escaparHtml(enc.responsavel)} • Prazo: ${escaparHtml(enc.prazo || 'Imediato')})
                   </div>
                 ` : ''}
               </div>

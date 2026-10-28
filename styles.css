@@ -1,30 +1,54 @@
 /* ============================================================================
- * STYLES.CSS - Sistema de Conselho de Classe Seguro (SISCCD)
- * Mobile-First & PWA Nativo (Otimizado para iPhone iOS Safari & Android Chrome)
+ * STYLES.CSS — Sistema de Conselho de Classe Seguro (SISCCD)
+ * Design system institucional / tech · Mobile-First & PWA Nativo
  * IFS Campus Tobias Barreto
  * ============================================================================ */
 
 :root {
-  --ifs-green: #15803d;
-  --ifs-green-dark: #14532d;
-  --ifs-green-light: #dcfce7;
+  /* Marca — verde IFS reinterpretado em tom mais profundo/tech, com acento teal */
+  --ifs-green: #0d9268;
+  --ifs-green-dark: #0b5e46;
+  --ifs-green-darker: #083b2d;
+  --ifs-green-light: #d4f4e8;
   --ifs-accent: #0ea5e9;
+  --ifs-accent-dark: #0369a1;
   --ifs-red: #dc2626;
   --ifs-red-light: #fee2e2;
   --ifs-amber: #d97706;
   --ifs-amber-light: #fef3c7;
   --ifs-purple: #7c3aed;
   --ifs-purple-light: #ede9fe;
-  --bg-page: #f1f5f9;
+
+  /* Neutros (escala fria, "tech") */
+  --ink-950: #05090f;
+  --ink-900: #0a1420;
+  --ink-800: #101c2c;
+  --ink-700: #1c2b3d;
+  --ink-600: #34495f;
+  --ink-500: #5b7087;
+  --ink-400: #8a9bb0;
+  --ink-300: #c2cedb;
+  --ink-200: #e0e7ef;
+  --ink-100: #eef2f7;
+  --ink-50: #f6f9fc;
+
+  --bg-page: #eef2f7;
   --bg-card: #ffffff;
-  --text-main: #0f172a;
-  --text-muted: #475569;
-  --border-color: #e2e8f0;
-  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
-  --shadow-md: 0 4px 14px rgba(15, 23, 42, 0.08);
-  --shadow-lg: 0 16px 36px rgba(15, 23, 42, 0.16);
+  --text-main: var(--ink-900);
+  --text-muted: var(--ink-500);
+  --border-color: var(--ink-200);
+
+  --shadow-xs: 0 1px 2px rgba(10, 20, 32, 0.06);
+  --shadow-sm: 0 1px 3px rgba(10, 20, 32, 0.07), 0 1px 2px rgba(10, 20, 32, 0.05);
+  --shadow-md: 0 8px 20px -6px rgba(10, 20, 32, 0.14), 0 2px 6px rgba(10, 20, 32, 0.06);
+  --shadow-lg: 0 24px 48px -12px rgba(5, 9, 15, 0.35), 0 4px 12px rgba(5, 9, 15, 0.1);
+  --shadow-brand: 0 10px 24px -8px rgba(13, 146, 104, 0.35);
+
+  --radius-sm: 8px;
   --radius-md: 12px;
-  --radius-lg: 16px;
+  --radius-lg: 18px;
+  --radius-xl: 22px;
+
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
@@ -47,6 +71,10 @@ html {
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background-color: var(--bg-page);
+  background-image:
+    radial-gradient(900px 480px at 8% -10%, rgba(13, 146, 104, 0.07), transparent 60%),
+    radial-gradient(700px 420px at 100% 0%, rgba(14, 165, 233, 0.06), transparent 55%);
+  background-attachment: fixed;
   color: var(--text-main);
   line-height: 1.45;
   min-height: 100vh;
@@ -56,6 +84,35 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   touch-action: manipulation;
+}
+
+h1, h2, h3, h4 {
+  letter-spacing: -0.01em;
+}
+
+/* Foco visível consistente (acessibilidade) */
+:focus-visible {
+  outline: 2px solid var(--ifs-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* --------------------------------------------------------------------------
+ * ÍCONES (substituem o antigo uso de emoji)
+ * -------------------------------------------------------------------------- */
+.icon {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  vertical-align: -0.14em;
+  flex-shrink: 0;
+}
+
+[data-icon] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
 }
 
 /* Proteção Anti-Cópia nas Fotos de Estudantes (ECA Art. 17) */
@@ -86,7 +143,7 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   flex-wrap: wrap;
   align-content: space-around;
   justify-content: space-around;
-  opacity: 0.048;
+  opacity: 0.045;
   user-select: none;
 }
 
@@ -94,7 +151,7 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   transform: rotate(-24deg);
   font-size: 0.72rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--ink-900);
   white-space: nowrap;
   padding: 2rem 2.2rem;
   letter-spacing: 0.04em;
@@ -108,7 +165,10 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   inset: 0;
   height: 100vh;
   height: 100dvh;
-  background: linear-gradient(135deg, #064e3b 0%, #0f172a 65%, #1e293b 100%);
+  background:
+    radial-gradient(900px 600px at 15% 0%, rgba(13, 146, 104, 0.35), transparent 60%),
+    radial-gradient(800px 500px at 100% 100%, rgba(14, 165, 233, 0.22), transparent 55%),
+    linear-gradient(160deg, var(--ink-950) 0%, var(--ink-900) 55%, #08121d 100%);
   z-index: 5000;
   display: flex;
   align-items: center;
@@ -122,10 +182,10 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   background: #ffffff;
   width: 100%;
   max-width: 500px;
-  border-radius: 20px;
-  padding: 1.75rem;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-xl);
+  padding: 1.85rem;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   margin: auto;
 }
 
@@ -133,62 +193,62 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  background: #dcfce7;
-  color: #166534;
+  background: var(--ifs-green-light);
+  color: var(--ifs-green-darker);
   font-size: 0.72rem;
   font-weight: 700;
-  padding: 0.3rem 0.7rem;
+  padding: 0.32rem 0.75rem;
   border-radius: 999px;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.85rem;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
 }
 
 .auth-title {
-  font-size: 1.35rem;
+  font-size: 1.38rem;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--ink-900);
   line-height: 1.22;
 }
 
 .auth-subtitle {
   font-size: 0.84rem;
-  color: #475569;
+  color: var(--text-muted);
   margin-top: 0.3rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.1rem;
 }
 
 .legal-box-gate {
-  background: #f8fafc;
-  border: 1px solid #cbd5e1;
+  background: var(--ink-50);
+  border: 1px solid var(--ink-200);
   border-left: 4px solid var(--ifs-green);
-  border-radius: 10px;
-  padding: 0.75rem 0.9rem;
+  border-radius: var(--radius-sm);
+  padding: 0.8rem 0.95rem;
   font-size: 0.76rem;
-  color: #334155;
-  margin-bottom: 1rem;
+  color: var(--ink-600);
+  margin-bottom: 1.05rem;
   max-height: 150px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
 
 .legal-box-gate strong {
-  color: #0f172a;
+  color: var(--ink-900);
 }
 
 .checkbox-termo-label {
   display: flex;
   align-items: flex-start;
   gap: 0.6rem;
-  background: #f0fdf4;
-  border: 1px solid #86efac;
-  padding: 0.7rem 0.8rem;
-  border-radius: 10px;
+  background: var(--ifs-green-light);
+  border: 1px solid #9fe3c8;
+  padding: 0.75rem 0.85rem;
+  border-radius: var(--radius-sm);
   font-size: 0.8rem;
-  color: #14532d;
+  color: var(--ifs-green-darker);
   font-weight: 600;
   cursor: pointer;
-  margin-bottom: 1rem;
+  margin-bottom: 1.05rem;
 }
 
 .checkbox-termo-label input[type="checkbox"] {
@@ -203,8 +263,8 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
  * CABEÇALHO INSTITUCIONAL E BARRA DE PROTEÇÃO
  * ============================================================================ */
 .top-security-banner {
-  background: #0f172a;
-  color: #e2e8f0;
+  background: var(--ink-950);
+  color: var(--ink-200);
   font-size: 0.75rem;
   padding: calc(0.45rem + var(--safe-top)) 1rem 0.45rem;
   display: flex;
@@ -212,7 +272,7 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 0.45rem;
-  border-bottom: 1px solid #1e293b;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .top-security-banner .sec-left {
@@ -225,36 +285,42 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
 .badge-pill {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
-  padding: 0.15rem 0.55rem;
+  gap: 0.3rem;
+  padding: 0.16rem 0.6rem;
   border-radius: 999px;
   font-weight: 700;
   font-size: 0.68rem;
 }
 
+.badge-pill .icon {
+  width: 0.9em;
+  height: 0.9em;
+}
+
 .badge-eca {
-  background: rgba(34, 197, 94, 0.2);
-  color: #4ade80;
-  border: 1px solid rgba(74, 222, 128, 0.35);
+  background: rgba(13, 146, 104, 0.22);
+  color: #5eead4;
+  border: 1px solid rgba(94, 234, 212, 0.3);
 }
 
 .badge-demo {
   background: rgba(245, 158, 11, 0.2);
   color: #fbbf24;
-  border: 1px solid rgba(251, 191, 36, 0.4);
+  border: 1px solid rgba(251, 191, 36, 0.38);
 }
 
 .badge-cloud {
   background: rgba(14, 165, 233, 0.2);
   color: #38bdf8;
-  border: 1px solid rgba(56, 189, 248, 0.4);
+  border: 1px solid rgba(56, 189, 248, 0.38);
 }
 
 .main-header {
-  background: linear-gradient(125deg, #14532d 0%, #15803d 60%, #0f766e 100%);
+  background: linear-gradient(120deg, var(--ink-950) 0%, var(--ifs-green-darker) 45%, var(--ifs-green-dark) 78%, #0a6d5a 100%);
   color: #ffffff;
-  padding: 1.1rem 1.25rem;
+  padding: 1.15rem 1.3rem;
   box-shadow: var(--shadow-md);
+  position: relative;
 }
 
 .header-inner {
@@ -270,21 +336,26 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
 .brand-group {
   display: flex;
   align-items: center;
-  gap: 0.85rem;
+  gap: 0.9rem;
 }
 
 .brand-logo {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.16);
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.14);
   backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.4rem;
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.26);
   flex-shrink: 0;
+}
+
+.brand-logo .icon {
+  width: 24px;
+  height: 24px;
 }
 
 .brand-titles h1 {
@@ -296,7 +367,7 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
 
 .brand-titles p {
   font-size: 0.78rem;
-  color: #dcfce7;
+  color: var(--ifs-green-light);
   opacity: 0.92;
   margin-top: 0.15rem;
 }
@@ -312,26 +383,32 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
-  padding: 0.55rem 0.9rem;
+  gap: 0.42rem;
+  padding: 0.55rem 0.95rem;
   border-radius: 10px;
   font-size: 0.82rem;
   font-weight: 600;
   border: 1px solid transparent;
   cursor: pointer;
-  transition: all 0.18s ease;
+  transition: transform 0.12s ease, background 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
   text-decoration: none;
   font-family: inherit;
   white-space: nowrap;
 }
 
+.btn .icon {
+  width: 1.05em;
+  height: 1.05em;
+}
+
 .btn:active {
-  transform: scale(0.98);
+  transform: scale(0.97);
 }
 
 .btn-primary {
   background: var(--ifs-green);
   color: #ffffff;
+  box-shadow: var(--shadow-brand);
 }
 .btn-primary:hover {
   background: var(--ifs-green-dark);
@@ -339,24 +416,24 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
 
 .btn-white {
   background: #ffffff;
-  color: #0f172a;
-  border-color: #cbd5e1;
+  color: var(--ink-900);
+  border-color: var(--ink-300);
 }
 .btn-white:hover {
-  background: #f8fafc;
+  background: var(--ink-50);
 }
 
 .btn-glass {
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.14);
   color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.28);
 }
 .btn-glass:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.24);
 }
 
 .btn-danger {
-  background: #fee2e2;
+  background: var(--ifs-red-light);
   color: #991b1b;
   border-color: #fecaca;
 }
@@ -365,7 +442,7 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
 }
 
 .btn-amber {
-  background: #fef3c7;
+  background: var(--ifs-amber-light);
   color: #92400e;
   border-color: #fde68a;
 }
@@ -397,12 +474,13 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   justify-content: space-between;
   gap: 0.5rem;
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
 }
 
 .kpi-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
+  border-color: var(--ink-300);
 }
 
 .kpi-info {
@@ -415,7 +493,7 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   font-weight: 700;
   text-transform: uppercase;
   color: var(--text-muted);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
 }
 
 .kpi-info strong {
@@ -443,8 +521,12 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.25rem;
   flex-shrink: 0;
+}
+
+.kpi-icon .icon {
+  width: 22px;
+  height: 22px;
 }
 
 /* Abas Desktop */
@@ -482,7 +564,7 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
 
 .nav-tab:hover {
   color: var(--ifs-green);
-  background: rgba(21, 128, 61, 0.06);
+  background: rgba(13, 146, 104, 0.06);
 }
 
 .nav-tab.active {
@@ -501,10 +583,10 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   background: rgba(255, 255, 255, 0.96);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-top: 1px solid #cbd5e1;
+  border-top: 1px solid var(--ink-300);
   padding: 0.35rem 0.4rem calc(0.35rem + var(--safe-bottom));
   z-index: 3500;
-  box-shadow: 0 -4px 16px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 -4px 16px rgba(10, 20, 32, 0.08);
   grid-template-columns: repeat(4, 1fr);
   gap: 0.25rem;
 }
@@ -518,22 +600,27 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.18rem;
-  color: #64748b;
+  gap: 0.2rem;
+  color: var(--ink-500);
   font-size: 0.68rem;
   font-weight: 700;
   font-family: inherit;
   cursor: pointer;
 }
 
-.mobile-nav-btn .m-icon {
+.mobile-nav-btn .nav-icon {
   font-size: 1.15rem;
   line-height: 1;
 }
 
+.mobile-nav-btn .nav-icon .icon {
+  width: 20px;
+  height: 20px;
+}
+
 .mobile-nav-btn.active {
   color: var(--ifs-green);
-  background: #f0fdf4;
+  background: var(--ifs-green-light);
 }
 
 /* ============================================================================
@@ -562,9 +649,9 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   border-radius: 999px;
   font-size: 0.79rem;
   font-weight: 700;
-  border: 1px solid #cbd5e1;
-  background: #f8fafc;
-  color: #334155;
+  border: 1px solid var(--ink-300);
+  background: var(--ink-50);
+  color: var(--ink-600);
   cursor: pointer;
   white-space: nowrap;
   flex-shrink: 0;
@@ -581,7 +668,7 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   background: var(--ifs-green);
   color: #ffffff;
   border-color: var(--ifs-green);
-  box-shadow: 0 2px 8px rgba(21, 128, 61, 0.25);
+  box-shadow: 0 2px 10px rgba(13, 146, 104, 0.3);
 }
 
 .filter-controls-row {
@@ -600,9 +687,9 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
 
 .search-input-wrap input {
   width: 100%;
-  padding: 0.62rem 0.85rem 0.62rem 2.2rem;
+  padding: 0.62rem 0.85rem 0.62rem 2.3rem;
   border-radius: 10px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--ink-300);
   font-size: 0.88rem;
   outline: none;
   font-family: inherit;
@@ -610,16 +697,21 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
 
 .search-input-wrap input:focus {
   border-color: var(--ifs-green);
-  box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.15);
+  box-shadow: 0 0 0 3px rgba(13, 146, 104, 0.15);
 }
 
 .search-input-wrap .search-icon {
   position: absolute;
-  left: 0.72rem;
+  left: 0.75rem;
   top: 50%;
   transform: translateY(-50%);
-  color: #64748b;
-  font-size: 0.92rem;
+  color: var(--ink-500);
+  display: flex;
+}
+
+.search-input-wrap .search-icon .icon {
+  width: 16px;
+  height: 16px;
 }
 
 /* ============================================================================
@@ -645,9 +737,9 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
 }
 
 .student-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   box-shadow: var(--shadow-md);
-  border-color: #94a3b8;
+  border-color: var(--ink-400);
 }
 
 .student-card.priority-avaliar {
@@ -680,8 +772,8 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   border-radius: 15px;
   overflow: hidden;
   flex-shrink: 0;
-  border: 2px solid #e2e8f0;
-  background: #0f172a;
+  border: 2px solid var(--ink-200);
+  background: var(--ink-900);
   position: relative;
 }
 
@@ -706,8 +798,8 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
 }
 
 .chip-turma {
-  background: #e2e8f0;
-  color: #0f172a;
+  background: var(--ink-200);
+  color: var(--ink-900);
   font-size: 0.68rem;
   font-weight: 800;
   padding: 0.12rem 0.48rem;
@@ -715,9 +807,9 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
 }
 
 .chip-idade-eca {
-  background: #f0fdf4;
-  color: #166534;
-  border: 1px solid #bbf7d0;
+  background: var(--ifs-green-light);
+  color: var(--ifs-green-darker);
+  border: 1px solid #a8e9cf;
   font-size: 0.66rem;
   font-weight: 700;
   padding: 0.1rem 0.42rem;
@@ -727,7 +819,7 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
 .student-name {
   font-size: 0.96rem;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--ink-900);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -735,7 +827,7 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
 
 .student-matricula {
   font-size: 0.73rem;
-  color: #64748b;
+  color: var(--ink-500);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
@@ -778,9 +870,9 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
 
 .status-regular,
 .status-concluido {
-  background: #f0fdf4;
-  color: #166534;
-  border: 1px solid #bbf7d0;
+  background: var(--ifs-green-light);
+  color: var(--ifs-green-darker);
+  border: 1px solid #a8e9cf;
 }
 
 .pareceres-mini-summary {
@@ -794,9 +886,9 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   font-weight: 600;
   padding: 0.14rem 0.48rem;
   border-radius: 6px;
-  background: #f1f5f9;
-  color: #334155;
-  border: 1px solid #e2e8f0;
+  background: var(--ink-100);
+  color: var(--ink-600);
+  border: 1px solid var(--ink-200);
 }
 
 .tag-mini.tag-alert {
@@ -806,14 +898,14 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
 }
 
 .tag-mini.tag-my-done {
-  background: #dcfce7;
-  color: #15803d;
-  border-color: #86efac;
+  background: var(--ifs-green-light);
+  color: var(--ifs-green);
+  border-color: #a8e9cf;
 }
 
 .student-card-footer {
   padding: 0.65rem 0.95rem;
-  background: #f8fafc;
+  background: var(--ink-50);
   border-top: 1px solid var(--border-color);
   display: flex;
   align-items: center;
@@ -823,13 +915,18 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   color: var(--ifs-green);
 }
 
+.student-card-footer .icon {
+  width: 15px;
+  height: 15px;
+}
+
 /* ============================================================================
  * MODAIS (FICHA DO ALUNO, CADASTRO DE ALUNO, IMPORTAÇÃO E CONFIGURAÇÃO)
  * ============================================================================ */
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.72);
+  background: rgba(5, 9, 15, 0.72);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
   z-index: 4000;
@@ -848,7 +945,7 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   background: #ffffff;
   width: 100%;
   max-width: 880px;
-  border-radius: 20px;
+  border-radius: var(--radius-xl);
   box-shadow: var(--shadow-lg);
   overflow: hidden;
   max-height: 92vh;
@@ -860,13 +957,17 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
 
 .modal-header {
   padding: 1rem 1.25rem;
-  background: #0f172a;
+  background: linear-gradient(120deg, var(--ink-950) 0%, var(--ink-900) 100%);
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
   flex-shrink: 0;
+}
+
+.modal-header .icon {
+  color: #5eead4;
 }
 
 .modal-body {
@@ -881,7 +982,7 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   display: flex;
   gap: 1.1rem;
   align-items: center;
-  background: #f8fafc;
+  background: var(--ink-50);
   border: 1px solid var(--border-color);
   padding: 1rem;
   border-radius: 14px;
@@ -896,7 +997,7 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   overflow: hidden;
   border: 3px solid var(--ifs-green);
   flex-shrink: 0;
-  background: #0f172a;
+  background: var(--ink-900);
 }
 
 .student-profile-photo img {
@@ -923,15 +1024,18 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
 .subtab-btn {
   padding: 0.5rem 0.85rem;
   border-radius: 8px;
-  border: 1px solid #cbd5e1;
-  background: #f8fafc;
+  border: 1px solid var(--ink-300);
+  background: var(--ink-50);
   font-size: 0.79rem;
   font-weight: 700;
-  color: #334155;
+  color: var(--ink-600);
   cursor: pointer;
   white-space: nowrap;
   flex-shrink: 0;
   font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
 }
 
 .subtab-btn.active {
@@ -957,24 +1061,27 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
 .form-group label {
   font-size: 0.79rem;
   font-weight: 700;
-  color: #334155;
+  color: var(--ink-600);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
 }
 
 .form-control {
   width: 100%;
   padding: 0.62rem 0.78rem;
   border-radius: 9px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--ink-300);
   font-size: 0.9rem;
   font-family: inherit;
   outline: none;
   background: #ffffff;
-  color: #0f172a;
+  color: var(--ink-900);
 }
 
 .form-control:focus {
   border-color: var(--ifs-green);
-  box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.14);
+  box-shadow: 0 0 0 3px rgba(13, 146, 104, 0.14);
 }
 
 .Selectable-chips {
@@ -988,18 +1095,18 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   border-radius: 999px;
   font-size: 0.75rem;
   font-weight: 600;
-  border: 1px solid #cbd5e1;
-  background: #f8fafc;
-  color: #334155;
+  border: 1px solid var(--ink-300);
+  background: var(--ink-50);
+  color: var(--ink-600);
   cursor: pointer;
   user-select: none;
   transition: all 0.14s ease;
 }
 
 .chip-toggle.selected {
-  background: #dcfce7;
-  color: #14532d;
-  border-color: #22c55e;
+  background: var(--ifs-green-light);
+  color: var(--ifs-green-darker);
+  border-color: #5fd6a7;
   font-weight: 700;
 }
 
@@ -1044,24 +1151,28 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
 }
 
 .legal-card {
-  background: #f8fafc;
-  border: 1px solid #cbd5e1;
+  background: var(--ink-50);
+  border: 1px solid var(--ink-300);
   border-radius: 12px;
   padding: 1rem;
 }
 
 .legal-card h4 {
   font-size: 0.92rem;
-  color: #0f172a;
+  color: var(--ink-900);
   margin-bottom: 0.4rem;
   display: flex;
   align-items: center;
   gap: 0.4rem;
 }
 
+.legal-card h4 .icon {
+  color: var(--ifs-green);
+}
+
 .legal-card p, .legal-card li {
   font-size: 0.81rem;
-  color: #334155;
+  color: var(--ink-600);
 }
 
 .legal-card ul {
@@ -1084,14 +1195,14 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
 }
 
 .toast-msg {
-  background: #0f172a;
+  background: var(--ink-950);
   color: #ffffff;
   padding: 0.75rem 1.05rem;
   border-radius: 12px;
   font-size: 0.82rem;
   font-weight: 600;
   box-shadow: var(--shadow-lg);
-  border-left: 4px solid #22c55e;
+  border-left: 4px solid var(--ifs-green);
   max-width: 480px;
   width: 100%;
   animation: slideIn 0.22s ease;
@@ -1157,7 +1268,11 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   .brand-logo {
     width: 38px;
     height: 38px;
-    font-size: 1.2rem;
+  }
+
+  .brand-logo .icon {
+    width: 20px;
+    height: 20px;
   }
 
   .brand-titles h1 {
@@ -1213,8 +1328,12 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   .kpi-icon {
     width: 32px;
     height: 32px;
-    font-size: 1rem;
     border-radius: 9px;
+  }
+
+  .kpi-icon .icon {
+    width: 18px;
+    height: 18px;
   }
 
   /* Oculta abas desktop e ativa Barra Inferior Fixa estilo App iOS/Android */
