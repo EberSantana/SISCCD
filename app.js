@@ -273,9 +273,14 @@ function alternarModoPrivacidade() {
   document.body.classList.toggle('privacy-blur-mode', estadoApp.modoPrivacidadeBlur);
   const btn = document.getElementById('btnPrivacyBlur');
   if (btn) {
-    btn.innerHTML = estadoApp.modoPrivacidadeBlur
-      ? icone('eye-off') + ' Modo Projetor (Desfocar Fotos): ON'
-      : icone('eye') + ' Modo Projetor (Desfocar Fotos): OFF';
+    const ativo = estadoApp.modoPrivacidadeBlur;
+    btn.classList.toggle('is-on', ativo);
+    btn.title = ativo
+      ? 'Modo Projetor ativo: fotos desfocadas ao projetar a tela'
+      : 'Modo Projetor: desfocar fotos ao projetar a tela';
+    btn.innerHTML = icone(ativo ? 'eye-off' : 'eye') +
+      '<span class="btn-icon-label">Modo Projetor</span>' +
+      '<span class="switch-mini" aria-hidden="true"><span class="switch-mini-dot"></span></span>';
   }
   renderizarTudo();
 }
@@ -306,10 +311,12 @@ function atualizarBadgeConexao(modoForcado) {
   const url = obterApiUrl();
   if (url && modoForcado !== 'offline') {
     badge.className = 'badge-pill badge-cloud';
-    badge.innerHTML = icone('cloud') + ' Conectado à Planilha/Drive Privado (Zero Dados no GitHub)';
+    badge.title = 'Conectado à Planilha/Drive Privado — Zero Dados Reais no GitHub';
+    badge.innerHTML = icone('cloud') + ' Nuvem Privada Conectada';
   } else {
     badge.className = 'badge-pill badge-demo';
-    badge.innerHTML = icone('zap') + ' Modo Local / Demonstração (Configure a Planilha Privada em ' + icone('settings') + ')';
+    badge.title = 'Modo Local / Demonstração — configure a Planilha Privada em "Nuvem Privada"';
+    badge.innerHTML = icone('zap') + ' Modo Demonstração';
   }
 }
 
@@ -578,7 +585,7 @@ function renderizarGridAlunos(listaFiltrada) {
               : `<span class="tag-mini">${icone('clock')} Sem meu parecer</span>`
             }
             ${aluno.consentimentoImagemPais === false
-              ? `<span class="tag-mini" style="background:#f1f5f9;color:#475569;">${icone('lock')} Foto Anonimizada (Art. 14)</span>`
+              ? `<span class="tag-mini">${icone('lock')} Foto Anonimizada (Art. 14)</span>`
               : ''
             }
             ${analise.qtdRendimentoCritico > 0
@@ -590,7 +597,7 @@ function renderizarGridAlunos(listaFiltrada) {
               : ''
             }
             ${analise.encaminhamentoAluno
-              ? `<span class="tag-mini" style="background:#e0f2fe;color:#0369a1;border-color:#bae6fd;">${icone('compass')} Encaminhado</span>`
+              ? `<span class="tag-mini">${icone('compass')} Encaminhado</span>`
               : ''
             }
           </div>
@@ -881,9 +888,11 @@ function renderizarListaPareceresConsolidados(pareceresAluno) {
   }
 
   container.innerHTML = pareceresAluno.map(p => {
+    const badgeRendClasse = p.rendimento === 'critico' ? 'tag-alert' : (p.rendimento === 'atencao' ? 'tag-atencao' : 'tag-my-done');
     const badgeRend = p.rendimento === 'critico'
       ? icone('alert-octagon') + ' Rendimento Crítico'
       : (p.rendimento === 'atencao' ? icone('alert-triangle') + ' Em Atenção' : icone('check-circle') + ' Rendimento Adequado');
+    const badgeFreqClasse = p.frequencia === 'infrequente' ? 'tag-alert' : (p.frequencia === 'pontual' ? 'tag-atencao' : 'tag-my-done');
     const badgeFreq = p.frequencia === 'infrequente'
       ? icone('alert-octagon') + ' Infrequente'
       : (p.frequencia === 'pontual' ? icone('alert-triangle') + ' Faltas Pontuais' : icone('check-circle') + ' Assíduo');
@@ -900,11 +909,11 @@ function renderizarListaPareceresConsolidados(pareceresAluno) {
         </div>
 
         <div class="pareceres-mini-summary" style="margin-bottom:0.5rem;">
-          <span class="tag-mini">${badgeRend}</span>
-          <span class="tag-mini">${badgeFreq}</span>
+          <span class="tag-mini ${badgeRendClasse}">${badgeRend}</span>
+          <span class="tag-mini ${badgeFreqClasse}">${badgeFreq}</span>
           ${p.notaAtual ? `<span class="tag-mini">${icone('bar-chart')} Nota/Conceito: <strong>${escaparHtml(p.notaAtual)}</strong></span>` : ''}
           ${p.faltas ? `<span class="tag-mini">${icone('calendar')} Faltas: <strong>${escaparHtml(p.faltas)}</strong></span>` : ''}
-          ${(p.tags || []).map(t => `<span class="tag-mini" style="background:#f0fdf4;color:#166534;border-color:#bbf7d0;">${icone('tag')} ${escaparHtml(t)}</span>`).join('')}
+          ${(p.tags || []).map(t => `<span class="tag-mini">${icone('tag')} ${escaparHtml(t)}</span>`).join('')}
         </div>
 
         <p style="font-size:0.86rem; color:#1e293b; background:#f8fafc; padding:0.65rem 0.8rem; border-radius:8px;">

@@ -282,6 +282,111 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   flex-wrap: wrap;
 }
 
+.top-security-banner .sec-right {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+}
+
+.sec-user {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--ink-300);
+  white-space: nowrap;
+}
+
+.sec-user .icon {
+  width: 0.9em;
+  height: 0.9em;
+}
+
+.sec-divider {
+  width: 1px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.14);
+  margin: 0 0.15rem;
+}
+
+/* Botões de ação neutros do cabeçalho: discretos até o hover, para não competir
+   visualmente com os badges de status à esquerda. */
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.32rem 0.55rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ink-300);
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-icon .icon {
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+}
+
+.btn-icon:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.btn-icon.is-on {
+  background: rgba(13, 146, 104, 0.22);
+  color: #5eead4;
+  border-color: rgba(94, 234, 212, 0.3);
+}
+
+.btn-icon-danger {
+  color: #fca5a5;
+}
+
+.btn-icon-danger:hover {
+  background: rgba(239, 68, 68, 0.16);
+  color: #fecaca;
+  border-color: rgba(252, 165, 165, 0.3);
+}
+
+/* Mini switch visual do "Modo Projetor" */
+.switch-mini {
+  display: inline-flex;
+  align-items: center;
+  width: 22px;
+  height: 13px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+  padding: 2px;
+  transition: background 0.15s ease;
+  flex-shrink: 0;
+}
+
+.switch-mini-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #ffffff;
+  transition: transform 0.15s ease;
+}
+
+.btn-icon.is-on .switch-mini {
+  background: var(--ifs-green);
+}
+
+.btn-icon.is-on .switch-mini-dot {
+  transform: translateX(9px);
+}
+
 .badge-pill {
   display: inline-flex;
   align-items: center;
@@ -313,6 +418,20 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   background: rgba(14, 165, 233, 0.2);
   color: #38bdf8;
   border: 1px solid rgba(56, 189, 248, 0.38);
+}
+
+.badge-link {
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.12s ease;
+}
+
+.badge-link:hover {
+  background: rgba(13, 146, 104, 0.34);
+}
+
+.badge-link:active {
+  transform: scale(0.97);
 }
 
 .main-header {
@@ -903,6 +1022,12 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   border-color: #a8e9cf;
 }
 
+.tag-mini.tag-atencao {
+  background: #fffbeb;
+  color: #92400e;
+  border-color: #fde68a;
+}
+
 .student-card-footer {
   padding: 0.65rem 0.95rem;
   background: var(--ink-50);
@@ -1268,6 +1393,18 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   .top-security-banner .badge-demo,
   .top-security-banner .badge-cloud {
     display: none;
+  }
+
+  .sec-user {
+    display: none;
+  }
+
+  .btn-icon-label {
+    display: none;
+  }
+
+  .btn-icon {
+    padding: 0.4rem;
   }
 
   .main-header {
