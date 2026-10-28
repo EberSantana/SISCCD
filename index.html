@@ -74,22 +74,27 @@
        ======================================================================== -->
   <div class="top-security-banner">
     <div class="sec-left">
-      <span class="badge-pill badge-eca"><i class="icon" data-icon="shield" aria-hidden="true"></i> ECA Digital (Lei 15.211/2025) • LGPD Art. 14 • Lei 14.811/2024</span>
-      <span id="connectionStatusBadge" class="badge-pill badge-demo"><i class="icon" data-icon="zap" aria-hidden="true"></i> Modo Demonstração (Zero Dados Reais no GitHub)</span>
-      <span id="loggedTeacherBanner"><i class="icon" data-icon="user" aria-hidden="true"></i> Docente: --</span>
+      <button type="button" class="badge-pill badge-eca badge-link" onclick="mudarAbaPrincipal('respaldo')" title="ECA Digital (Lei 15.211/2025) • LGPD Art. 14 • Lei 14.811/2024 — ver detalhes de conformidade">
+        <i class="icon" data-icon="shield-check" aria-hidden="true"></i> Proteção Legal Ativa
+      </button>
+      <span id="connectionStatusBadge" class="badge-pill badge-demo" title="Modo Demonstração (Zero Dados Reais no GitHub)"><i class="icon" data-icon="zap" aria-hidden="true"></i> Modo Demonstração</span>
     </div>
-    <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
-      <button type="button" class="btn btn-amber" style="padding:0.25rem 0.65rem; font-size:0.74rem;" onclick="instalarPwaNoCelular()" id="btnInstalarPWA">
-        <i class="icon" data-icon="smartphone" aria-hidden="true"></i> Instalar App no Celular
+    <div class="sec-right">
+      <span id="loggedTeacherBanner" class="sec-user"><i class="icon" data-icon="user" aria-hidden="true"></i> Docente: --</span>
+      <div class="sec-divider" aria-hidden="true"></div>
+      <button type="button" class="btn-icon" onclick="instalarPwaNoCelular()" id="btnInstalarPWA" title="Instalar App no Celular">
+        <i class="icon" data-icon="smartphone" aria-hidden="true"></i><span class="btn-icon-label">Instalar App</span>
       </button>
-      <button type="button" class="btn btn-glass" style="padding:0.25rem 0.65rem; font-size:0.74rem;" onclick="alternarModoPrivacidade()" id="btnPrivacyBlur">
-        <i class="icon" data-icon="eye" aria-hidden="true"></i> Modo Projetor (Desfocar Fotos): OFF
+      <button type="button" class="btn-icon" onclick="alternarModoPrivacidade()" id="btnPrivacyBlur" title="Modo Projetor: desfocar fotos ao projetar a tela">
+        <i class="icon" data-icon="eye" aria-hidden="true"></i><span class="btn-icon-label">Modo Projetor</span>
+        <span class="switch-mini" aria-hidden="true"><span class="switch-mini-dot"></span></span>
       </button>
-      <button type="button" class="btn btn-glass" style="padding:0.25rem 0.65rem; font-size:0.74rem;" onclick="abrirModalConfigNuvem()">
-        <i class="icon" data-icon="settings" aria-hidden="true"></i> Planilha / Nuvem Privada
+      <button type="button" class="btn-icon" onclick="abrirModalConfigNuvem()" title="Configurar Planilha / Nuvem Privada">
+        <i class="icon" data-icon="settings" aria-hidden="true"></i><span class="btn-icon-label">Nuvem Privada</span>
       </button>
-      <button type="button" class="btn btn-danger" style="padding:0.25rem 0.65rem; font-size:0.74rem;" onclick="encerrarSessaoSegura()">
-        <i class="icon" data-icon="lock" aria-hidden="true"></i> Bloquear / Sair
+      <div class="sec-divider" aria-hidden="true"></div>
+      <button type="button" class="btn-icon btn-icon-danger" onclick="encerrarSessaoSegura()" title="Bloquear sessão e sair">
+        <i class="icon" data-icon="lock" aria-hidden="true"></i><span class="btn-icon-label">Sair</span>
       </button>
     </div>
   </div>
