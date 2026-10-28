@@ -1205,8 +1205,23 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   border-left: 4px solid var(--ifs-green);
   max-width: 480px;
   width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
   animation: slideIn 0.22s ease;
   pointer-events: auto;
+}
+
+.toast-msg .icon {
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+  width: 1.1em;
+  height: 1.1em;
+  color: #5eead4;
+}
+
+.toast-msg.toast-erro .icon {
+  color: #fca5a5;
 }
 
 @keyframes slideIn {

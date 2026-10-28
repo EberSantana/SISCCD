@@ -207,14 +207,14 @@
 
           <div style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
             <select id="selectFiltroSituacao" class="form-control" onchange="renderizarTudo()">
-              <option value="todos">📌 Todos os Alunos da Turma</option>
-              <option value="avaliar">🚨 Prioridade: A Serem Avaliados na Plenária</option>
-              <option value="atencao">⚠️ Em Atenção Pedagógica</option>
-              <option value="menores_16">🔒 Menores de 16 Anos (14-15 anos • Lei 15.211/2025)</option>
-              <option value="pendentes_meu">⏳ Pendentes do Meu Parecer Docente</option>
-              <option value="avaliados_meu">✅ Já Avaliados por Mim</option>
-              <option value="destaque">🏆 Destaques Positivos</option>
-              <option value="napne">♿ Acompanhamento NAPNE</option>
+              <option value="todos">Todos os Alunos da Turma</option>
+              <option value="avaliar">Prioridade: A Serem Avaliados na Plenária</option>
+              <option value="atencao">Em Atenção Pedagógica</option>
+              <option value="menores_16">Menores de 16 Anos (14-15 anos • Lei 15.211/2025)</option>
+              <option value="pendentes_meu">Pendentes do Meu Parecer Docente</option>
+              <option value="avaliados_meu">Já Avaliados por Mim</option>
+              <option value="destaque">Destaques Positivos</option>
+              <option value="napne">Acompanhamento NAPNE</option>
             </select>
           </div>
         </div>
@@ -399,11 +399,11 @@
           <div style="display:flex; flex-direction:column; gap:0.4rem; min-width:225px;">
             <label style="font-size:0.72rem; font-weight:800; color:#475569; text-transform:uppercase;">Situação Geral no Conselho:</label>
             <select id="fichaStatusGeralSelect" class="form-control" onchange="atualizarStatusGeralAlunoAtual(this.value)">
-              <option value="avaliar">🚨 A Ser Avaliado em Plenária (Prioridade)</option>
-              <option value="atencao">⚠️ Em Atenção Pedagógica</option>
-              <option value="regular">✅ Situação Regular / Adequada</option>
-              <option value="destaque">🏆 Destaque Acadêmico Positivo</option>
-              <option value="concluido">✔️ Avaliado / Encaminhado pelo Conselho</option>
+              <option value="avaliar">A Ser Avaliado em Plenária (Prioridade)</option>
+              <option value="atencao">Em Atenção Pedagógica</option>
+              <option value="regular">Situação Regular / Adequada</option>
+              <option value="destaque">Destaque Acadêmico Positivo</option>
+              <option value="concluido">Avaliado / Encaminhado pelo Conselho</option>
             </select>
             <button type="button" id="btnToggleConsentimentoFoto" class="btn btn-white" style="font-size:0.74rem; padding:0.35rem 0.6rem;" onclick="alternarConsentimentoFotoAlunoAtual()">
               <i class="icon" data-icon="image" aria-hidden="true"></i> Consentimento Foto (Art. 14 LGPD): Ativo
@@ -459,28 +459,28 @@
               <div class="form-group">
                 <label><i class="icon" data-icon="bar-chart" aria-hidden="true"></i> Indicador de Rendimento / Aprendizagem:</label>
                 <select id="parecerRendimentoSelect" class="form-control">
-                  <option value="adequado">✅ Adequado (Dentro do esperado)</option>
-                  <option value="atencao">⚠️ Em Atenção (Oscilação / Recuperação)</option>
-                  <option value="critico">🚨 Crítico (Dificuldade acentuada / Abaixo da média)</option>
+                  <option value="adequado">Adequado (Dentro do esperado)</option>
+                  <option value="atencao">Em Atenção (Oscilação / Recuperação)</option>
+                  <option value="critico">Crítico (Dificuldade acentuada / Abaixo da média)</option>
                 </select>
               </div>
 
               <div class="form-group">
                 <label><i class="icon" data-icon="clock" aria-hidden="true"></i> Indicador de Frequência / Assiduidade:</label>
                 <select id="parecerFrequenciaSelect" class="form-control">
-                  <option value="regular">✅ Frequência Regular</option>
-                  <option value="pontual">⚠️ Faltas ou Atrasos Pontuais</option>
-                  <option value="infrequente">🚨 Infrequente / Risco por Faltas</option>
+                  <option value="regular">Frequência Regular</option>
+                  <option value="pontual">Faltas ou Atrasos Pontuais</option>
+                  <option value="infrequente">Infrequente / Risco por Faltas</option>
                 </select>
               </div>
 
               <div class="form-group">
                 <label><i class="icon" data-icon="users" aria-hidden="true"></i> Participação e Convivência Escolar (Lei 13.185/15):</label>
                 <select id="parecerPosturaSelect" class="form-control">
-                  <option value="participativo">✅ Participativo e Colaborativo</option>
-                  <option value="disperso">⚠️ Disperso / Pouca Participação</option>
-                  <option value="celular">📱 Uso Indevido de Telas / Distração em Sala</option>
-                  <option value="conflito">🚨 Conflito de Convivência / Alerta de Intimidação</option>
+                  <option value="participativo">Participativo e Colaborativo</option>
+                  <option value="disperso">Disperso / Pouca Participação</option>
+                  <option value="celular">Uso Indevido de Telas / Distração em Sala</option>
+                  <option value="conflito">Conflito de Convivência / Alerta de Intimidação</option>
                 </select>
               </div>
             </div>
@@ -534,10 +534,10 @@
               <div class="form-group">
                 <label><i class="icon" data-icon="shield" aria-hidden="true"></i> Protocolo de Proteção Integral (Lei 15.211/2025 & Lei Anti-Bullying 14.811/2024):</label>
                 <select id="encProtocoloProtecaoSelect" class="form-control">
-                  <option value="Acompanhamento Pedagógico Ordinário">📘 Acompanhamento Pedagógico Ordinário</option>
-                  <option value="Vinculação Obrigatória aos Pais (<16 anos - Lei 15.211/2025)">👨‍👩‍👧 Ciência Obrigatória aos Responsáveis (< 16 anos - Lei 15.211/2025)</option>
-                  <option value="Prevenção/Mediação de Bullying ou Cyberbullying (Lei 14.811/2024)">🤝 Prevenção/Mediação de Bullying ou Cyberbullying (Lei 14.811/2024)</option>
-                  <option value="Proteção Prioritária à Saúde Mental / Vulnerabilidade (Sigilo ETP/Psicologia)">🧠 Proteção Prioritária à Saúde Mental / Vulnerabilidade (Sigilo Psicologia)</option>
+                  <option value="Acompanhamento Pedagógico Ordinário">Acompanhamento Pedagógico Ordinário</option>
+                  <option value="Vinculação Obrigatória aos Pais (<16 anos - Lei 15.211/2025)">Ciência Obrigatória aos Responsáveis (< 16 anos - Lei 15.211/2025)</option>
+                  <option value="Prevenção/Mediação de Bullying ou Cyberbullying (Lei 14.811/2024)">Prevenção/Mediação de Bullying ou Cyberbullying (Lei 14.811/2024)</option>
+                  <option value="Proteção Prioritária à Saúde Mental / Vulnerabilidade (Sigilo ETP/Psicologia)">Proteção Prioritária à Saúde Mental / Vulnerabilidade (Sigilo Psicologia)</option>
                 </select>
               </div>
               <div class="form-group">
@@ -551,9 +551,9 @@
               <div class="form-group">
                 <label><i class="icon" data-icon="tag" aria-hidden="true"></i> Status do Encaminhamento:</label>
                 <select id="encStatusSelect" class="form-control">
-                  <option value="Pendente de Convocação">⏳ Pendente de Convocação</option>
-                  <option value="Em Andamento">🔄 Em Andamento</option>
-                  <option value="Família Ciente / Atendido">✅ Família Ciente / Atendido</option>
+                  <option value="Pendente de Convocação">Pendente de Convocação</option>
+                  <option value="Em Andamento">Em Andamento</option>
+                  <option value="Família Ciente / Atendido">Família Ciente / Atendido</option>
                 </select>
               </div>
             </div>
@@ -624,10 +624,10 @@
             <div class="form-group">
               <label><i class="icon" data-icon="tag" aria-hidden="true"></i> Situação Inicial no Conselho:</label>
               <select id="cadStatusSelect" class="form-control">
-                <option value="avaliar">🚨 A Ser Avaliado em Plenária</option>
-                <option value="atencao">⚠️ Em Atenção Pedagógica</option>
-                <option value="regular">✅ Regular</option>
-                <option value="destaque">🏆 Destaque Positivo</option>
+                <option value="avaliar">A Ser Avaliado em Plenária</option>
+                <option value="atencao">Em Atenção Pedagógica</option>
+                <option value="regular">Regular</option>
+                <option value="destaque">Destaque Positivo</option>
               </select>
             </div>
           </div>
