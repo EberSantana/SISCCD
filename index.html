@@ -4,19 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
-  <meta name="theme-color" content="#14532d" />
+  <meta name="theme-color" content="#0b5e46" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="SISCCD IFS" />
   <title>SISCCD • Conselho de Classe Seguro (ECA Digital Lei 15.211/2025 & LGPD) • IFS</title>
   <link rel="manifest" href="manifest.json" />
-  <link rel="icon" type="image/png" href="icons/icon-192.png" />
-  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=2026.5" />
+  <link rel="stylesheet" href="styles.css?v=2026.6" />
 </head>
 <body oncontextmenu="if(event.target.tagName==='IMG') return false;">
 
@@ -29,13 +31,13 @@
   <div id="authGatekeeper" class="auth-gatekeeper">
     <div class="auth-card">
       <div class="auth-badge-top">
-        🛡️ Acesso Restrito • Conformidade ECA Digital (Lei 15.211/2025) & LGPD
+        <i class="icon" data-icon="shield" aria-hidden="true"></i> Acesso Restrito • Conformidade ECA Digital (Lei 15.211/2025) & LGPD
       </div>
       <h2 class="auth-title">SISCCD — Sistema de Conselho de Classe Digital</h2>
       <p class="auth-subtitle">IFS Campus Tobias Barreto • Ensino Médio Integrado (14 a 17 anos) & Subsequente</p>
 
       <div class="legal-box-gate">
-        <strong>⚖️ Marco Regulatório de Proteção Integral (Adolescentes 14 a 17 anos):</strong><br/>
+        <strong><i class="icon" data-icon="scale" aria-hidden="true"></i> Marco Regulatório de Proteção Integral (Adolescentes 14 a 17 anos):</strong><br/>
         • <strong>ECA Digital (Lei nº 15.211/2025):</strong> Proíbe autodeclaração de idade (aferição documental via SUAP), exige vinculação de menores de 16 anos aos pais/responsáveis legais, veda perfilamento comercial e protege contra violência e automutilação.<br/>
         • <strong>LGPD (Lei nº 13.709/2018, Art. 14) & Marco Civil (Lei nº 12.965/2014):</strong> Tratamento no <em>melhor interesse do adolescente</em>, com consentimento parental destacado para uso de imagem e guarda auditada de registros de acesso.<br/>
         • <strong>CF/88 (Art. 227) & ECA (Lei nº 8.069/1990, Art. 17 e 18):</strong> Prioridade absoluta e inviolabilidade da imagem, identidade e dignidade dos adolescentes.<br/>
@@ -44,12 +46,12 @@
 
       <form id="formLoginConselho" onsubmit="realizarLoginConselho(event)">
         <div class="form-group" style="margin-bottom: 0.85rem;">
-          <label for="loginDocenteSelect">👤 Selecione seu Perfil / Docente:</label>
+          <label for="loginDocenteSelect"><i class="icon" data-icon="user" aria-hidden="true"></i> Selecione seu Perfil / Docente:</label>
           <select id="loginDocenteSelect" class="form-control" required></select>
         </div>
 
         <div class="form-group" style="margin-bottom: 0.95rem;">
-          <label for="loginPinInput">🔐 PIN de Acesso Individual (Padrão inicial: 1234):</label>
+          <label for="loginPinInput"><i class="icon" data-icon="lock" aria-hidden="true"></i> PIN de Acesso Individual (Padrão inicial: 1234):</label>
           <input type="password" id="loginPinInput" class="form-control" placeholder="Digite seu PIN de 4 dígitos" maxlength="8" required />
         </div>
 
@@ -61,7 +63,7 @@
         </label>
 
         <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.78rem; font-size: 0.95rem;">
-          🔓 Assinar Termo e Acessar SISCCD
+          <i class="icon" data-icon="unlock" aria-hidden="true"></i> Assinar Termo e Acessar SISCCD
         </button>
       </form>
     </div>
@@ -72,22 +74,22 @@
        ======================================================================== -->
   <div class="top-security-banner">
     <div class="sec-left">
-      <span class="badge-pill badge-eca">🛡️ ECA Digital (Lei 15.211/2025) • LGPD Art. 14 • Lei 14.811/2024</span>
-      <span id="connectionStatusBadge" class="badge-pill badge-demo">⚡ Modo Demonstração (Zero Dados Reais no GitHub)</span>
-      <span id="loggedTeacherBanner">👤 Docente: --</span>
+      <span class="badge-pill badge-eca"><i class="icon" data-icon="shield" aria-hidden="true"></i> ECA Digital (Lei 15.211/2025) • LGPD Art. 14 • Lei 14.811/2024</span>
+      <span id="connectionStatusBadge" class="badge-pill badge-demo"><i class="icon" data-icon="zap" aria-hidden="true"></i> Modo Demonstração (Zero Dados Reais no GitHub)</span>
+      <span id="loggedTeacherBanner"><i class="icon" data-icon="user" aria-hidden="true"></i> Docente: --</span>
     </div>
     <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
       <button type="button" class="btn btn-amber" style="padding:0.25rem 0.65rem; font-size:0.74rem;" onclick="instalarPwaNoCelular()" id="btnInstalarPWA">
-        📲 Instalar App no Celular
+        <i class="icon" data-icon="smartphone" aria-hidden="true"></i> Instalar App no Celular
       </button>
       <button type="button" class="btn btn-glass" style="padding:0.25rem 0.65rem; font-size:0.74rem;" onclick="alternarModoPrivacidade()" id="btnPrivacyBlur">
-        👁️ Modo Projetor (Desfocar Fotos): OFF
+        <i class="icon" data-icon="eye" aria-hidden="true"></i> Modo Projetor (Desfocar Fotos): OFF
       </button>
       <button type="button" class="btn btn-glass" style="padding:0.25rem 0.65rem; font-size:0.74rem;" onclick="abrirModalConfigNuvem()">
-        ⚙️ Planilha / Nuvem Privada
+        <i class="icon" data-icon="settings" aria-hidden="true"></i> Planilha / Nuvem Privada
       </button>
       <button type="button" class="btn btn-danger" style="padding:0.25rem 0.65rem; font-size:0.74rem;" onclick="encerrarSessaoSegura()">
-        🔒 Bloquear / Sair
+        <i class="icon" data-icon="lock" aria-hidden="true"></i> Bloquear / Sair
       </button>
     </div>
   </div>
@@ -98,7 +100,7 @@
   <header class="main-header">
     <div class="header-inner">
       <div class="brand-group">
-        <div class="brand-logo">🎓</div>
+        <div class="brand-logo"><i class="icon" data-icon="graduation-cap" aria-hidden="true"></i></div>
         <div class="brand-titles">
           <h1>SISCCD — Conselho de Classe Digital • IFS Tobias Barreto</h1>
           <p id="headerBimestreLabel">Ensino Médio Integrado (14 a 17 anos) & Subsequente • Blindagem Lei 15.211/2025 & LGPD</p>
@@ -107,19 +109,19 @@
 
       <div class="header-actions">
         <button type="button" class="btn btn-white" onclick="abrirModalNovoAluno()">
-          ➕ Cadastrar Aluno + Vínculo Parental
+          <i class="icon" data-icon="plus" aria-hidden="true"></i> Cadastrar Aluno + Vínculo Parental
         </button>
         <button type="button" class="btn btn-glass" onclick="abrirModalImportarLote()">
-          📥 Importar Turma (SUAP/CSV)
+          <i class="icon" data-icon="download" aria-hidden="true"></i> Importar Turma (SUAP/CSV)
         </button>
         <button type="button" class="btn btn-glass" onclick="iniciarModoReuniaoPlenaria()">
-          🖥️ Modo Plenária (Avaliar Prioridades)
+          <i class="icon" data-icon="monitor" aria-hidden="true"></i> Modo Plenária (Avaliar Prioridades)
         </button>
         <button type="button" id="btnHeaderLimparDemos" class="btn btn-danger" onclick="removerAlunosDemo()" title="Remove todos os alunos fictícios [DEMO] com 1 clique">
-          🗑️ Deletar Alunos Demo
+          <i class="icon" data-icon="trash-2" aria-hidden="true"></i> Deletar Alunos Demo
         </button>
         <button type="button" id="btnHeaderRestaurarDemos" class="btn btn-amber" style="display:none;" onclick="restaurarAlunosDemoApresentacao()" title="Recarrega os 15 alunos [DEMO] para apresentação">
-          🎭 Recarregar 15 Demos (Apresentação)
+          <i class="icon" data-icon="refresh-cw" aria-hidden="true"></i> Recarregar 15 Demos (Apresentação)
         </button>
       </div>
     </div>
@@ -138,50 +140,50 @@
           <strong id="kpiTotalAlunos">0</strong>
           <small>Idades aferidas via SUAP (Lei 15.211/25)</small>
         </div>
-        <div class="kpi-icon" style="background:#f1f5f9; color:#0f172a;">👥</div>
+        <div class="kpi-icon" style="background:#f1f5f9; color:#0f172a;"><i class="icon" data-icon="users" aria-hidden="true"></i></div>
       </div>
 
       <div class="kpi-card" onclick="aplicarFiltroSituacao('avaliar')" style="border-left: 4px solid var(--ifs-red);">
         <div class="kpi-info">
-          <span style="color:#991b1b;">🚨 A Serem Avaliados (Prioridade)</span>
+          <span style="color:#991b1b;"><i class="icon" data-icon="alert-octagon" aria-hidden="true"></i> A Serem Avaliados (Prioridade)</span>
           <strong id="kpiPrioridadeAvaliar" style="color:#dc2626;">0</strong>
           <small>Sinalizados por docentes p/ plenária</small>
         </div>
-        <div class="kpi-icon" style="background:#fee2e2; color:#dc2626;">🎯</div>
+        <div class="kpi-icon" style="background:#fee2e2; color:#dc2626;"><i class="icon" data-icon="target" aria-hidden="true"></i></div>
       </div>
 
       <div class="kpi-card" onclick="aplicarFiltroSituacao('pendentes_meu')">
         <div class="kpi-info">
-          <span style="color:#92400e;">⏳ Pendentes do Meu Parecer</span>
+          <span style="color:#92400e;"><i class="icon" data-icon="clock" aria-hidden="true"></i> Pendentes do Meu Parecer</span>
           <strong id="kpiPendentesMeu" style="color:#d97706;">0</strong>
           <small>Aguardando registro do seu parecer</small>
         </div>
-        <div class="kpi-icon" style="background:#fef3c7; color:#d97706;">✍️</div>
+        <div class="kpi-icon" style="background:#fef3c7; color:#d97706;"><i class="icon" data-icon="edit-3" aria-hidden="true"></i></div>
       </div>
 
       <div class="kpi-card" onclick="mudarAbaPrincipal('respaldo')">
         <div class="kpi-info">
-          <span style="color:#166534;">🛡️ Conformidade 6 Leis (ECA Digital)</span>
+          <span style="color:#166534;"><i class="icon" data-icon="shield" aria-hidden="true"></i> Conformidade 6 Leis (ECA Digital)</span>
           <strong id="kpiLogsAuditoria" style="color:#15803d;">100%</strong>
           <small>Vínculo Parental <16a • Anti-Bullying</small>
         </div>
-        <div class="kpi-icon" style="background:#dcfce7; color:#15803d;">⚖️</div>
+        <div class="kpi-icon" style="background:#dcfce7; color:#15803d;"><i class="icon" data-icon="scale" aria-hidden="true"></i></div>
       </div>
     </section>
 
     <!-- Abas de Navegação -->
     <nav class="nav-tabs">
       <button class="nav-tab active" data-tab="turmas" onclick="mudarAbaPrincipal('turmas')">
-        📸 Alunos por Turma & Fotos
+        <i class="icon" data-icon="camera" aria-hidden="true"></i> Alunos por Turma & Fotos
       </button>
       <button class="nav-tab" data-tab="prioridades" onclick="mudarAbaPrincipal('prioridades')">
-        🚨 Quem Deve Ser Avaliado (Fila do Conselho)
+        <i class="icon" data-icon="alert-octagon" aria-hidden="true"></i> Quem Deve Ser Avaliado (Fila do Conselho)
       </button>
       <button class="nav-tab" data-tab="ata" onclick="mudarAbaPrincipal('ata')">
-        📋 Ata Oficial & Encaminhamentos
+        <i class="icon" data-icon="clipboard-list" aria-hidden="true"></i> Ata Oficial & Encaminhamentos
       </button>
       <button class="nav-tab" data-tab="respaldo" onclick="mudarAbaPrincipal('respaldo')">
-        ⚖️ Adequação às 6 Leis (ECA Digital Lei 15.211/2025 & LGPD)
+        <i class="icon" data-icon="scale" aria-hidden="true"></i> Adequação às 6 Leis (ECA Digital Lei 15.211/2025 & LGPD)
       </button>
     </nav>
 
@@ -192,14 +194,14 @@
       <div class="filter-bar">
         <div>
           <div style="font-size:0.76rem; font-weight:800; color:#475569; text-transform:uppercase; margin-bottom:0.45rem;">
-            🏫 Filtrar por Turma (Ensino Médio Integrado 14-17 anos & Subsequente):
+            <i class="icon" data-icon="building" aria-hidden="true"></i> Filtrar por Turma (Ensino Médio Integrado 14-17 anos & Subsequente):
           </div>
           <div id="turmaPillsContainer" class="turma-pills"></div>
         </div>
 
         <div class="filter-controls-row">
           <div class="search-input-wrap">
-            <span class="search-icon">🔍</span>
+            <span class="search-icon"><i class="icon" data-icon="search" aria-hidden="true"></i></span>
             <input type="text" id="inputBuscaAluno" placeholder="Buscar aluno por nome, matrícula, responsável legal ou observação..." oninput="renderizarTudo()" />
           </div>
 
@@ -229,13 +231,13 @@
       <div class="card-panel">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1rem;">
           <div>
-            <h2 style="font-size:1.2rem; font-weight:800;">🚨 Matriz de Prioridade: Quem São os Alunos a Serem Avaliados</h2>
+            <h2 style="font-size:1.2rem; font-weight:800;"><i class="icon" data-icon="alert-octagon" aria-hidden="true"></i> Matriz de Prioridade: Quem São os Alunos a Serem Avaliados</h2>
             <p style="font-size:0.85rem; color:#475569;">
               Lista inteligente ordenada pelo número de alertas docentes (rendimento crítico, faltas, vulnerabilidade ou solicitação expressa de discussão em plenária).
             </p>
           </div>
           <button type="button" class="btn btn-primary" onclick="iniciarModoReuniaoPlenaria()">
-            ▶️ Iniciar Passador de Alunos Prioritários
+            <i class="icon" data-icon="arrow-right" aria-hidden="true"></i> Iniciar Passador de Alunos Prioritários
           </button>
         </div>
         <div id="prioridadesListContainer"></div>
@@ -249,17 +251,17 @@
       <div class="card-panel">
         <div class="no-print" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.15rem;">
           <div>
-            <h2 style="font-size:1.2rem; font-weight:800;">📋 Síntese de Deliberações e Encaminhamentos (Ata do Conselho)</h2>
+            <h2 style="font-size:1.2rem; font-weight:800;"><i class="icon" data-icon="clipboard-list" aria-hidden="true"></i> Síntese de Deliberações e Encaminhamentos (Ata do Conselho)</h2>
             <p style="font-size:0.84rem; color:#475569;">
               Relatório estruturado com registro de vínculo parental (Lei 15.211/2025) e preservação de dados sensíveis, pronto para impressão ou PDF.
             </p>
           </div>
           <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
             <button type="button" class="btn btn-white" onclick="exportarBackupJSON()">
-              💾 Exportar Backup Seguro (.JSON)
+              <i class="icon" data-icon="save" aria-hidden="true"></i> Exportar Backup Seguro (.JSON)
             </button>
             <button type="button" class="btn btn-primary" onclick="window.print()">
-              🖨️ Imprimir / Salvar Ata em PDF
+              <i class="icon" data-icon="printer" aria-hidden="true"></i> Imprimir / Salvar Ata em PDF
             </button>
           </div>
         </div>
@@ -275,14 +277,14 @@
       <div class="card-panel">
         <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem;">
           <div>
-            <span class="auth-badge-top">⚖️ Matriz de Conformidade Legal • Adolescentes de 14 a 17 anos</span>
+            <span class="auth-badge-top"><i class="icon" data-icon="scale" aria-hidden="true"></i> Matriz de Conformidade Legal • Adolescentes de 14 a 17 anos</span>
             <h2 style="font-size:1.28rem; font-weight:800;">Adequação Técnica e Jurídica do SISCCD às 6 Leis de Proteção Infantojuvenil</h2>
             <p style="font-size:0.86rem; color:#475569; margin-top:0.25rem;">
               Veja exatamente como cada exigência legal foi implementada no código e no fluxo operacional deste sistema.
             </p>
           </div>
           <button type="button" class="btn btn-primary no-print" onclick="window.print()">
-            🖨️ Imprimir Relatório de Conformidade (RIPD / DPO)
+            <i class="icon" data-icon="printer" aria-hidden="true"></i> Imprimir Relatório de Conformidade (RIPD / DPO)
           </button>
         </div>
 
@@ -345,7 +347,7 @@
         <hr style="margin: 1.5rem 0; border:none; border-top:1px solid var(--border-color);" />
 
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem; margin-bottom:0.8rem;">
-          <h3 style="font-size:1.05rem; font-weight:800;">🔍 Trilha de Auditoria de Acessos e Consentimentos (Marco Civil Art. 7º, LGPD Art. 37 & Lei 15.211/2025)</h3>
+          <h3 style="font-size:1.05rem; font-weight:800;"><i class="icon" data-icon="search" aria-hidden="true"></i> Trilha de Auditoria de Acessos e Consentimentos (Marco Civil Art. 7º, LGPD Art. 37 & Lei 15.211/2025)</h3>
           <span style="font-size:0.78rem; color:#475569;">Registra todos os acessos, assinaturas de sigilo, revogações de imagem e avaliações realizadas.</span>
         </div>
 
@@ -363,14 +365,14 @@
       <div class="modal-header">
         <div>
           <div id="fichaHeaderBadge" style="font-size:0.74rem; color:#4ade80; font-weight:700; text-transform:uppercase;">
-            🛡️ Ficha Protegida • ECA Digital (Lei 15.211/2025) & LGPD Art. 14
+            <i class="icon" data-icon="shield" aria-hidden="true"></i> Ficha Protegida • ECA Digital (Lei 15.211/2025) & LGPD Art. 14
           </div>
           <h3 id="fichaHeaderTitle" style="font-size:1.15rem; font-weight:800;">Avaliação Individual do Estudante</h3>
         </div>
         <div style="display:flex; align-items:center; gap:0.45rem;">
-          <button type="button" class="btn btn-glass" style="padding:0.38rem 0.7rem;" onclick="navegarAlunoModal(-1)" title="Aluno Anterior">◀ Anterior</button>
-          <button type="button" class="btn btn-glass" style="padding:0.38rem 0.7rem;" onclick="navegarAlunoModal(1)" title="Próximo Aluno">Próximo ▶</button>
-          <button type="button" class="btn btn-danger" style="padding:0.38rem 0.7rem;" onclick="fecharModalFichaAluno()">✕ Fechar</button>
+          <button type="button" class="btn btn-glass" style="padding:0.38rem 0.7rem;" onclick="navegarAlunoModal(-1)" title="Aluno Anterior"><i class="icon" data-icon="arrow-left" aria-hidden="true"></i> Anterior</button>
+          <button type="button" class="btn btn-glass" style="padding:0.38rem 0.7rem;" onclick="navegarAlunoModal(1)" title="Próximo Aluno">Próximo <i class="icon" data-icon="arrow-right" aria-hidden="true"></i></button>
+          <button type="button" class="btn btn-danger" style="padding:0.38rem 0.7rem;" onclick="fecharModalFichaAluno()"><i class="icon" data-icon="x" aria-hidden="true"></i> Fechar</button>
         </div>
       </div>
 
@@ -384,13 +386,13 @@
             <div style="display:flex; gap:0.45rem; align-items:center; flex-wrap:wrap; margin-bottom:0.25rem;">
               <span id="fichaTurmaChip" class="chip-turma">1º DS</span>
               <span id="fichaIdadeChip" class="chip-idade-eca">15 anos</span>
-              <span id="fichaMenor16Chip" class="chip-idade-eca" style="background:#fef3c7; color:#92400e; border-color:#fde68a; display:none;">🔒 < 16 anos (Vínculo Parental Lei 15.211/25)</span>
-              <span id="fichaNapneChip" class="chip-idade-eca" style="background:#ede9fe; color:#5b21b6; border-color:#ddd6fe; display:none;">♿ Acompanhamento NAPNE</span>
+              <span id="fichaMenor16Chip" class="chip-idade-eca" style="background:#fef3c7; color:#92400e; border-color:#fde68a; display:none;"><i class="icon" data-icon="lock" aria-hidden="true"></i> < 16 anos (Vínculo Parental Lei 15.211/25)</span>
+              <span id="fichaNapneChip" class="chip-idade-eca" style="background:#ede9fe; color:#5b21b6; border-color:#ddd6fe; display:none;"><i class="icon" data-icon="accessibility" aria-hidden="true"></i> Acompanhamento NAPNE</span>
             </div>
             <h2 id="fichaNomeAluno" style="font-size:1.28rem; font-weight:800; color:#0f172a;">Nome do Estudante</h2>
             <p id="fichaMatriculaAluno" style="font-size:0.8rem; color:#475569;">Matrícula: --</p>
             <div id="fichaVinculoParentalBox" style="font-size:0.78rem; color:#1e293b; background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; padding:0.4rem 0.65rem; margin-top:0.35rem;">
-              👨‍👩‍👧 <strong>Responsável Legal Vinculado (Lei 15.211/2025):</strong> <span id="fichaResponsavelTexto">--</span>
+              <i class="icon" data-icon="users" aria-hidden="true"></i> <strong>Responsável Legal Vinculado (Lei 15.211/2025):</strong> <span id="fichaResponsavelTexto">--</span>
             </div>
             <p id="fichaObsCoord" style="font-size:0.79rem; color:#334155; margin-top:0.25rem;"></p>
           </div>
@@ -404,14 +406,14 @@
               <option value="concluido">✔️ Avaliado / Encaminhado pelo Conselho</option>
             </select>
             <button type="button" id="btnToggleConsentimentoFoto" class="btn btn-white" style="font-size:0.74rem; padding:0.35rem 0.6rem;" onclick="alternarConsentimentoFotoAlunoAtual()">
-              🖼️ Consentimento Foto (Art. 14 LGPD): Ativo
+              <i class="icon" data-icon="image" aria-hidden="true"></i> Consentimento Foto (Art. 14 LGPD): Ativo
             </button>
             <div style="display:flex; gap:0.35rem;">
               <button type="button" class="btn btn-white" style="flex:1; font-size:0.73rem; padding:0.35rem 0.5rem;" onclick="editarCadastroAlunoAtual()">
-                ✏️ Editar
+                <i class="icon" data-icon="edit-3" aria-hidden="true"></i> Editar
               </button>
               <button type="button" class="btn btn-danger" style="font-size:0.73rem; padding:0.35rem 0.6rem;" onclick="excluirAlunoDiretoDaFicha()" title="Deletar este aluno">
-                🗑️ Deletar
+                <i class="icon" data-icon="trash-2" aria-hidden="true"></i> Deletar
               </button>
             </div>
           </div>
@@ -420,13 +422,13 @@
         <!-- Sub-abas da Ficha do Aluno -->
         <div class="modal-subtabs">
           <button type="button" class="subtab-btn active" id="subtabBtnParecer" onclick="alternarSubAbaFicha('parecer')">
-            ✍️ 1. Registrar Meu Parecer Docente
+            <i class="icon" data-icon="edit-3" aria-hidden="true"></i> 1. Registrar Meu Parecer Docente
           </button>
           <button type="button" class="subtab-btn" id="subtabBtnConsolidado" onclick="alternarSubAbaFicha('consolidado')">
-            📊 2. Pareceres de Todos os Professores (<span id="countPareceresAluno">0</span>)
+            <i class="icon" data-icon="bar-chart" aria-hidden="true"></i> 2. Pareceres de Todos os Professores (<span id="countPareceresAluno">0</span>)
           </button>
           <button type="button" class="subtab-btn" id="subtabBtnEncaminhamento" onclick="alternarSubAbaFicha('encaminhamento')">
-            🧭 3. Encaminhamentos, Família & Proteção (ECA Digital / Anti-Bullying)
+            <i class="icon" data-icon="compass" aria-hidden="true"></i> 3. Encaminhamentos, Família & Proteção (ECA Digital / Anti-Bullying)
           </button>
         </div>
 
@@ -435,27 +437,27 @@
           <form id="formParecerDocente" onsubmit="salvarParecerDocenteAtual(event)">
             <div class="form-grid">
               <div class="form-group">
-                <label>👨‍🏫 Professor(a) Avaliador(a):</label>
+                <label><i class="icon" data-icon="user" aria-hidden="true"></i> Professor(a) Avaliador(a):</label>
                 <input type="text" id="parecerProfInput" class="form-control" readonly style="background:#f1f5f9; font-weight:700;" />
               </div>
               <div class="form-group">
-                <label>📘 Disciplina / Área:</label>
+                <label><i class="icon" data-icon="book-open" aria-hidden="true"></i> Disciplina / Área:</label>
                 <input type="text" id="parecerDiscInput" class="form-control" list="listaDisciplinasDocente" placeholder="Ex: Programação 1, Matemática..." required />
                 <datalist id="listaDisciplinasDocente"></datalist>
               </div>
               <div class="form-group">
-                <label>📈 Nota / Conceito Atual (Opcional):</label>
+                <label><i class="icon" data-icon="trending-up" aria-hidden="true"></i> Nota / Conceito Atual (Opcional):</label>
                 <input type="text" id="parecerNotaInput" class="form-control" placeholder="Ex: 5,5 ou Em Recuperação" />
               </div>
               <div class="form-group">
-                <label>📅 Nº de Faltas no Bimestre (Opcional):</label>
+                <label><i class="icon" data-icon="calendar" aria-hidden="true"></i> Nº de Faltas no Bimestre (Opcional):</label>
                 <input type="number" id="parecerFaltasInput" class="form-control" min="0" max="200" placeholder="Ex: 6" />
               </div>
             </div>
 
             <div class="form-grid">
               <div class="form-group">
-                <label>📊 Indicador de Rendimento / Aprendizagem:</label>
+                <label><i class="icon" data-icon="bar-chart" aria-hidden="true"></i> Indicador de Rendimento / Aprendizagem:</label>
                 <select id="parecerRendimentoSelect" class="form-control">
                   <option value="adequado">✅ Adequado (Dentro do esperado)</option>
                   <option value="atencao">⚠️ Em Atenção (Oscilação / Recuperação)</option>
@@ -464,7 +466,7 @@
               </div>
 
               <div class="form-group">
-                <label>🕒 Indicador de Frequência / Assiduidade:</label>
+                <label><i class="icon" data-icon="clock" aria-hidden="true"></i> Indicador de Frequência / Assiduidade:</label>
                 <select id="parecerFrequenciaSelect" class="form-control">
                   <option value="regular">✅ Frequência Regular</option>
                   <option value="pontual">⚠️ Faltas ou Atrasos Pontuais</option>
@@ -473,7 +475,7 @@
               </div>
 
               <div class="form-group">
-                <label>🤝 Participação e Convivência Escolar (Lei 13.185/15):</label>
+                <label><i class="icon" data-icon="users" aria-hidden="true"></i> Participação e Convivência Escolar (Lei 13.185/15):</label>
                 <select id="parecerPosturaSelect" class="form-control">
                   <option value="participativo">✅ Participativo e Colaborativo</option>
                   <option value="disperso">⚠️ Disperso / Pouca Participação</option>
@@ -484,13 +486,13 @@
             </div>
 
             <div class="form-group" style="margin-bottom: 0.9rem;">
-              <label>🏷️ Tags Rápidas de Diagnóstico Pedagógico (Sem Perfilamento Comercial - Lei 15.211/2025):</label>
+              <label><i class="icon" data-icon="tag" aria-hidden="true"></i> Tags Rápidas de Diagnóstico Pedagógico (Sem Perfilamento Comercial - Lei 15.211/2025):</label>
               <div id="parecerTagsContainer" class="Selectable-chips"></div>
             </div>
 
             <div class="form-group" style="margin-bottom: 0.9rem;">
               <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.4rem;">
-                <label for="parecerObsTextarea">📝 Observação Pedagógica Objetiva (Validador Ético ECA Art. 17 & Lei 14.811/2024 Ativo):</label>
+                <label for="parecerObsTextarea"><i class="icon" data-icon="edit-3" aria-hidden="true"></i> Observação Pedagógica Objetiva (Validador Ético ECA Art. 17 & Lei 14.811/2024 Ativo):</label>
                 <div style="display:flex; gap:0.35rem; flex-wrap:wrap;">
                   <button type="button" class="chip-toggle" style="font-size:0.7rem;" onclick="inserirFrasePedagogica('Apresenta dificuldade na entrega de atividades práticas no prazo, necessitando de acompanhamento e recuperação paralela.')">+ Frase: Entrega de Atividades</button>
                   <button type="button" class="chip-toggle" style="font-size:0.7rem;" onclick="inserirFrasePedagogica('Demonstra potencial, porém a dispersão em sala tem impactado o rendimento nas avaliações.')">+ Frase: Dispersão</button>
@@ -503,13 +505,13 @@
             <label class="checkbox-termo-label" style="background:#fff1f2; border-color:#fecdd3; color:#9f1239;">
               <input type="checkbox" id="checkSinalizarPlenaria" />
               <span>
-                🚨 <strong>Sinalizar este estudante para avaliação prioritária na Plenária do Conselho de Classe</strong> (Prioridade Absoluta CF Art. 227).
+                <i class="icon" data-icon="alert-octagon" aria-hidden="true"></i> <strong>Sinalizar este estudante para avaliação prioritária na Plenária do Conselho de Classe</strong> (Prioridade Absoluta CF Art. 227).
               </span>
             </label>
 
             <div style="display:flex; justify-content:flex-end; gap:0.65rem;">
               <button type="submit" class="btn btn-primary" style="padding:0.7rem 1.35rem;">
-                💾 Validar Linguagem Ética e Salvar Parecer
+                <i class="icon" data-icon="save" aria-hidden="true"></i> Validar Linguagem Ética e Salvar Parecer
               </button>
             </div>
           </form>
@@ -524,13 +526,13 @@
         <div id="subviewEncaminhamento" style="display:none;">
           <form id="formEncaminhamentoConselho" onsubmit="salvarEncaminhamentoAtual(event)">
             <div class="form-group" style="margin-bottom:0.95rem;">
-              <label>🧭 Selecione as Medidas e Encaminhamentos Deliberados pelo Conselho:</label>
+              <label><i class="icon" data-icon="compass" aria-hidden="true"></i> Selecione as Medidas e Encaminhamentos Deliberados pelo Conselho:</label>
               <div id="encaminhamentoAcoesContainer" class="Selectable-chips" style="margin-top:0.35rem;"></div>
             </div>
 
             <div class="form-grid">
               <div class="form-group">
-                <label>🛡️ Protocolo de Proteção Integral (Lei 15.211/2025 & Lei Anti-Bullying 14.811/2024):</label>
+                <label><i class="icon" data-icon="shield" aria-hidden="true"></i> Protocolo de Proteção Integral (Lei 15.211/2025 & Lei Anti-Bullying 14.811/2024):</label>
                 <select id="encProtocoloProtecaoSelect" class="form-control">
                   <option value="Acompanhamento Pedagógico Ordinário">📘 Acompanhamento Pedagógico Ordinário</option>
                   <option value="Vinculação Obrigatória aos Pais (<16 anos - Lei 15.211/2025)">👨‍👩‍👧 Ciência Obrigatória aos Responsáveis (< 16 anos - Lei 15.211/2025)</option>
@@ -539,15 +541,15 @@
                 </select>
               </div>
               <div class="form-group">
-                <label>👤 Setor / Servidor Responsável pelo Acompanhamento:</label>
+                <label><i class="icon" data-icon="user" aria-hidden="true"></i> Setor / Servidor Responsável pelo Acompanhamento:</label>
                 <input type="text" id="encResponsavelInput" class="form-control" placeholder="Ex: Coordenação DS + Equipe Técnico-Pedagógica" required />
               </div>
               <div class="form-group">
-                <label>📅 Prazo / Data Prevista de Retorno:</label>
+                <label><i class="icon" data-icon="calendar" aria-hidden="true"></i> Prazo / Data Prevista de Retorno:</label>
                 <input type="text" id="encPrazoInput" class="form-control" placeholder="Ex: 15-11-2026" />
               </div>
               <div class="form-group">
-                <label>📌 Status do Encaminhamento:</label>
+                <label><i class="icon" data-icon="tag" aria-hidden="true"></i> Status do Encaminhamento:</label>
                 <select id="encStatusSelect" class="form-control">
                   <option value="Pendente de Convocação">⏳ Pendente de Convocação</option>
                   <option value="Em Andamento">🔄 Em Andamento</option>
@@ -557,13 +559,13 @@
             </div>
 
             <div class="form-group" style="margin-bottom:1rem;">
-              <label>📋 Síntese / Deliberação Oficial para Constar em Ata:</label>
+              <label><i class="icon" data-icon="clipboard-list" aria-hidden="true"></i> Síntese / Deliberação Oficial para Constar em Ata:</label>
               <textarea id="encDeliberacaoTextarea" class="form-control" rows="3" placeholder="Ex: Deliberado pelo colegiado o agendamento de atendimento individualizado e comunicação aos responsáveis legais..." required></textarea>
             </div>
 
             <div style="display:flex; justify-content:flex-end;">
               <button type="submit" class="btn btn-primary">
-                ✅ Homologar Encaminhamento na Ata do Conselho
+                <i class="icon" data-icon="check-circle" aria-hidden="true"></i> Homologar Encaminhamento na Ata do Conselho
               </button>
             </div>
           </form>
@@ -579,8 +581,8 @@
   <div id="modalCadastroAluno" class="modal-backdrop">
     <div class="modal-window" style="max-width: 680px;">
       <div class="modal-header">
-        <h3 id="tituloModalCadastroAluno">➕ Cadastrar Estudante (Conformidade Lei 15.211/2025 & LGPD)</h3>
-        <button type="button" class="btn btn-danger" style="padding:0.35rem 0.65rem;" onclick="fecharModalNovoAluno()">✕</button>
+        <h3 id="tituloModalCadastroAluno"><i class="icon" data-icon="plus" aria-hidden="true"></i> Cadastrar Estudante (Conformidade Lei 15.211/2025 & LGPD)</h3>
+        <button type="button" class="btn btn-danger" style="padding:0.35rem 0.65rem;" onclick="fecharModalNovoAluno()"><i class="icon" data-icon="x" aria-hidden="true"></i></button>
       </div>
       <div class="modal-body">
         <form id="formCadastroAluno" onsubmit="salvarCadastroAluno(event)">
@@ -591,36 +593,36 @@
               <img id="previewFotoCadastro" src="" alt="Preview Foto" />
             </div>
             <div style="flex:1; min-width:220px;">
-              <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.3rem;">📸 Foto de Identificação Escolar (Câmera ou Arquivo):</label>
+              <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.3rem;"><i class="icon" data-icon="camera" aria-hidden="true"></i> Foto de Identificação Escolar (Câmera ou Arquivo):</label>
               <input type="file" id="inputArquivoFotoAluno" accept="image/*" class="form-control" style="font-size:0.78rem; padding:0.4rem;" onchange="processarUploadFotoInput(event)" />
               <small style="font-size:0.72rem; color:#15803d; display:block; margin-top:0.25rem;">
-                🔒 Redimensionada no navegador (220x220px). Só é exibida se o Consentimento Parental (Art. 14 LGPD) abaixo estiver ativo!
+                <i class="icon" data-icon="lock" aria-hidden="true"></i> Redimensionada no navegador (220x220px). Só é exibida se o Consentimento Parental (Art. 14 LGPD) abaixo estiver ativo!
               </small>
             </div>
           </div>
 
           <div class="form-grid">
             <div class="form-group">
-              <label>👤 Nome Completo do(a) Estudante:</label>
+              <label><i class="icon" data-icon="user" aria-hidden="true"></i> Nome Completo do(a) Estudante:</label>
               <input type="text" id="cadNomeInput" class="form-control" placeholder="Ex: João Pedro Alves Santos" required />
             </div>
             <div class="form-group">
-              <label>🆔 Matrícula Institucional (SUAP):</label>
+              <label><i class="icon" data-icon="tag" aria-hidden="true"></i> Matrícula Institucional (SUAP):</label>
               <input type="text" id="cadMatriculaInput" class="form-control" placeholder="Ex: 20261DS015" required />
             </div>
           </div>
 
           <div class="form-grid">
             <div class="form-group">
-              <label>🏫 Turma:</label>
+              <label><i class="icon" data-icon="building" aria-hidden="true"></i> Turma:</label>
               <select id="cadTurmaSelect" class="form-control" required></select>
             </div>
             <div class="form-group">
-              <label>🎂 Idade Aferida no SUAP (Vedada Autodeclaração - Lei 15.211/25):</label>
+              <label><i class="icon" data-icon="calendar" aria-hidden="true"></i> Idade Aferida no SUAP (Vedada Autodeclaração - Lei 15.211/25):</label>
               <input type="number" id="cadIdadeInput" class="form-control" min="13" max="70" value="15" oninput="verificarRegraMenor16Cadastro()" required />
             </div>
             <div class="form-group">
-              <label>📌 Situação Inicial no Conselho:</label>
+              <label><i class="icon" data-icon="tag" aria-hidden="true"></i> Situação Inicial no Conselho:</label>
               <select id="cadStatusSelect" class="form-control">
                 <option value="avaliar">🚨 A Ser Avaliado em Plenária</option>
                 <option value="atencao">⚠️ Em Atenção Pedagógica</option>
@@ -633,44 +635,44 @@
           <!-- BLOCO DE VINCULAÇÃO PARENTAL OBRIGATÓRIA (LEI 15.211/2025 & ART. 14 LGPD) -->
           <div id="boxVinculoParentalCadastro" style="background:#fffbeb; border:1px solid #fde68a; border-left:4px solid #d97706; padding:0.85rem 1rem; border-radius:10px; margin-bottom:0.9rem;">
             <div id="alertaMenor16Texto" style="font-size:0.78rem; font-weight:800; color:#92400e; margin-bottom:0.5rem;">
-              🔒 ECA Digital (Lei nº 15.211/2025): Estudante menor de 16 anos — Vinculação obrigatória ao Pai/Mãe ou Responsável Legal!
+              <i class="icon" data-icon="lock" aria-hidden="true"></i> ECA Digital (Lei nº 15.211/2025): Estudante menor de 16 anos — Vinculação obrigatória ao Pai/Mãe ou Responsável Legal!
             </div>
             <div class="form-grid" style="margin-bottom:0;">
               <div class="form-group">
-                <label>👨‍👩‍👧 Nome do Pai, Mãe ou Responsável Legal (SUAP):</label>
+                <label><i class="icon" data-icon="users" aria-hidden="true"></i> Nome do Pai, Mãe ou Responsável Legal (SUAP):</label>
                 <input type="text" id="cadResponsavelInput" class="form-control" placeholder="Ex: Maria Aparecida Santos (Mãe)" required />
               </div>
               <div class="form-group">
-                <label>📞 Telefone / Contato Verificado do Responsável:</label>
+                <label><i class="icon" data-icon="phone" aria-hidden="true"></i> Telefone / Contato Verificado do Responsável:</label>
                 <input type="text" id="cadContatoRespInput" class="form-control" placeholder="Ex: (79) 99999-0000" />
               </div>
             </div>
           </div>
 
           <div class="form-group" style="margin-bottom:0.85rem;">
-            <label>📝 Contexto Inicial da Coordenação / Observação Geral (Opcional):</label>
+            <label><i class="icon" data-icon="edit-3" aria-hidden="true"></i> Contexto Inicial da Coordenação / Observação Geral (Opcional):</label>
             <input type="text" id="cadObsCoordInput" class="form-control" placeholder="Ex: Estudante ingressante / Acompanhamento pedagógico em curso" />
           </div>
 
           <label class="checkbox-termo-label" style="margin-bottom:0.65rem;">
             <input type="checkbox" id="cadConsentimentoFotoCheck" checked />
             <span>
-              🖼️ <strong>Termo de Consentimento Parental Específico e em Destaque (LGPD Art. 14, § 1º & Lei 15.211/2025):</strong> O responsável legal autorizou no ato da matrícula o uso interno da foto escolar para identificação exclusiva no Conselho de Classe. <em>(Se desmarcado, o sistema exibirá apenas avatar com iniciais).</em>
+              <i class="icon" data-icon="image" aria-hidden="true"></i> <strong>Termo de Consentimento Parental Específico e em Destaque (LGPD Art. 14, § 1º & Lei 15.211/2025):</strong> O responsável legal autorizou no ato da matrícula o uso interno da foto escolar para identificação exclusiva no Conselho de Classe. <em>(Se desmarcado, o sistema exibirá apenas avatar com iniciais).</em>
             </span>
           </label>
 
           <label class="checkbox-termo-label" style="background:#f5f3ff; border-color:#ddd6fe; color:#5b21b6;">
             <input type="checkbox" id="cadNapneCheck" />
-            <span>♿ Estudante acompanhado pelo <strong>NAPNE</strong> (Atendimento Educacional Especializado - Sigilo Reforçado LGPD Art. 11).</span>
+            <span><i class="icon" data-icon="accessibility" aria-hidden="true"></i> Estudante acompanhado pelo <strong>NAPNE</strong> (Atendimento Educacional Especializado - Sigilo Reforçado LGPD Art. 11).</span>
           </label>
 
           <div style="display:flex; justify-content:space-between; gap:0.5rem; margin-top:1rem;">
             <button type="button" id="btnExcluirAlunoCadastro" class="btn btn-danger" style="display:none;" onclick="excluirAlunoAtual()">
-              🗑️ Remover Aluno
+              <i class="icon" data-icon="trash-2" aria-hidden="true"></i> Remover Aluno
             </button>
             <div style="display:flex; gap:0.5rem; margin-left:auto;">
               <button type="button" class="btn btn-white" onclick="fecharModalNovoAluno()">Cancelar</button>
-              <button type="submit" class="btn btn-primary">💾 Salvar Estudante</button>
+              <button type="submit" class="btn btn-primary"><i class="icon" data-icon="save" aria-hidden="true"></i> Salvar Estudante</button>
             </div>
           </div>
         </form>
@@ -684,8 +686,8 @@
   <div id="modalImportarLote" class="modal-backdrop">
     <div class="modal-window" style="max-width: 640px;">
       <div class="modal-header">
-        <h3>📥 Importar Lista de Alunos da Turma (SUAP / Planilha)</h3>
-        <button type="button" class="btn btn-danger" style="padding:0.35rem 0.65rem;" onclick="fecharModalImportarLote()">✕</button>
+        <h3><i class="icon" data-icon="download" aria-hidden="true"></i> Importar Lista de Alunos da Turma (SUAP / Planilha)</h3>
+        <button type="button" class="btn btn-danger" style="padding:0.35rem 0.65rem;" onclick="fecharModalImportarLote()"><i class="icon" data-icon="x" aria-hidden="true"></i></button>
       </div>
       <div class="modal-body">
         <p style="font-size:0.84rem; color:#334155; margin-bottom:0.85rem;">
@@ -693,21 +695,21 @@
         </p>
         <div class="form-grid">
           <div class="form-group">
-            <label>🏫 Selecione a Turma de Destino:</label>
+            <label><i class="icon" data-icon="building" aria-hidden="true"></i> Selecione a Turma de Destino:</label>
             <select id="importTurmaSelect" class="form-control"></select>
           </div>
           <div class="form-group">
-            <label>🎂 Idade Aferida Padrão (se não informada na linha):</label>
+            <label><i class="icon" data-icon="calendar" aria-hidden="true"></i> Idade Aferida Padrão (se não informada na linha):</label>
             <input type="number" id="importIdadePadrao" class="form-control" value="15" min="13" max="70" />
           </div>
         </div>
         <div class="form-group" style="margin-bottom:1rem;">
-          <label>📋 Lista de Alunos (Um por linha):</label>
+          <label><i class="icon" data-icon="clipboard-list" aria-hidden="true"></i> Lista de Alunos (Um por linha):</label>
           <textarea id="importTextoLote" class="form-control" rows="7" placeholder="20261DS010;Ana Clara Silva;15;Maria Silva (Mãe)&#10;20261DS011;Bruno Santos Oliveira;16;José Oliveira (Pai)&#10;20261DS012;Carla Eduarda Lima;14;Helena Lima (Mãe)"></textarea>
         </div>
         <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
           <button type="button" class="btn btn-white" onclick="fecharModalImportarLote()">Cancelar</button>
-          <button type="button" class="btn btn-primary" onclick="processarImportacaoLote()">🚀 Importar Alunos Agora</button>
+          <button type="button" class="btn btn-primary" onclick="processarImportacaoLote()"><i class="icon" data-icon="rocket" aria-hidden="true"></i> Importar Alunos Agora</button>
         </div>
       </div>
     </div>
@@ -719,27 +721,27 @@
   <div id="modalConfigNuvem" class="modal-backdrop">
     <div class="modal-window" style="max-width: 660px;">
       <div class="modal-header">
-        <h3>⚙️ Configuração da Nuvem Privada (Google Sheets/Drive) & Segurança</h3>
-        <button type="button" class="btn btn-danger" style="padding:0.35rem 0.65rem;" onclick="fecharModalConfigNuvem()">✕</button>
+        <h3><i class="icon" data-icon="settings" aria-hidden="true"></i> Configuração da Nuvem Privada (Google Sheets/Drive) & Segurança</h3>
+        <button type="button" class="btn btn-danger" style="padding:0.35rem 0.65rem;" onclick="fecharModalConfigNuvem()"><i class="icon" data-icon="x" aria-hidden="true"></i></button>
       </div>
       <div class="modal-body">
         <div class="legal-box-gate" style="max-height:none;">
-          <strong>🔒 Como funciona a proteção no GitHub Pages:</strong><br/>
+          <strong><i class="icon" data-icon="lock" aria-hidden="true"></i> Como funciona a proteção no GitHub Pages:</strong><br/>
           Ao colar abaixo a URL do seu <strong>Google Apps Script</strong> (arquivo <code>backend/Code.gs</code> implantado na sua conta institucional), todas as fotos e pareceres ficam salvos de forma privada na sua Planilha Google, invisíveis no repositório do GitHub!
         </div>
 
         <div class="form-group" style="margin-bottom:0.9rem;">
-          <label>🔗 URL do Web App (Google Apps Script):</label>
+          <label><i class="icon" data-icon="link" aria-hidden="true"></i> URL do Web App (Google Apps Script):</label>
           <input type="url" id="configApiUrlInput" class="form-control" placeholder="https://script.google.com/macros/s/.../exec" />
         </div>
 
         <div class="form-grid">
           <div class="form-group">
-            <label>📅 Identificação do Ciclo / Bimestre:</label>
+            <label><i class="icon" data-icon="calendar" aria-hidden="true"></i> Identificação do Ciclo / Bimestre:</label>
             <input type="text" id="configBimestreInput" class="form-control" placeholder="Ex: 2026.2 • 1º Conselho Bimestral" />
           </div>
           <div class="form-group">
-            <label>🔑 Alterar Meu PIN Docente Atual:</label>
+            <label><i class="icon" data-icon="key" aria-hidden="true"></i> Alterar Meu PIN Docente Atual:</label>
             <input type="password" id="configNovoPinInput" class="form-control" placeholder="Deixe em branco para manter o atual" maxlength="8" />
           </div>
         </div>
@@ -747,14 +749,14 @@
         <div style="display:flex; flex-wrap:wrap; gap:0.5rem; justify-content:space-between; margin-top:1.1rem; padding-top:1rem; border-top:1px solid var(--border-color);">
           <div style="display:flex; gap:0.45rem; flex-wrap:wrap;">
             <button type="button" class="btn btn-amber" onclick="removerAlunosDemo()">
-              🧹 Limpar Perfis [DEMO]
+              <i class="icon" data-icon="trash-2" aria-hidden="true"></i> Limpar Perfis [DEMO]
             </button>
             <button type="button" class="btn btn-white" onclick="forcarSincronizacaoManual()">
-              🔄 Sincronizar com Planilha Agora
+              <i class="icon" data-icon="refresh-cw" aria-hidden="true"></i> Sincronizar com Planilha Agora
             </button>
           </div>
           <button type="button" class="btn btn-primary" onclick="salvarConfiguracoesNuvem()">
-            💾 Salvar Configurações
+            <i class="icon" data-icon="save" aria-hidden="true"></i> Salvar Configurações
           </button>
         </div>
       </div>
@@ -767,23 +769,23 @@
   <div id="modalInstalarPWA" class="modal-backdrop">
     <div class="modal-window" style="max-width: 520px;">
       <div class="modal-header">
-        <h3>📲 Instalar Aplicativo SISCCD no Celular</h3>
-        <button type="button" class="btn btn-danger" style="padding:0.35rem 0.65rem;" onclick="fecharModalInstalarPWA()">✕</button>
+        <h3><i class="icon" data-icon="smartphone" aria-hidden="true"></i> Instalar Aplicativo SISCCD no Celular</h3>
+        <button type="button" class="btn btn-danger" style="padding:0.35rem 0.65rem;" onclick="fecharModalInstalarPWA()"><i class="icon" data-icon="x" aria-hidden="true"></i></button>
       </div>
       <div class="modal-body">
         <div style="display:flex; flex-direction:column; gap:0.85rem;">
           <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-left:4px solid #15803d; padding:0.9rem; border-radius:10px;">
-            <h4 style="font-size:0.92rem; font-weight:800; color:#14532d; margin-bottom:0.35rem;">🍎 No iPhone / iPad (Safari):</h4>
+            <h4 style="font-size:0.92rem; font-weight:800; color:#14532d; margin-bottom:0.35rem;"><i class="icon" data-icon="smartphone" aria-hidden="true"></i> No iPhone / iPad (Safari):</h4>
             <ol style="font-size:0.82rem; color:#1e293b; padding-left:1.2rem; display:flex; flex-direction:column; gap:0.25rem;">
               <li>Abra este link no navegador <strong>Safari</strong> do iPhone.</li>
-              <li>Toque no ícone <strong>Compartilhar</strong> <span style="background:#e2e8f0; padding:0.1rem 0.35rem; border-radius:4px; font-weight:700;">⬆️</span> na barra inferior do Safari.</li>
+              <li>Toque no ícone <strong>Compartilhar</strong> <span style="background:#e2e8f0; padding:0.1rem 0.35rem; border-radius:4px; font-weight:700;"><i class="icon" data-icon="upload" aria-hidden="true"></i></span> na barra inferior do Safari.</li>
               <li>Role para baixo e toque em <strong>"Adicionar à Tela de Início"</strong> (<em>Add to Home Screen</em>).</li>
               <li>Toque em <strong>Adicionar</strong> no canto superior direito.</li>
             </ol>
           </div>
 
           <div style="background:#eff6ff; border:1px solid #bfdbfe; border-left:4px solid #0284c7; padding:0.9rem; border-radius:10px;">
-            <h4 style="font-size:0.92rem; font-weight:800; color:#0c4a6e; margin-bottom:0.35rem;">🤖 No Android (Chrome / Edge / Samsung):</h4>
+            <h4 style="font-size:0.92rem; font-weight:800; color:#0c4a6e; margin-bottom:0.35rem;"><i class="icon" data-icon="smartphone" aria-hidden="true"></i> No Android (Chrome / Edge / Samsung):</h4>
             <ol style="font-size:0.82rem; color:#1e293b; padding-left:1.2rem; display:flex; flex-direction:column; gap:0.25rem;">
               <li>Toque no menu de <strong>3 pontinhos (⋮)</strong> no canto superior direito do Chrome.</li>
               <li>Selecione <strong>"Instalar aplicativo"</strong> ou <strong>"Adicionar à tela inicial"</strong>.</li>
@@ -801,19 +803,19 @@
   <!-- BARRA DE NAVEGAÇÃO INFERIOR NATIVA PARA CELULAR (IPHONE & ANDROID) -->
   <nav class="mobile-bottom-nav no-print" aria-label="Navegação Mobile">
     <button type="button" class="mobile-nav-btn active" data-tab="turmas" onclick="mudarAbaPrincipal('turmas')">
-      <span class="nav-icon">📸</span>
+      <span class="nav-icon"><i class="icon" data-icon="camera" aria-hidden="true"></i></span>
       <span>Turmas</span>
     </button>
     <button type="button" class="mobile-nav-btn" data-tab="prioridades" onclick="mudarAbaPrincipal('prioridades')">
-      <span class="nav-icon">🚨</span>
+      <span class="nav-icon"><i class="icon" data-icon="alert-octagon" aria-hidden="true"></i></span>
       <span>Prioridades</span>
     </button>
     <button type="button" class="mobile-nav-btn" data-tab="ata" onclick="mudarAbaPrincipal('ata')">
-      <span class="nav-icon">📋</span>
+      <span class="nav-icon"><i class="icon" data-icon="clipboard-list" aria-hidden="true"></i></span>
       <span>Ata / PDF</span>
     </button>
     <button type="button" class="mobile-nav-btn" data-tab="respaldo" onclick="mudarAbaPrincipal('respaldo')">
-      <span class="nav-icon">⚖️</span>
+      <span class="nav-icon"><i class="icon" data-icon="scale" aria-hidden="true"></i></span>
       <span>6 Leis</span>
     </button>
   </nav>
@@ -821,7 +823,8 @@
   <!-- Toast Container -->
   <div id="toastContainer" class="toast-container"></div>
 
-  <script src="api.js?v=2026.5"></script>
-  <script src="app.js?v=2026.5"></script>
+  <script src="icons.js?v=2026.6"></script>
+  <script src="api.js?v=2026.6"></script>
+  <script src="app.js?v=2026.6"></script>
 </body>
 </html>
