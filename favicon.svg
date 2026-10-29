@@ -1,15 +1,37 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#0ea5e9"/>
-      <stop offset="55%" stop-color="#0d9268"/>
-      <stop offset="100%" stop-color="#083b2d"/>
+      <stop offset="0%" stop-color="#12a37c"/>
+      <stop offset="55%" stop-color="#0b5e46"/>
+      <stop offset="100%" stop-color="#052119"/>
     </linearGradient>
+    <radialGradient id="sheen" cx="28%" cy="20%" r="55%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
   </defs>
-  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
-  <path d="M256 92 L368 128 V244 C368 328 318 384 256 416 C194 384 144 328 144 244 V128 Z"
-        fill="none" stroke="#ffffff" stroke-width="22" stroke-linejoin="round"/>
-  <g transform="translate(256,246)">
-    <path d="M-78 -16 L0 -52 L78 -16 L0 20 Z" fill="#ffffff"/>
+  <rect width="512" height="512" rx="114" fill="url(#bg)"/>
+  <rect width="512" height="512" rx="114" fill="url(#sheen)"/>
+  <g transform="translate(256,256) scale(1) translate(-256,-256)">
+    
+  <g id="mark">
+    <!-- Escudo -->
+    <path d="M161,150
+             C161,138 169,128 181,125
+             L256,104
+             L331,125
+             C343,128 351,138 351,150
+             L351,246
+             C351,322 309,378 256,408
+             C203,378 161,322 161,246
+             Z" fill="#ffffff"/>
+    <!-- Base do capelo (dá profundidade) -->
+    <ellipse cx="256" cy="238" rx="33" ry="14" fill="#0b5e46"/>
+    <!-- Capelo de formatura -->
+    <path d="M176,222 L256,195 L336,222 L256,249 Z" fill="#083b2d"/>
+    <!-- Borla -->
+    <line x1="336" y1="222" x2="336" y2="267" stroke="#083b2d" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="336" cy="272" r="7.5" fill="#f2b134"/>
+  </g>
   </g>
 </svg>
