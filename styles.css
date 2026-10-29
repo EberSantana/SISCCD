@@ -1445,8 +1445,12 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
 
   .header-actions .btn {
     width: 100%;
+    min-width: 0;
     padding: 0.52rem 0.45rem;
     font-size: 0.74rem;
+    line-height: 1.25;
+    white-space: normal;
+    text-align: center;
     justify-content: center;
   }
 
@@ -1462,11 +1466,17 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
   }
 
   .kpi-card {
+    min-width: 0;
     padding: 0.7rem 0.75rem;
+  }
+
+  .kpi-info {
+    min-width: 0;
   }
 
   .kpi-info span {
     font-size: 0.64rem;
+    white-space: normal;
   }
 
   .kpi-info strong {
@@ -1475,6 +1485,9 @@ body.privacy-blur-mode .student-photo-wrap:hover img {
 
   .kpi-info small {
     font-size: 0.64rem;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
   }
 
   .kpi-icon {
