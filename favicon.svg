@@ -12,26 +12,19 @@
   </defs>
   <rect width="512" height="512" rx="114" fill="url(#bg)"/>
   <rect width="512" height="512" rx="114" fill="url(#sheen)"/>
-  <g transform="translate(256,256) scale(0.78) translate(-256,-256)">
+  <g transform="translate(256,256) scale(0.86) translate(-256,-256)">
     
-  <g id="mark">
-    <!-- Escudo -->
-    <path d="M161,150
-             C161,138 169,128 181,125
-             L256,104
-             L331,125
-             C343,128 351,138 351,150
-             L351,246
-             C351,322 309,378 256,408
-             C203,378 161,322 161,246
-             Z" fill="#ffffff"/>
-    <!-- Base do capelo (dá profundidade) -->
-    <ellipse cx="256" cy="238" rx="33" ry="14" fill="#0b5e46"/>
-    <!-- Capelo de formatura -->
-    <path d="M176,222 L256,195 L336,222 L256,249 Z" fill="#083b2d"/>
-    <!-- Borla -->
-    <line x1="336" y1="222" x2="336" y2="267" stroke="#083b2d" stroke-width="5" stroke-linecap="round"/>
-    <circle cx="336" cy="272" r="7.5" fill="#f2b134"/>
+  <g>
+    <!-- Anel: mesa redonda do conselho -->
+    <circle cx="256" cy="256" r="142" fill="none" stroke="#ffffff" stroke-width="16" opacity="0.9"/>
+    <!-- Participantes ao redor -->
+    <circle cx="256.0" cy="114.0" r="30" fill="#f2b134"/>
+    <circle cx="391.1" cy="212.1" r="30" fill="#ffffff"/>
+    <circle cx="339.5" cy="370.9" r="30" fill="#ffffff"/>
+    <circle cx="172.5" cy="370.9" r="30" fill="#ffffff"/>
+    <circle cx="120.9" cy="212.1" r="30" fill="#ffffff"/>
+    <!-- Ponto central: decisão/consenso digital -->
+    <circle cx="256" cy="256" r="20" fill="#ffffff"/>
   </g>
   </g>
 </svg>
